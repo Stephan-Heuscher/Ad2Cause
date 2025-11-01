@@ -9,6 +9,11 @@ build/
 # Gradle cache directory
 .gradle/
 
+# Gradle distributions
+gradle-*.zip
+gradle-*.tar
+gradle-*.tar.gz
+
 # Local configuration file (sdk path, etc)
 local.properties
 
