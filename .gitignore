@@ -28,6 +28,7 @@ gen/
 
 # Build generated files
 build/
+.gradle/wrapper
 
 # Android Studio specific (not useful in CI)
 .DS_Store
@@ -47,9 +48,14 @@ build/
 # IDE
 .vscode
 .idea
+*.iml
+*.iws
+*.ipr
 
 # macOS
 .DS_Store
+.AppleDouble
+.LSOverride
 
 # npm & Node
 node_modules/
@@ -57,6 +63,48 @@ npm-debug.log
 
 # Windows
 Thumbs.db
+Desktop.ini
 
 # Kotlin/Java
 out/
+*.class
+*.jar
+*.war
+
+# Android specific
+.Android
+.classpath
+.externalNativeBuild
+.gradle
+.idea
+.lint
+.metadata
+.ndk-bundle
+.pytest_cache
+.settings
+.toolchains
+bin/
+build/
+captures/
+gen/
+gradlew.bat
+local.properties
+out/
+
+# Gradle build outputs
+app/build/
+*.gradle-wrapper.jar
+
+# Test files
+.junit4
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.backup
+*.bak
+
