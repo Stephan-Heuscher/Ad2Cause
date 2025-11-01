@@ -21,22 +21,30 @@
         <com.google.android.material.chip.Chip
             android:id="@+id/chipAll"
             style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="All"
             app:chipBackgroundColor="@color/surface_variant" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipTechnology"
             style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Technology" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipHealth"
             style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Health" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipEnvironment"
             style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Environment" />
     </com.google.android.material.chip.ChipGroup>
 
