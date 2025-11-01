@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -26,12 +29,25 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final FragmentContainerView navHostFragment;
 
+  @NonNull
+  public final MaterialCardView searchContainer;
+
+  @NonNull
+  public final TextView searchHintText;
+
+  @NonNull
+  public final MaterialToolbar topAppBar;
+
   private ActivityMainBinding(@NonNull LinearLayout rootView,
       @NonNull BottomNavigationView bottomNavigation,
-      @NonNull FragmentContainerView navHostFragment) {
+      @NonNull FragmentContainerView navHostFragment, @NonNull MaterialCardView searchContainer,
+      @NonNull TextView searchHintText, @NonNull MaterialToolbar topAppBar) {
     this.rootView = rootView;
     this.bottomNavigation = bottomNavigation;
     this.navHostFragment = navHostFragment;
+    this.searchContainer = searchContainer;
+    this.searchHintText = searchHintText;
+    this.topAppBar = topAppBar;
   }
 
   @Override
@@ -73,7 +89,26 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((LinearLayout) rootView, bottomNavigation, navHostFragment);
+      id = R.id.searchContainer;
+      MaterialCardView searchContainer = ViewBindings.findChildViewById(rootView, id);
+      if (searchContainer == null) {
+        break missingId;
+      }
+
+      id = R.id.searchHintText;
+      TextView searchHintText = ViewBindings.findChildViewById(rootView, id);
+      if (searchHintText == null) {
+        break missingId;
+      }
+
+      id = R.id.topAppBar;
+      MaterialToolbar topAppBar = ViewBindings.findChildViewById(rootView, id);
+      if (topAppBar == null) {
+        break missingId;
+      }
+
+      return new ActivityMainBinding((LinearLayout) rootView, bottomNavigation, navHostFragment,
+          searchContainer, searchHintText, topAppBar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

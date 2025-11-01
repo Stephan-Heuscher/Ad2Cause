@@ -4,7 +4,6 @@ package ch.heuscher.ad2cause.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -13,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -26,22 +27,40 @@ public final class FragmentCausesBinding implements ViewBinding {
   public final FloatingActionButton addCauseFab;
 
   @NonNull
+  public final ChipGroup categoryChips;
+
+  @NonNull
   public final RecyclerView causesRecyclerView;
+
+  @NonNull
+  public final Chip chipAll;
+
+  @NonNull
+  public final Chip chipEnvironment;
+
+  @NonNull
+  public final Chip chipHealth;
+
+  @NonNull
+  public final Chip chipTechnology;
 
   @NonNull
   public final TextView emptyStateText;
 
-  @NonNull
-  public final EditText searchBar;
-
   private FragmentCausesBinding(@NonNull LinearLayout rootView,
-      @NonNull FloatingActionButton addCauseFab, @NonNull RecyclerView causesRecyclerView,
-      @NonNull TextView emptyStateText, @NonNull EditText searchBar) {
+      @NonNull FloatingActionButton addCauseFab, @NonNull ChipGroup categoryChips,
+      @NonNull RecyclerView causesRecyclerView, @NonNull Chip chipAll,
+      @NonNull Chip chipEnvironment, @NonNull Chip chipHealth, @NonNull Chip chipTechnology,
+      @NonNull TextView emptyStateText) {
     this.rootView = rootView;
     this.addCauseFab = addCauseFab;
+    this.categoryChips = categoryChips;
     this.causesRecyclerView = causesRecyclerView;
+    this.chipAll = chipAll;
+    this.chipEnvironment = chipEnvironment;
+    this.chipHealth = chipHealth;
+    this.chipTechnology = chipTechnology;
     this.emptyStateText = emptyStateText;
-    this.searchBar = searchBar;
   }
 
   @Override
@@ -77,9 +96,39 @@ public final class FragmentCausesBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.categoryChips;
+      ChipGroup categoryChips = ViewBindings.findChildViewById(rootView, id);
+      if (categoryChips == null) {
+        break missingId;
+      }
+
       id = R.id.causesRecyclerView;
       RecyclerView causesRecyclerView = ViewBindings.findChildViewById(rootView, id);
       if (causesRecyclerView == null) {
+        break missingId;
+      }
+
+      id = R.id.chipAll;
+      Chip chipAll = ViewBindings.findChildViewById(rootView, id);
+      if (chipAll == null) {
+        break missingId;
+      }
+
+      id = R.id.chipEnvironment;
+      Chip chipEnvironment = ViewBindings.findChildViewById(rootView, id);
+      if (chipEnvironment == null) {
+        break missingId;
+      }
+
+      id = R.id.chipHealth;
+      Chip chipHealth = ViewBindings.findChildViewById(rootView, id);
+      if (chipHealth == null) {
+        break missingId;
+      }
+
+      id = R.id.chipTechnology;
+      Chip chipTechnology = ViewBindings.findChildViewById(rootView, id);
+      if (chipTechnology == null) {
         break missingId;
       }
 
@@ -89,14 +138,8 @@ public final class FragmentCausesBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.searchBar;
-      EditText searchBar = ViewBindings.findChildViewById(rootView, id);
-      if (searchBar == null) {
-        break missingId;
-      }
-
-      return new FragmentCausesBinding((LinearLayout) rootView, addCauseFab, causesRecyclerView,
-          emptyStateText, searchBar);
+      return new FragmentCausesBinding((LinearLayout) rootView, addCauseFab, categoryChips,
+          causesRecyclerView, chipAll, chipEnvironment, chipHealth, chipTechnology, emptyStateText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

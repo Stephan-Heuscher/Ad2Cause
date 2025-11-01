@@ -23,6 +23,7 @@ id activeCauseName
 id addCauseFab
 id bottomNavigation
 id cancelButton
+id categoryChips
 id causeCategory
 id causeCategoryInput
 id causeDescriptionInput
@@ -36,6 +37,10 @@ id causeName
 id causeNameInput
 id cause_detail_fragment
 id causesRecyclerView
+id chipAll
+id chipEnvironment
+id chipHealth
+id chipTechnology
 id emptyStateText
 id engageInteractiveAdButton
 id nav_causes
@@ -44,8 +49,10 @@ id nav_home
 id nav_host_fragment
 id nav_stats
 id saveCauseButton
-id searchBar
+id searchContainer
+id searchHintText
 id setActiveCauseButton
+id topAppBar
 id totalEarningsText
 id totalEarningsValue
 id watchVideoAdButton

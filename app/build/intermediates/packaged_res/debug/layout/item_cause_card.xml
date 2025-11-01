@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="20dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         <ImageView
             android:id="@+id/causeImageView"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name" />
 
@@ -25,22 +26,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="12dp">
 
             <TextView
                 android:id="@+id/causeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cause Name"
-                style="@style/TextStyle.HeadlineMedium" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/text_primary" />
 
             <TextView
                 android:id="@+id/causeCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                style="@style/TextStyle.BodyMedium"
-                android:layout_marginTop="4dp"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
                 android:textColor="@color/text_secondary" />
 
         </LinearLayout>

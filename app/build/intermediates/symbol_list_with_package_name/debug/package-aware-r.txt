@@ -3328,6 +3328,7 @@ id callMeasure
 id cancelButton
 id cancel_button
 id carryVelocity
+id categoryChips
 id causeCategory
 id causeCategoryInput
 id causeDescriptionInput
@@ -3351,6 +3352,10 @@ id chain2
 id chains
 id checkbox
 id checked
+id chipAll
+id chipEnvironment
+id chipHealth
+id chipTechnology
 id chronometer
 id circle_center
 id clear_text
@@ -3638,7 +3643,8 @@ id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
 id scrollable
-id searchBar
+id searchContainer
+id searchHintText
 id search_badge
 id search_bar
 id search_button
@@ -3730,6 +3736,7 @@ id titleDividerNoCustom
 id title_template
 id toggle
 id top
+id topAppBar
 id topPanel
 id totalEarningsText
 id totalEarningsValue

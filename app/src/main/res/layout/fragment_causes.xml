@@ -6,25 +6,50 @@
     android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Search Bar -->
-    <EditText
-        android:id="@+id/searchBar"
+    <!-- Category Chips (Play style) -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categoryChips"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="@string/search_causes_hint"
-        android:layout_margin="8dp"
-        android:paddingHorizontal="16dp"
-        android:gravity="center_vertical"
-        android:inputType="text" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:singleSelection="true"
+        app:selectionRequired="false"
+        app:chipSpacingHorizontal="8dp">
 
-    <!-- Causes RecyclerView -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAll"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="All"
+            app:chipBackgroundColor="@color/surface_variant" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipTechnology"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="Technology" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipHealth"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="Health" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEnvironment"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="Environment" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Causes RecyclerView (Grid) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/causesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="8dp"
+        android:clipToPadding="false" />
 
     <!-- Empty State -->
     <TextView

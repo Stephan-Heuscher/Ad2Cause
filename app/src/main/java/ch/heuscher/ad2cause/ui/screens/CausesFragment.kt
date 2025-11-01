@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.data.models.Cause
 import ch.heuscher.ad2cause.databinding.FragmentCausesBinding
@@ -45,7 +45,6 @@ class CausesFragment : Fragment() {
         causeViewModel = ViewModelProvider(requireActivity()).get(CauseViewModel::class.java)
 
         setupRecyclerView()
-        setupSearchBar()
         setupFab()
         observeData()
     }
@@ -64,17 +63,8 @@ class CausesFragment : Fragment() {
 
         binding.causesRecyclerView.apply {
             adapter = causeAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-    }
-
-    /**
-     * Setup search bar functionality.
-     */
-    private fun setupSearchBar() {
-        binding.searchBar.setOnClickListener {
-            // In a real app, this would open a search interface
-            // For now, we'll keep it simple
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            setHasFixedSize(true)
         }
     }
 
