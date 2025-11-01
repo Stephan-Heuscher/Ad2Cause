@@ -41,6 +41,13 @@ interface CauseDao {
     fun getAllCauses(): Flow<List<Cause>>
 
     /**
+     * Retrieve all causes synchronously (blocking).
+     * Used for initialization checks.
+     */
+    @Query("SELECT * FROM causes")
+    suspend fun getAllCausesSync(): List<Cause>
+
+    /**
      * Retrieve a specific cause by its ID.
      */
     @Query("SELECT * FROM causes WHERE id = :id")

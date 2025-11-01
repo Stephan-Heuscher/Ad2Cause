@@ -253,6 +253,71 @@ public final class CauseDao_Impl implements CauseDao {
   }
 
   @Override
+  public Object getAllCausesSync(final Continuation<? super List<Cause>> $completion) {
+    final String _sql = "SELECT * FROM causes";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<Cause>>() {
+      @Override
+      @NonNull
+      public List<Cause> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
+          final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "description");
+          final int _cursorIndexOfCategory = CursorUtil.getColumnIndexOrThrow(_cursor, "category");
+          final int _cursorIndexOfImageUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "imageUrl");
+          final int _cursorIndexOfIsUserAdded = CursorUtil.getColumnIndexOrThrow(_cursor, "isUserAdded");
+          final int _cursorIndexOfTotalEarned = CursorUtil.getColumnIndexOrThrow(_cursor, "totalEarned");
+          final List<Cause> _result = new ArrayList<Cause>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final Cause _item;
+            final int _tmpId;
+            _tmpId = _cursor.getInt(_cursorIndexOfId);
+            final String _tmpName;
+            if (_cursor.isNull(_cursorIndexOfName)) {
+              _tmpName = null;
+            } else {
+              _tmpName = _cursor.getString(_cursorIndexOfName);
+            }
+            final String _tmpDescription;
+            if (_cursor.isNull(_cursorIndexOfDescription)) {
+              _tmpDescription = null;
+            } else {
+              _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
+            }
+            final String _tmpCategory;
+            if (_cursor.isNull(_cursorIndexOfCategory)) {
+              _tmpCategory = null;
+            } else {
+              _tmpCategory = _cursor.getString(_cursorIndexOfCategory);
+            }
+            final String _tmpImageUrl;
+            if (_cursor.isNull(_cursorIndexOfImageUrl)) {
+              _tmpImageUrl = null;
+            } else {
+              _tmpImageUrl = _cursor.getString(_cursorIndexOfImageUrl);
+            }
+            final boolean _tmpIsUserAdded;
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfIsUserAdded);
+            _tmpIsUserAdded = _tmp != 0;
+            final double _tmpTotalEarned;
+            _tmpTotalEarned = _cursor.getDouble(_cursorIndexOfTotalEarned);
+            _item = new Cause(_tmpId,_tmpName,_tmpDescription,_tmpCategory,_tmpImageUrl,_tmpIsUserAdded,_tmpTotalEarned);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
   public Object getCauseById(final int id, final Continuation<? super Cause> $completion) {
     final String _sql = "SELECT * FROM causes WHERE id = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);

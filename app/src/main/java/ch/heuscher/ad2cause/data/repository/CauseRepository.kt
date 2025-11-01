@@ -16,6 +16,11 @@ class CauseRepository(private val causeDao: CauseDao) {
     fun getAllCauses(): Flow<List<Cause>> = causeDao.getAllCauses()
 
     /**
+     * Get all causes synchronously (blocking) for initialization checks.
+     */
+    suspend fun getAllCausesSync(): List<Cause> = causeDao.getAllCausesSync()
+
+    /**
      * Get a specific cause by its ID.
      */
     suspend fun getCauseById(id: Int): Cause? = causeDao.getCauseById(id)
