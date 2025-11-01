@@ -84,7 +84,7 @@ Write-Host ""
 
 # Step 5: Launch app
 Write-Status "Step 5: Launching Ad2Cause..." -Type Info
-& $adb shell am start -n com.ad2cause/.MainActivity
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
 
 Start-Sleep -Seconds 2
 Write-Status "✅ App launched!" -Type Success
@@ -112,5 +112,5 @@ Write-Host "To view live logs:"
 Write-Host "  & '$adb' logcat | findstr 'AdManager|AdViewModel'"
 Write-Host ""
 Write-Host "To uninstall:"
-Write-Host "  & '$adb' uninstall com.ad2cause"
+Write-Host "  & '$adb' uninstall ch.heuscher.ad2cause"
 Write-Host ""

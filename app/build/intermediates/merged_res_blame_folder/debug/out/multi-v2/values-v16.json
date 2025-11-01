@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-61:/values-v16/values-v16.xml",
+            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-63:/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\S\\.gradle\\caches\\8.9\\transforms\\19dc2c4f90bb7392557575abeff1ee21\\transformed\\appcompat-1.7.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\S\\.gradle\\caches\\8.10.2\\transforms\\a0a4ed0b73ad781cef29312798b7f52c\\transformed\\appcompat-1.7.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

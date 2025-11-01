@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-61:/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-63:/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\S\\.gradle\\caches\\8.9\\transforms\\07bc6b8f8292919b92a27e170623c261\\transformed\\material-1.12.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\S\\.gradle\\caches\\8.10.2\\transforms\\7eb6ca9a44427237875fdabe73a8355c\\transformed\\material-1.12.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\S\\.gradle\\caches\\8.9\\transforms\\19dc2c4f90bb7392557575abeff1ee21\\transformed\\appcompat-1.7.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\S\\.gradle\\caches\\8.10.2\\transforms\\a0a4ed0b73ad781cef29312798b7f52c\\transformed\\appcompat-1.7.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

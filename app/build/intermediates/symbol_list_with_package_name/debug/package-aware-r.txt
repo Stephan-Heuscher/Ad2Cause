@@ -3377,6 +3377,7 @@ id custom
 id customPanel
 id cut
 id dark
+id dataBinding
 id date_picker_actions
 id decelerate
 id decelerateAndComplete
@@ -3577,6 +3578,8 @@ id offline_dialog_advertiser_name
 id offline_dialog_image
 id offline_dialog_text
 id on
+id onAttachStateChangeListener
+id onDateChanged
 id onInterceptTouchReturnSwipe
 id open_search_bar_text_view
 id open_search_view_background
@@ -3711,6 +3714,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textWatcher
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon

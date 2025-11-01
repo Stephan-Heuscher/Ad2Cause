@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-61:/values-w600dp-land-v13/values-w600dp-land-v13.xml",
+            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-63:/values-w600dp-land-v13/values-w600dp-land-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\S\\.gradle\\caches\\8.9\\transforms\\07bc6b8f8292919b92a27e170623c261\\transformed\\material-1.12.0\\res\\values-w600dp-land-v13\\values-w600dp-land-v13.xml",
+                    "source": "C:\\Users\\S\\.gradle\\caches\\8.10.2\\transforms\\7eb6ca9a44427237875fdabe73a8355c\\transformed\\material-1.12.0\\res\\values-w600dp-land-v13\\values-w600dp-land-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

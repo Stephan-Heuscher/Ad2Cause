@@ -47,7 +47,7 @@ $apk = "$project\app\build\outputs\apk\debug\app-debug.apk"
 & $adb install -r $apk
 
 # Start app
-& $adb shell am start -n com.ad2cause/.MainActivity
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
 ```
 
 ### View Logs:

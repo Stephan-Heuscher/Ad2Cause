@@ -112,7 +112,7 @@ if ($buildChoice -eq "y" -or $buildChoice -eq "Y") {
             
             Write-Host ""
             Write-Status "Starting Ad2Cause..." -Type Info
-            & $adb shell am start -n com.ad2cause/.MainActivity
+            & $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
             Write-Status "✅ App launched on your phone!" -Type Success
         } else {
             Write-Status "❌ Installation failed!" -Type Error

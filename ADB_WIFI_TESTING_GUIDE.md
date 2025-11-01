@@ -146,7 +146,7 @@ $adb = "C:\Users\S\AppData\Local\Android\Sdk\platform-tools\adb.exe"
 $adb = "C:\Users\S\AppData\Local\Android\Sdk\platform-tools\adb.exe"
 
 # Start app
-& $adb shell am start -n com.ad2cause/.MainActivity
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
 
 # Or open it manually on phone
 ```
@@ -211,7 +211,7 @@ function Install-App {
 
 function Start-App {
     Write-Host "Starting Ad2Cause..." -ForegroundColor Cyan
-    & $adb shell am start -n com.ad2cause/.MainActivity
+    & $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
     Write-Host "✅ App started!" -ForegroundColor Green
 }
 
@@ -276,7 +276,7 @@ powershell -ExecutionPolicy Bypass -File test-adb-wifi.ps1
 1. App may already be installed - use `adb install -r` (replace)
 2. Check phone has enough storage
 3. Verify APK exists at the path
-4. Try: `adb uninstall com.ad2cause` first
+4. Try: `adb uninstall ch.heuscher.ad2cause` first
 
 ### Issue: WiFi connection drops
 **Solution**:
@@ -394,11 +394,11 @@ $adb = "C:\Users\S\AppData\Local\Android\Sdk\platform-tools\adb.exe"
 # Building & Installing
 & $adb install app.apk                   # Install app
 & $adb install -r app.apk                # Reinstall app
-& $adb uninstall com.ad2cause            # Uninstall app
+& $adb uninstall ch.heuscher.ad2cause    # Uninstall app
 
 # Running
-& $adb shell am start -n com.ad2cause/.MainActivity    # Start app
-& $adb shell am force-stop com.ad2cause                # Stop app
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity    # Start app
+& $adb shell am force-stop ch.heuscher.ad2cause                # Stop app
 
 # Logs
 & $adb logcat                            # View live logs

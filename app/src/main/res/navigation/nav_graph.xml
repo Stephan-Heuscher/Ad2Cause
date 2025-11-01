@@ -8,14 +8,14 @@
     <!-- Home Fragment -->
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.ad2cause.ui.screens.HomeFragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.HomeFragment"
         android:label="@string/home_tab_label"
         tools:layout="@layout/fragment_home" />
 
     <!-- Causes Fragment -->
     <fragment
         android:id="@+id/nav_causes"
-        android:name="com.ad2cause.ui.screens.CausesFragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.CausesFragment"
         android:label="@string/causes_tab_label"
         tools:layout="@layout/fragment_causes">
         
@@ -27,7 +27,7 @@
     <!-- Cause Detail Fragment -->
     <fragment
         android:id="@+id/cause_detail_fragment"
-        android:name="com.ad2cause.ui.screens.CauseDetailFragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.CauseDetailFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_cause_detail">
         
@@ -41,7 +41,7 @@
     <!-- Stats Fragment -->
     <fragment
         android:id="@+id/nav_stats"
-        android:name="com.ad2cause.ui.screens.StatsFragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.StatsFragment"
         android:label="@string/stats_tab_label"
         tools:layout="@layout/fragment_stats" />
 

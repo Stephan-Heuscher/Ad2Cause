@@ -117,7 +117,7 @@ $adb = "C:\Users\S\AppData\Local\Android\Sdk\platform-tools\adb.exe"
 & $adb install -r app\build\outputs\apk\debug\app-debug.apk
 
 # Launch app
-& $adb shell am start -n com.ad2cause/.MainActivity
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
 
 # View logs
 & $adb logcat | findstr "AdManager"

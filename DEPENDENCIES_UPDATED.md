@@ -119,7 +119,7 @@ $apk = "c:\Users\S\OneDrive\Dokumente\Programme\Ad2Cause\app\build\outputs\apk\d
 & $adb install -r $apk
 
 # Launch
-& $adb shell am start -n com.ad2cause/.MainActivity
+& $adb shell am start -n ch.heuscher.ad2cause/.MainActivity
 
 # View logs
 & $adb logcat | findstr "AdManager"

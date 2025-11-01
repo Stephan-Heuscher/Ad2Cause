@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ad2cause'
+    namespace 'ch.heuscher.ad2cause'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.ad2cause"
+        applicationId "ch.heuscher.ad2cause"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -33,6 +33,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
