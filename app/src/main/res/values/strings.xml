@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ad2Cause</string>
+
+    <!-- Home Screen -->
+    <string name="home_tab_label">Home</string>
+    <string name="supporting_cause">Supporting: %s</string>
+    <string name="your_contribution">Your Contribution</string>
+    <string name="watch_video_ad">📺 Watch Standard Ad</string>
+    <string name="engage_interactive_ad">⭐ Interactive Ad (Earn More)</string>
+    <string name="ad_watch_reward">Thank you! You\'ve earned $%.2f for %s</string>
+    <string name="no_cause_selected">No cause selected. Please select a cause first.</string>
+    <string name="ad_loading">Loading ad...</string>
+    <string name="ad_not_ready">Ad is not ready yet. Please try again in a moment.</string>
+
+    <!-- Causes Screen -->
+    <string name="causes_tab_label">Causes</string>
+    <string name="search_causes_hint">Search causes...</string>
+    <string name="no_causes_found">No causes found</string>
+    <string name="add_cause_fab_content_desc">Add new cause</string>
+
+    <!-- Cause Detail Screen -->
+    <string name="set_as_active_cause">Set as Active Cause</string>
+    <string name="currently_active">Currently Active</string>
+    <string name="total_earned">Total Earned: $%.2f</string>
+
+    <!-- Add Cause Dialog/Screen -->
+    <string name="add_new_cause_title">Add New Cause</string>
+    <string name="cause_name_hint">Cause name</string>
+    <string name="cause_description_hint">Describe the cause...</string>
+    <string name="cause_category_hint">Category (e.g., Education, Environment)</string>
+    <string name="save_cause">Save Cause</string>
+    <string name="cancel">Cancel</string>
+    <string name="cause_added_success">Cause "%s" added successfully!</string>
+
+    <!-- Stats Screen -->
+    <string name="stats_tab_label">Stats</string>
+    <string name="total_earned_all_time">Total Earned (All Time)</string>
+
+    <!-- Error Messages -->
+    <string name="error_generic">An error occurred. Please try again.</string>
+    <string name="error_loading_causes">Error loading causes</string>
+</resources>

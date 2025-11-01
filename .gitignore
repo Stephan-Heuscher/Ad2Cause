@@ -1,0 +1,62 @@
+# Gradle files
+.gradle
+build/
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Gradle cache directory
+.gradle/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio and Intellij and Android in general
+*.iml
+.idea/
+.idea/*.xml
+*.apk_original
+*.dex
+*.class
+*.jar
+*.jks
+
+# Generated files
+bin/
+gen/
+
+# Build generated files
+build/
+
+# Android Studio specific (not useful in CI)
+.DS_Store
+.gradle
+
+# Project-specific
+.vscode/
+*.swp
+*.swo
+*~
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE
+.vscode
+.idea
+
+# macOS
+.DS_Store
+
+# npm & Node
+node_modules/
+npm-debug.log
+
+# Windows
+Thumbs.db
+
+# Kotlin/Java
+out/
