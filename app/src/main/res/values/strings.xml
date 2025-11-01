@@ -8,7 +8,7 @@
     <string name="your_contribution">Your Contribution</string>
     <string name="watch_video_ad">📺 Watch Standard Ad</string>
     <string name="engage_interactive_ad">⭐ Interactive Ad (Earn More)</string>
-    <string name="ad_watch_reward">Thank you! You\'ve earned $%.2f for %s</string>
+    <string name="ad_watch_reward" formatted="false">Thank you! You\'ve earned $%.2f for %s</string>
     <string name="no_cause_selected">No cause selected. Please select a cause first.</string>
     <string name="ad_loading">Loading ad...</string>
     <string name="ad_not_ready">Ad is not ready yet. Please try again in a moment.</string>

@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "ch.heuscher.ad2cause.app-mergeDebugResources-61:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\S\\.gradle\\caches\\8.9\\transforms\\19dc2c4f90bb7392557575abeff1ee21\\transformed\\appcompat-1.7.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

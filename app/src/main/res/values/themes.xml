@@ -1,63 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material 3 Theme for Ad2Cause -->
-    <style name="Theme.Ad2Cause" parent="Theme.Material3.Light">
+    <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/background</item>
-        <item name="colorPrimaryContainer">@color/primary_container</item>
-        <item name="colorOnPrimaryContainer">@color/text_primary</item>
-
+        <item name="colorPrimaryVariant">@color/primary_container</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/background</item>
-        <item name="colorSecondaryContainer">@color/secondary_container</item>
-        <item name="colorOnSecondaryContainer">@color/text_primary</item>
-
+        <item name="colorSecondaryVariant">@color/secondary_container</item>
         <item name="colorTertiary">@color/tertiary</item>
-        <item name="colorOnTertiary">@color/background</item>
-        <item name="colorTertiaryContainer">@color/tertiary_container</item>
-        <item name="colorOnTertiaryContainer">@color/text_primary</item>
-
         <item name="colorError">@color/error</item>
         <item name="colorErrorContainer">@color/error_container</item>
-
-        <item name="colorOutline">@color/outline</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorSurface">@color/surface</item>
         <item name="colorSurfaceVariant">@color/surface_variant</item>
     </style>
 
     <!-- Text Styles -->
-    <style name="TextStyle.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+    <style name="TextStyle.HeadlineLarge" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextStyle.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+    <style name="TextStyle.HeadlineMedium" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextStyle.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+    <style name="TextStyle.BodyLarge" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="TextStyle.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+    <style name="TextStyle.BodyMedium" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="TextStyle.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextStyle.LabelLarge" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <!-- Button Style -->
-    <style name="ButtonStyle" parent="Widget.Material3.Button">
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:paddingHorizontal">24dp</item>
         <item name="android:paddingVertical">12dp</item>
     </style>
 
     <!-- Card View Style -->
-    <style name="CardViewStyle" parent="Widget.Material3.CardView">
+    <style name="CardViewStyle">
         <item name="cardElevation">8dp</item>
     </style>
 
