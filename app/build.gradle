@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'ch.heuscher.ad2cause'
+    namespace 'com.ad2cause'
     compileSdk 34
 
     defaultConfig {
-        applicationId "ch.heuscher.ad2cause"
+        applicationId "com.ad2cause"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -47,7 +47,6 @@ dependencies {
 
     // Material 3 Design
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     // Jetpack Lifecycle & ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7'
