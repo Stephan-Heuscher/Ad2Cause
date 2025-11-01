@@ -32,10 +32,10 @@ class AdManager(private val context: Context) {
 
         // Ad Unit IDs from AdMob Console
         // Interactive Rewarded Ad Unit (Higher earnings - users can interact)
-        private const val REWARDED_AD_UNIT_ID_INTERACTIVE = "ca-app-pub-5567609971256551/1555083848"
+        private const val REWARDED_AD_UNIT_ID_INTERACTIVE = "ca-app-pub-3940256099942544/5224354917"
         
         // Non-Interactive Rewarded Ad Unit (Standard earnings - passive viewing)
-        private const val REWARDED_AD_UNIT_ID_NON_INTERACTIVE = "ca-app-pub-5567609971256551/1251831518"
+        private const val REWARDED_AD_UNIT_ID_NON_INTERACTIVE = "ca-app-pub-3940256099942544/5224354917"
 
         // Test IDs (for development/testing):
         // private const val REWARDED_AD_UNIT_ID_TEST = "ca-app-pub-3940256099942544/5224354917"

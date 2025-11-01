@@ -23,9 +23,9 @@ public final class AdManager {
     @org.jetbrains.annotations.NotNull()
     public static final java.lang.String APP_ID = "ca-app-pub-5567609971256551~4548078693";
     @org.jetbrains.annotations.NotNull()
-    private static final java.lang.String REWARDED_AD_UNIT_ID_INTERACTIVE = "ca-app-pub-5567609971256551/1555083848";
+    private static final java.lang.String REWARDED_AD_UNIT_ID_INTERACTIVE = "ca-app-pub-3940256099942544/5224354917";
     @org.jetbrains.annotations.NotNull()
-    private static final java.lang.String REWARDED_AD_UNIT_ID_NON_INTERACTIVE = "ca-app-pub-5567609971256551/1251831518";
+    private static final java.lang.String REWARDED_AD_UNIT_ID_NON_INTERACTIVE = "ca-app-pub-3940256099942544/5224354917";
     @org.jetbrains.annotations.Nullable()
     private com.google.android.gms.ads.rewarded.RewardedAd rewardedAd;
     private boolean isLoading = false;
