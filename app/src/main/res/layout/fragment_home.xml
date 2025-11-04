@@ -47,6 +47,32 @@
                         style="@style/TextStyle.HeadlineMedium"
                         android:layout_marginTop="8dp" />
 
+                    <!-- Empty state guidance -->
+                    <LinearLayout
+                        android:id="@+id/noCauseGuidance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_cause_prompt"
+                            style="@style/TextStyle.BodyMedium"
+                            android:textColor="@color/text_secondary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/browseCausesButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/browse_causes"
+                            android:layout_marginTop="8dp"
+                            style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -91,6 +117,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center">
+
+                <!-- Loading Indicator -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/adLoadingIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"
+                    app:indicatorColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/loadingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_loading"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp"
+                    style="@style/TextStyle.BodyMedium"
+                    android:textColor="@color/text_secondary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/watchVideoAdButton"

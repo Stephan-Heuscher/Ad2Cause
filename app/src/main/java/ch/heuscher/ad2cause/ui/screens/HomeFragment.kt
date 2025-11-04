@@ -56,6 +56,13 @@ class HomeFragment : Fragment() {
      * Setup UI elements and their listeners.
      */
     private fun setupUI() {
+        // Browse Causes Button (navigates to Causes tab)
+        binding.browseCausesButton.setOnClickListener {
+            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigationView
+            )?.selectedItemId = R.id.nav_causes
+        }
+
         // Non-Interactive Ad Button (Standard earnings, passive viewing)
         binding.watchVideoAdButton.setOnClickListener {
             if (causeViewModel.activeCause.value == null) {
@@ -118,9 +125,11 @@ class HomeFragment : Fragment() {
                 if (cause != null) {
                     binding.activeCauseName.text = getString(R.string.supporting_cause, cause.name)
                     binding.totalEarningsText.text = String.format("$%.2f", cause.totalEarned)
+                    binding.noCauseGuidance.visibility = View.GONE
                 } else {
                     binding.activeCauseName.text = getString(R.string.no_cause_selected)
                     binding.totalEarningsText.text = "$0.00"
+                    binding.noCauseGuidance.visibility = View.VISIBLE
                 }
             }
         }
@@ -129,6 +138,10 @@ class HomeFragment : Fragment() {
         adViewModel.isAdLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.watchVideoAdButton.isEnabled = !isLoading
             binding.engageInteractiveAdButton.isEnabled = !isLoading
+
+            // Show/hide loading indicator
+            binding.adLoadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.loadingText.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

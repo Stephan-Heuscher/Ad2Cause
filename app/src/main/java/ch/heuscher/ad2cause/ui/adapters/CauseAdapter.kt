@@ -1,6 +1,7 @@
 package ch.heuscher.ad2cause.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,6 +19,12 @@ class CauseAdapter(
     private val onCauseClick: (Cause) -> Unit
 ) : ListAdapter<Cause, CauseAdapter.CauseViewHolder>(CauseDiffCallback()) {
 
+    var activeCauseId: Int? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CauseViewHolder {
         val binding = ItemCauseCardBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -28,7 +35,7 @@ class CauseAdapter(
     }
 
     override fun onBindViewHolder(holder: CauseViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), activeCauseId)
     }
 
     /**
@@ -39,7 +46,7 @@ class CauseAdapter(
         private val onCauseClick: (Cause) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(cause: Cause) {
+        fun bind(cause: Cause, activeCauseId: Int?) {
             binding.apply {
                 // Load image using Coil
                 causeImageView.load(cause.imageUrl) {
@@ -50,6 +57,9 @@ class CauseAdapter(
 
                 causeName.text = cause.name
                 causeCategory.text = cause.category
+
+                // Show/hide active indicator
+                activeIndicator.visibility = if (cause.id == activeCauseId) View.VISIBLE else View.GONE
 
                 // Handle click
                 root.setOnClickListener {

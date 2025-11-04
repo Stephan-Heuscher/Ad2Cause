@@ -8,18 +8,22 @@
     app:cardUseCompatPadding="true"
     app:cardElevation="2dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- Cause Image -->
-        <ImageView
-            android:id="@+id/causeImageView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/app_name" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Cause Image -->
+            <ImageView
+                android:id="@+id/causeImageView"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name" />
 
         <!-- Cause Info -->
         <LinearLayout
@@ -54,5 +58,22 @@
         </LinearLayout>
 
     </LinearLayout>
+
+        <!-- Active Indicator Badge -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/activeIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:text="Active"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:chipBackgroundColor="@color/primary"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="24dp"
+            style="@style/Widget.MaterialComponents.Chip.Action" />
+
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -46,8 +46,18 @@ class CauseDetailFragment : Fragment() {
             return
         }
 
+        setupToolbar()
         loadCauseDetails()
         setupButton()
+    }
+
+    /**
+     * Setup the toolbar with back button.
+     */
+    private fun setupToolbar() {
+        binding.detailToolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     /**

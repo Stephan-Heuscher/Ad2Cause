@@ -41,20 +41,27 @@
                     android:src="@android:drawable/ic_menu_search"
                     android:tint="@color/outline" />
 
-                <TextView
-                    android:id="@+id/searchHintText"
+                <EditText
+                    android:id="@+id/searchEditText"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Search causes"
-                    android:textColor="@color/outline" />
+                    android:hint="Search causes"
+                    android:textColorHint="@color/outline"
+                    android:textColor="@color/text_primary"
+                    android:background="@android:color/transparent"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1" />
 
                 <ImageView
+                    android:id="@+id/clearSearchButton"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_sort_by_size"
-                    android:tint="@color/outline" />
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:tint="@color/outline"
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </com.google.android.material.appbar.MaterialToolbar>
