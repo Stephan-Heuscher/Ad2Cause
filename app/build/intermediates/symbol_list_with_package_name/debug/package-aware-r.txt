@@ -3115,14 +3115,17 @@ drawable design_snackbar_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_arrow_back_black_24
+drawable ic_back
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
 drawable ic_call_answer_video_low
 drawable ic_call_decline
 drawable ic_call_decline_low
+drawable ic_causes
 drawable ic_clear_black_24
 drawable ic_clock_black_24dp
+drawable ic_home
 drawable ic_keyboard_black_24dp
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
@@ -3133,6 +3136,7 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_placeholder
 drawable ic_search_black_24
+drawable ic_stats
 drawable indeterminate_static
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
@@ -3282,8 +3286,13 @@ id action_mode_bar_stub
 id action_mode_close_button
 id action_text
 id actions
+id activeCauseCard
+id activeCauseEarningsStat
 id activeCauseName
+id activeCauseNameStat
+id activeIndicator
 id activity_chooser_view_content
+id adLoadingIndicator
 id add
 id addCauseFab
 id adjust_height
@@ -3317,6 +3326,7 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id browseCausesButton
 id browser_actions_header_text
 id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
@@ -3331,7 +3341,9 @@ id carryVelocity
 id categoryChips
 id causeCategory
 id causeCategoryInput
+id causeCategoryInputLayout
 id causeDescriptionInput
+id causeDescriptionInputLayout
 id causeDetailCategory
 id causeDetailDescription
 id causeDetailEarnings
@@ -3340,8 +3352,13 @@ id causeDetailName
 id causeImageView
 id causeName
 id causeNameInput
+id causeNameInputLayout
+id causeStatCategory
+id causeStatEarnings
+id causeStatName
 id cause_detail_fragment
 id causesRecyclerView
+id causesStatsRecyclerView
 id center
 id centerCrop
 id centerInside
@@ -3358,6 +3375,7 @@ id chipHealth
 id chipTechnology
 id chronometer
 id circle_center
+id clearSearchButton
 id clear_text
 id clip_horizontal
 id clip_vertical
@@ -3395,6 +3413,7 @@ id design_menu_item_action_area
 id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
+id detailToolbar
 id dialog_button
 id dimensions
 id direct
@@ -3422,6 +3441,7 @@ id edit_text_id
 id elastic
 id embed
 id emptyStateText
+id emptyStatsText
 id end
 id endToStart
 id engageInteractiveAdButton
@@ -3491,6 +3511,7 @@ id line3
 id linear
 id listMode
 id list_item
+id loadingText
 id locale
 id ltr
 id m3_side_sheet
@@ -3570,6 +3591,7 @@ id navigation_header_container
 id never
 id neverCompleteToEnd
 id neverCompleteToStart
+id noCauseGuidance
 id noScroll
 id noState
 id none
@@ -3643,8 +3665,7 @@ id scrollIndicatorDown
 id scrollIndicatorUp
 id scrollView
 id scrollable
-id searchContainer
-id searchHintText
+id searchEditText
 id search_badge
 id search_bar
 id search_button
@@ -3736,7 +3757,6 @@ id titleDividerNoCustom
 id title_template
 id toggle
 id top
-id topAppBar
 id topPanel
 id totalEarningsText
 id totalEarningsValue
@@ -3921,6 +3941,7 @@ layout fragment_stats
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_cause_card
+layout item_cause_stat
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -4029,6 +4050,7 @@ string bottomsheet_action_expand
 string bottomsheet_action_expand_halfway
 string bottomsheet_drag_handle_clicked
 string bottomsheet_drag_handle_content_description
+string browse_causes
 string call_notification_answer_action
 string call_notification_answer_video_action
 string call_notification_decline_action
@@ -4218,6 +4240,7 @@ string search_menu_title
 string searchbar_scrolling_view_behavior
 string searchview_clear_text_content_description
 string searchview_navigation_content_description
+string select_cause_prompt
 string set_as_active_cause
 string side_sheet_accessibility_pane_title
 string side_sheet_behavior

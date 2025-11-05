@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:background="@color/background">
 
+    <!-- Top App Bar with Back Button -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/detailToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/surface"
+        app:title="Cause Details"
+        app:navigationIcon="@drawable/ic_back" />
+
     <!-- Cause Details ScrollView -->
     <ScrollView
         android:layout_width="match_parent"

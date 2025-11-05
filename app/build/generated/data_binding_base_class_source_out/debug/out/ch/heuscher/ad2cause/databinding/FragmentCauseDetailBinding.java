@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -37,18 +38,23 @@ public final class FragmentCauseDetailBinding implements ViewBinding {
   public final TextView causeDetailName;
 
   @NonNull
+  public final MaterialToolbar detailToolbar;
+
+  @NonNull
   public final MaterialButton setActiveCauseButton;
 
   private FragmentCauseDetailBinding(@NonNull LinearLayout rootView,
       @NonNull TextView causeDetailCategory, @NonNull TextView causeDetailDescription,
       @NonNull TextView causeDetailEarnings, @NonNull ImageView causeDetailImage,
-      @NonNull TextView causeDetailName, @NonNull MaterialButton setActiveCauseButton) {
+      @NonNull TextView causeDetailName, @NonNull MaterialToolbar detailToolbar,
+      @NonNull MaterialButton setActiveCauseButton) {
     this.rootView = rootView;
     this.causeDetailCategory = causeDetailCategory;
     this.causeDetailDescription = causeDetailDescription;
     this.causeDetailEarnings = causeDetailEarnings;
     this.causeDetailImage = causeDetailImage;
     this.causeDetailName = causeDetailName;
+    this.detailToolbar = detailToolbar;
     this.setActiveCauseButton = setActiveCauseButton;
   }
 
@@ -109,6 +115,12 @@ public final class FragmentCauseDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.detailToolbar;
+      MaterialToolbar detailToolbar = ViewBindings.findChildViewById(rootView, id);
+      if (detailToolbar == null) {
+        break missingId;
+      }
+
       id = R.id.setActiveCauseButton;
       MaterialButton setActiveCauseButton = ViewBindings.findChildViewById(rootView, id);
       if (setActiveCauseButton == null) {
@@ -117,7 +129,7 @@ public final class FragmentCauseDetailBinding implements ViewBinding {
 
       return new FragmentCauseDetailBinding((LinearLayout) rootView, causeDetailCategory,
           causeDetailDescription, causeDetailEarnings, causeDetailImage, causeDetailName,
-          setActiveCauseButton);
+          detailToolbar, setActiveCauseButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

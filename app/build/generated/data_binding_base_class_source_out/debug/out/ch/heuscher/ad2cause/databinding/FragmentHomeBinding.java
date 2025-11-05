@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -24,7 +25,19 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView activeCauseName;
 
   @NonNull
+  public final CircularProgressIndicator adLoadingIndicator;
+
+  @NonNull
+  public final MaterialButton browseCausesButton;
+
+  @NonNull
   public final MaterialButton engageInteractiveAdButton;
+
+  @NonNull
+  public final TextView loadingText;
+
+  @NonNull
+  public final LinearLayout noCauseGuidance;
 
   @NonNull
   public final TextView totalEarningsText;
@@ -33,11 +46,17 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final MaterialButton watchVideoAdButton;
 
   private FragmentHomeBinding(@NonNull LinearLayout rootView, @NonNull TextView activeCauseName,
-      @NonNull MaterialButton engageInteractiveAdButton, @NonNull TextView totalEarningsText,
-      @NonNull MaterialButton watchVideoAdButton) {
+      @NonNull CircularProgressIndicator adLoadingIndicator,
+      @NonNull MaterialButton browseCausesButton, @NonNull MaterialButton engageInteractiveAdButton,
+      @NonNull TextView loadingText, @NonNull LinearLayout noCauseGuidance,
+      @NonNull TextView totalEarningsText, @NonNull MaterialButton watchVideoAdButton) {
     this.rootView = rootView;
     this.activeCauseName = activeCauseName;
+    this.adLoadingIndicator = adLoadingIndicator;
+    this.browseCausesButton = browseCausesButton;
     this.engageInteractiveAdButton = engageInteractiveAdButton;
+    this.loadingText = loadingText;
+    this.noCauseGuidance = noCauseGuidance;
     this.totalEarningsText = totalEarningsText;
     this.watchVideoAdButton = watchVideoAdButton;
   }
@@ -75,9 +94,33 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.adLoadingIndicator;
+      CircularProgressIndicator adLoadingIndicator = ViewBindings.findChildViewById(rootView, id);
+      if (adLoadingIndicator == null) {
+        break missingId;
+      }
+
+      id = R.id.browseCausesButton;
+      MaterialButton browseCausesButton = ViewBindings.findChildViewById(rootView, id);
+      if (browseCausesButton == null) {
+        break missingId;
+      }
+
       id = R.id.engageInteractiveAdButton;
       MaterialButton engageInteractiveAdButton = ViewBindings.findChildViewById(rootView, id);
       if (engageInteractiveAdButton == null) {
+        break missingId;
+      }
+
+      id = R.id.loadingText;
+      TextView loadingText = ViewBindings.findChildViewById(rootView, id);
+      if (loadingText == null) {
+        break missingId;
+      }
+
+      id = R.id.noCauseGuidance;
+      LinearLayout noCauseGuidance = ViewBindings.findChildViewById(rootView, id);
+      if (noCauseGuidance == null) {
         break missingId;
       }
 
@@ -93,8 +136,9 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentHomeBinding((LinearLayout) rootView, activeCauseName,
-          engageInteractiveAdButton, totalEarningsText, watchVideoAdButton);
+      return new FragmentHomeBinding((LinearLayout) rootView, activeCauseName, adLoadingIndicator,
+          browseCausesButton, engageInteractiveAdButton, loadingText, noCauseGuidance,
+          totalEarningsText, watchVideoAdButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

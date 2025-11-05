@@ -4,6 +4,8 @@ package ch.heuscher.ad2cause.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -45,13 +47,20 @@ public final class FragmentCausesBinding implements ViewBinding {
   public final Chip chipTechnology;
 
   @NonNull
+  public final ImageView clearSearchButton;
+
+  @NonNull
   public final TextView emptyStateText;
+
+  @NonNull
+  public final EditText searchEditText;
 
   private FragmentCausesBinding(@NonNull LinearLayout rootView,
       @NonNull FloatingActionButton addCauseFab, @NonNull ChipGroup categoryChips,
       @NonNull RecyclerView causesRecyclerView, @NonNull Chip chipAll,
       @NonNull Chip chipEnvironment, @NonNull Chip chipHealth, @NonNull Chip chipTechnology,
-      @NonNull TextView emptyStateText) {
+      @NonNull ImageView clearSearchButton, @NonNull TextView emptyStateText,
+      @NonNull EditText searchEditText) {
     this.rootView = rootView;
     this.addCauseFab = addCauseFab;
     this.categoryChips = categoryChips;
@@ -60,7 +69,9 @@ public final class FragmentCausesBinding implements ViewBinding {
     this.chipEnvironment = chipEnvironment;
     this.chipHealth = chipHealth;
     this.chipTechnology = chipTechnology;
+    this.clearSearchButton = clearSearchButton;
     this.emptyStateText = emptyStateText;
+    this.searchEditText = searchEditText;
   }
 
   @Override
@@ -132,14 +143,27 @@ public final class FragmentCausesBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.clearSearchButton;
+      ImageView clearSearchButton = ViewBindings.findChildViewById(rootView, id);
+      if (clearSearchButton == null) {
+        break missingId;
+      }
+
       id = R.id.emptyStateText;
       TextView emptyStateText = ViewBindings.findChildViewById(rootView, id);
       if (emptyStateText == null) {
         break missingId;
       }
 
+      id = R.id.searchEditText;
+      EditText searchEditText = ViewBindings.findChildViewById(rootView, id);
+      if (searchEditText == null) {
+        break missingId;
+      }
+
       return new FragmentCausesBinding((LinearLayout) rootView, addCauseFab, categoryChips,
-          causesRecyclerView, chipAll, chipEnvironment, chipHealth, chipTechnology, emptyStateText);
+          causesRecyclerView, chipAll, chipEnvironment, chipHealth, chipTechnology,
+          clearSearchButton, emptyStateText, searchEditText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

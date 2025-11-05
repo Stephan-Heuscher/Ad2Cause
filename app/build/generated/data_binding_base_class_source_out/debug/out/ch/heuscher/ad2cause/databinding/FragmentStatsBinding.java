@@ -8,9 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
+import com.google.android.material.card.MaterialCardView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -20,11 +22,33 @@ public final class FragmentStatsBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final MaterialCardView activeCauseCard;
+
+  @NonNull
+  public final TextView activeCauseEarningsStat;
+
+  @NonNull
+  public final TextView activeCauseNameStat;
+
+  @NonNull
+  public final RecyclerView causesStatsRecyclerView;
+
+  @NonNull
+  public final TextView emptyStatsText;
+
+  @NonNull
   public final TextView totalEarningsValue;
 
   private FragmentStatsBinding(@NonNull LinearLayout rootView,
-      @NonNull TextView totalEarningsValue) {
+      @NonNull MaterialCardView activeCauseCard, @NonNull TextView activeCauseEarningsStat,
+      @NonNull TextView activeCauseNameStat, @NonNull RecyclerView causesStatsRecyclerView,
+      @NonNull TextView emptyStatsText, @NonNull TextView totalEarningsValue) {
     this.rootView = rootView;
+    this.activeCauseCard = activeCauseCard;
+    this.activeCauseEarningsStat = activeCauseEarningsStat;
+    this.activeCauseNameStat = activeCauseNameStat;
+    this.causesStatsRecyclerView = causesStatsRecyclerView;
+    this.emptyStatsText = emptyStatsText;
     this.totalEarningsValue = totalEarningsValue;
   }
 
@@ -55,13 +79,45 @@ public final class FragmentStatsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.activeCauseCard;
+      MaterialCardView activeCauseCard = ViewBindings.findChildViewById(rootView, id);
+      if (activeCauseCard == null) {
+        break missingId;
+      }
+
+      id = R.id.activeCauseEarningsStat;
+      TextView activeCauseEarningsStat = ViewBindings.findChildViewById(rootView, id);
+      if (activeCauseEarningsStat == null) {
+        break missingId;
+      }
+
+      id = R.id.activeCauseNameStat;
+      TextView activeCauseNameStat = ViewBindings.findChildViewById(rootView, id);
+      if (activeCauseNameStat == null) {
+        break missingId;
+      }
+
+      id = R.id.causesStatsRecyclerView;
+      RecyclerView causesStatsRecyclerView = ViewBindings.findChildViewById(rootView, id);
+      if (causesStatsRecyclerView == null) {
+        break missingId;
+      }
+
+      id = R.id.emptyStatsText;
+      TextView emptyStatsText = ViewBindings.findChildViewById(rootView, id);
+      if (emptyStatsText == null) {
+        break missingId;
+      }
+
       id = R.id.totalEarningsValue;
       TextView totalEarningsValue = ViewBindings.findChildViewById(rootView, id);
       if (totalEarningsValue == null) {
         break missingId;
       }
 
-      return new FragmentStatsBinding((LinearLayout) rootView, totalEarningsValue);
+      return new FragmentStatsBinding((LinearLayout) rootView, activeCauseCard,
+          activeCauseEarningsStat, activeCauseNameStat, causesStatsRecyclerView, emptyStatsText,
+          totalEarningsValue);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

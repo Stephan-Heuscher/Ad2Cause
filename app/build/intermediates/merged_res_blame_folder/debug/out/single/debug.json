@@ -4,8 +4,16 @@
         "source": "ch.heuscher.ad2cause.app-main-67:/navigation/nav_graph.xml"
     },
     {
+        "merged": "ch.heuscher.ad2cause.app-merged_res-65:/drawable_ic_stats.xml.flat",
+        "source": "ch.heuscher.ad2cause.app-main-67:/drawable/ic_stats.xml"
+    },
+    {
         "merged": "ch.heuscher.ad2cause.app-merged_res-65:/drawable_ic_placeholder.xml.flat",
         "source": "ch.heuscher.ad2cause.app-main-67:/drawable/ic_placeholder.xml"
+    },
+    {
+        "merged": "ch.heuscher.ad2cause.app-merged_res-65:/drawable_ic_back.xml.flat",
+        "source": "ch.heuscher.ad2cause.app-main-67:/drawable/ic_back.xml"
     },
     {
         "merged": "ch.heuscher.ad2cause.app-merged_res-65:/layout_item_cause_card.xml.flat",
@@ -26,6 +34,10 @@
     {
         "merged": "ch.heuscher.ad2cause.app-merged_res-65:/layout_activity_main.xml.flat",
         "source": "ch.heuscher.ad2cause.app-main-67:/layout/activity_main.xml"
+    },
+    {
+        "merged": "ch.heuscher.ad2cause.app-merged_res-65:/layout_item_cause_stat.xml.flat",
+        "source": "ch.heuscher.ad2cause.app-main-67:/layout/item_cause_stat.xml"
     },
     {
         "merged": "ch.heuscher.ad2cause.app-merged_res-65:/layout_fragment_causes.xml.flat",
@@ -68,7 +80,15 @@
         "source": "ch.heuscher.ad2cause.app-main-67:/mipmap-xhdpi/ic_launcher_round.xml"
     },
     {
+        "merged": "ch.heuscher.ad2cause.app-merged_res-65:/drawable_ic_causes.xml.flat",
+        "source": "ch.heuscher.ad2cause.app-main-67:/drawable/ic_causes.xml"
+    },
+    {
         "merged": "ch.heuscher.ad2cause.app-merged_res-65:/mipmap-xxhdpi_ic_launcher.xml.flat",
         "source": "ch.heuscher.ad2cause.app-main-67:/mipmap-xxhdpi/ic_launcher.xml"
+    },
+    {
+        "merged": "ch.heuscher.ad2cause.app-merged_res-65:/drawable_ic_home.xml.flat",
+        "source": "ch.heuscher.ad2cause.app-main-67:/drawable/ic_home.xml"
     }
 ]

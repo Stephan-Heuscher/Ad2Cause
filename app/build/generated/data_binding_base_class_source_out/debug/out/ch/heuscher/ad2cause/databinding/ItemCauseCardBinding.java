@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -19,6 +20,9 @@ import java.lang.String;
 public final class ItemCauseCardBinding implements ViewBinding {
   @NonNull
   private final MaterialCardView rootView;
+
+  @NonNull
+  public final Chip activeIndicator;
 
   @NonNull
   public final TextView causeCategory;
@@ -29,9 +33,11 @@ public final class ItemCauseCardBinding implements ViewBinding {
   @NonNull
   public final TextView causeName;
 
-  private ItemCauseCardBinding(@NonNull MaterialCardView rootView, @NonNull TextView causeCategory,
-      @NonNull ImageView causeImageView, @NonNull TextView causeName) {
+  private ItemCauseCardBinding(@NonNull MaterialCardView rootView, @NonNull Chip activeIndicator,
+      @NonNull TextView causeCategory, @NonNull ImageView causeImageView,
+      @NonNull TextView causeName) {
     this.rootView = rootView;
+    this.activeIndicator = activeIndicator;
     this.causeCategory = causeCategory;
     this.causeImageView = causeImageView;
     this.causeName = causeName;
@@ -64,6 +70,12 @@ public final class ItemCauseCardBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.activeIndicator;
+      Chip activeIndicator = ViewBindings.findChildViewById(rootView, id);
+      if (activeIndicator == null) {
+        break missingId;
+      }
+
       id = R.id.causeCategory;
       TextView causeCategory = ViewBindings.findChildViewById(rootView, id);
       if (causeCategory == null) {
@@ -82,8 +94,8 @@ public final class ItemCauseCardBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemCauseCardBinding((MaterialCardView) rootView, causeCategory, causeImageView,
-          causeName);
+      return new ItemCauseCardBinding((MaterialCardView) rootView, activeIndicator, causeCategory,
+          causeImageView, causeName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

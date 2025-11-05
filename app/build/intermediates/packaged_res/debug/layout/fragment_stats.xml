@@ -51,13 +51,73 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Future Stats Content -->
+            <!-- Active Cause Stats -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="More statistics coming soon!"
+                android:text="Active Cause"
+                style="@style/TextStyle.HeadlineMedium"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/activeCauseCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/activeCauseNameStat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No active cause"
+                        style="@style/TextStyle.BodyLarge"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/activeCauseEarningsStat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Earned: $0.00"
+                        style="@style/TextStyle.BodyMedium"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Earnings Breakdown -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="All Causes"
+                style="@style/TextStyle.HeadlineMedium"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Causes List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/causesStatsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:id="@+id/emptyStatsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No causes yet"
+                android:visibility="gone"
                 style="@style/TextStyle.BodyLarge"
                 android:gravity="center"
+                android:textColor="@color/text_secondary"
                 android:layout_marginTop="32dp" />
 
         </LinearLayout>

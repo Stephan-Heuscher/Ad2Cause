@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBindings;
 import ch.heuscher.ad2cause.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -27,23 +28,38 @@ public final class DialogAddCauseBinding implements ViewBinding {
   public final TextInputEditText causeCategoryInput;
 
   @NonNull
+  public final TextInputLayout causeCategoryInputLayout;
+
+  @NonNull
   public final TextInputEditText causeDescriptionInput;
 
   @NonNull
+  public final TextInputLayout causeDescriptionInputLayout;
+
+  @NonNull
   public final TextInputEditText causeNameInput;
+
+  @NonNull
+  public final TextInputLayout causeNameInputLayout;
 
   @NonNull
   public final MaterialButton saveCauseButton;
 
   private DialogAddCauseBinding(@NonNull LinearLayout rootView,
       @NonNull MaterialButton cancelButton, @NonNull TextInputEditText causeCategoryInput,
-      @NonNull TextInputEditText causeDescriptionInput, @NonNull TextInputEditText causeNameInput,
+      @NonNull TextInputLayout causeCategoryInputLayout,
+      @NonNull TextInputEditText causeDescriptionInput,
+      @NonNull TextInputLayout causeDescriptionInputLayout,
+      @NonNull TextInputEditText causeNameInput, @NonNull TextInputLayout causeNameInputLayout,
       @NonNull MaterialButton saveCauseButton) {
     this.rootView = rootView;
     this.cancelButton = cancelButton;
     this.causeCategoryInput = causeCategoryInput;
+    this.causeCategoryInputLayout = causeCategoryInputLayout;
     this.causeDescriptionInput = causeDescriptionInput;
+    this.causeDescriptionInputLayout = causeDescriptionInputLayout;
     this.causeNameInput = causeNameInput;
+    this.causeNameInputLayout = causeNameInputLayout;
     this.saveCauseButton = saveCauseButton;
   }
 
@@ -86,15 +102,33 @@ public final class DialogAddCauseBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.causeCategoryInputLayout;
+      TextInputLayout causeCategoryInputLayout = ViewBindings.findChildViewById(rootView, id);
+      if (causeCategoryInputLayout == null) {
+        break missingId;
+      }
+
       id = R.id.causeDescriptionInput;
       TextInputEditText causeDescriptionInput = ViewBindings.findChildViewById(rootView, id);
       if (causeDescriptionInput == null) {
         break missingId;
       }
 
+      id = R.id.causeDescriptionInputLayout;
+      TextInputLayout causeDescriptionInputLayout = ViewBindings.findChildViewById(rootView, id);
+      if (causeDescriptionInputLayout == null) {
+        break missingId;
+      }
+
       id = R.id.causeNameInput;
       TextInputEditText causeNameInput = ViewBindings.findChildViewById(rootView, id);
       if (causeNameInput == null) {
+        break missingId;
+      }
+
+      id = R.id.causeNameInputLayout;
+      TextInputLayout causeNameInputLayout = ViewBindings.findChildViewById(rootView, id);
+      if (causeNameInputLayout == null) {
         break missingId;
       }
 
@@ -105,7 +139,8 @@ public final class DialogAddCauseBinding implements ViewBinding {
       }
 
       return new DialogAddCauseBinding((LinearLayout) rootView, cancelButton, causeCategoryInput,
-          causeDescriptionInput, causeNameInput, saveCauseButton);
+          causeCategoryInputLayout, causeDescriptionInput, causeDescriptionInputLayout,
+          causeNameInput, causeNameInputLayout, saveCauseButton);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -22,6 +22,7 @@
     <string name="add_cause_fab_content_desc">Add new cause</string>
     <string name="add_new_cause_title">Add New Cause</string>
     <string name="app_name">Ad2Cause</string>
+    <string name="browse_causes">Browse Causes</string>
     <string name="cancel">Cancel</string>
     <string name="cause_added_success">Cause "%s" added successfully!</string>
     <string name="cause_category_hint">Category (e.g., Education, Environment)</string>
@@ -33,10 +34,11 @@
     <string name="error_generic">An error occurred. Please try again.</string>
     <string name="error_loading_causes">Error loading causes</string>
     <string name="home_tab_label">Home</string>
-    <string name="no_cause_selected">No cause selected. Please select a cause first.</string>
+    <string name="no_cause_selected">No cause selected</string>
     <string name="no_causes_found">No causes found</string>
     <string name="save_cause">Save Cause</string>
     <string name="search_causes_hint">Search causes...</string>
+    <string name="select_cause_prompt">Choose a cause to start making a difference! Watch ads to support causes you care about.</string>
     <string name="set_as_active_cause">Set as Active Cause</string>
     <string name="stats_tab_label">Stats</string>
     <string name="supporting_cause">Supporting: %s</string>
@@ -46,6 +48,7 @@
     <string name="your_contribution">Your Contribution</string>
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:paddingHorizontal">24dp</item>
         <item name="android:paddingVertical">12dp</item>
     </style>
@@ -54,20 +57,25 @@
     </style>
     <style name="TextStyle.BodyLarge" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">15sp</item>
     </style>
     <style name="TextStyle.BodyMedium" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">13sp</item>
     </style>
     <style name="TextStyle.HeadlineLarge" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
     <style name="TextStyle.HeadlineMedium" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="TextStyle.LabelLarge" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primary</item>
