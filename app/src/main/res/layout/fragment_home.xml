@@ -140,18 +140,18 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/watchVideoAdButton"
                     android:layout_width="280dp"
-                    android:layout_height="56dp"
+                    android:layout_height="52dp"
                     android:text="@string/watch_video_ad"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:cornerRadius="12dp"
                     android:layout_marginBottom="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/engageInteractiveAdButton"
                     android:layout_width="280dp"
-                    android:layout_height="56dp"
+                    android:layout_height="52dp"
                     android:text="@string/engage_interactive_ad"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:cornerRadius="12dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 

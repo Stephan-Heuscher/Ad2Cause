@@ -185,20 +185,17 @@ class CausesFragment : Fragment() {
      */
     @OptIn(FlowPreview::class)
     private fun setupSearch() {
-        val searchEditText = requireActivity().findViewById<EditText>(R.id.searchEditText)
-        val clearButton = requireActivity().findViewById<ImageView>(R.id.clearSearchButton)
-
-        searchEditText?.addTextChangedListener(object : TextWatcher {
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchQueryFlow.value = s?.toString() ?: ""
-                clearButton?.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.clearSearchButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        clearButton?.setOnClickListener {
-            searchEditText?.text?.clear()
+        binding.clearSearchButton.setOnClickListener {
+            binding.searchEditText.text?.clear()
         }
 
         // Observe search query with debounce
