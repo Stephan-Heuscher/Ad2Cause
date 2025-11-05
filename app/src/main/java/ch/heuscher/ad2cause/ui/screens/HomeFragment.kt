@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         // Browse Causes Button (navigates to Causes tab)
         binding.browseCausesButton.setOnClickListener {
             requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
-                R.id.bottomNavigationView
+                R.id.bottomNavigation
             )?.selectedItemId = R.id.nav_causes
         }
 
