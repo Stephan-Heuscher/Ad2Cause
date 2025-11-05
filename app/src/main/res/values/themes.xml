@@ -16,32 +16,38 @@
         <item name="colorSurfaceVariant">@color/surface_variant</item>
     </style>
 
-    <!-- Text Styles -->
+    <!-- Text Styles - Smaller sizes for accessibility -->
     <style name="TextStyle.HeadlineLarge" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="TextStyle.HeadlineMedium" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="TextStyle.BodyLarge" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextStyle.BodyMedium" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="TextStyle.LabelLarge" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- Button Style -->
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:paddingHorizontal">24dp</item>
         <item name="android:paddingVertical">12dp</item>
     </style>
