@@ -65,13 +65,24 @@ class CausesFragment : Fragment() {
      * Setup the RecyclerView for displaying causes.
      */
     private fun setupRecyclerView() {
-        causeAdapter = CauseAdapter { cause ->
-            // Navigate to cause detail screen
-            val bundle = Bundle().apply {
-                putInt("cause_id", cause.id)
+        causeAdapter = CauseAdapter(
+            onCauseClick = { cause ->
+                // Navigate to cause detail screen
+                val bundle = Bundle().apply {
+                    putInt("cause_id", cause.id)
+                }
+                findNavController().navigate(R.id.action_causes_to_detail, bundle)
+            },
+            onSetActive = { cause ->
+                // Set cause as active directly
+                causeViewModel.setActiveCause(cause)
+                Toast.makeText(
+                    requireContext(),
+                    "Active cause: ${cause.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            findNavController().navigate(R.id.action_causes_to_detail, bundle)
-        }
+        )
 
         binding.causesRecyclerView.apply {
             adapter = causeAdapter

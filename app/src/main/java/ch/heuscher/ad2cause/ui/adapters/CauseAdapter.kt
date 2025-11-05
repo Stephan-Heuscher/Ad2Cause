@@ -16,7 +16,8 @@ import ch.heuscher.ad2cause.databinding.ItemCauseCardBinding
  * Uses ListAdapter with DiffUtil for efficient list updates.
  */
 class CauseAdapter(
-    private val onCauseClick: (Cause) -> Unit
+    private val onCauseClick: (Cause) -> Unit,
+    private val onSetActive: (Cause) -> Unit
 ) : ListAdapter<Cause, CauseAdapter.CauseViewHolder>(CauseDiffCallback()) {
 
     var activeCauseId: Int? = null
@@ -31,7 +32,7 @@ class CauseAdapter(
             parent,
             false
         )
-        return CauseViewHolder(binding, onCauseClick)
+        return CauseViewHolder(binding, onCauseClick, onSetActive)
     }
 
     override fun onBindViewHolder(holder: CauseViewHolder, position: Int) {
@@ -43,7 +44,8 @@ class CauseAdapter(
      */
     class CauseViewHolder(
         private val binding: ItemCauseCardBinding,
-        private val onCauseClick: (Cause) -> Unit
+        private val onCauseClick: (Cause) -> Unit,
+        private val onSetActive: (Cause) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cause: Cause, activeCauseId: Int?) {
@@ -58,12 +60,25 @@ class CauseAdapter(
                 causeName.text = cause.name
                 causeCategory.text = cause.category
 
-                // Show/hide active indicator
-                activeIndicator.visibility = if (cause.id == activeCauseId) View.VISIBLE else View.GONE
+                val isActive = cause.id == activeCauseId
 
-                // Handle click
-                root.setOnClickListener {
+                // Show/hide active indicator
+                activeIndicator.visibility = if (isActive) View.VISIBLE else View.GONE
+
+                // Update button state
+                setActiveButton.isEnabled = !isActive
+                setActiveButton.text = if (isActive) "Active" else "Set Active"
+
+                // Handle details button click
+                viewDetailsButton.setOnClickListener {
                     onCauseClick(cause)
+                }
+
+                // Handle set active button click
+                setActiveButton.setOnClickListener {
+                    if (!isActive) {
+                        onSetActive(cause)
+                    }
                 }
             }
         }
