@@ -40,12 +40,17 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         // Setup toolbar menu item click listener
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            onOptionsItemSelected(menuItem)
-        }
+        // binding.toolbar.setOnMenuItemClickListener { menuItem ->
+        //     onOptionsItemSelected(menuItem)
+        // }
 
         // Initialize sample data on first launch
         initializeSampleData(database)
+    }
+
+    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

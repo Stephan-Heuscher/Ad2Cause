@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material 3 Theme for Ad2Cause -->
-    <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/background</item>
         <item name="colorPrimaryVariant">@color/primary_container</item>

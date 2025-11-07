@@ -7,16 +7,14 @@
     android:background="@color/background">
 
     <!-- App Bar / Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary"
         android:elevation="4dp"
         app:title="@string/app_name"
-        app:titleTextColor="@android:color/white"
-        app:menu="@menu/main_menu"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+        app:titleTextColor="@android:color/white" />
 
     <!-- Navigation Container -->
     <androidx.fragment.app.FragmentContainerView
