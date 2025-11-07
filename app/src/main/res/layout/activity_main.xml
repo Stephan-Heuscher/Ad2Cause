@@ -6,6 +6,18 @@
     android:orientation="vertical"
     android:background="@color/background">
 
+    <!-- App Bar / Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        app:title="@string/app_name"
+        app:titleTextColor="@android:color/white"
+        app:menu="@menu/main_menu"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+
     <!-- Navigation Container -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"

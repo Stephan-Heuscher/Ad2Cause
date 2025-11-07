@@ -45,4 +45,11 @@
         android:label="@string/stats_tab_label"
         tools:layout="@layout/fragment_stats" />
 
+    <!-- Privacy Policy Fragment -->
+    <fragment
+        android:id="@+id/privacy_policy_fragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.PrivacyPolicyFragment"
+        android:label="@string/privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+
 </navigation>

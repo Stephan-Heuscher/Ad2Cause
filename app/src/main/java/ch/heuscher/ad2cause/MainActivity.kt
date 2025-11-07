@@ -1,6 +1,7 @@
 package ch.heuscher.ad2cause
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -26,17 +27,35 @@ class MainActivity : AppCompatActivity() {
         // Initialize database
         val database = Ad2CauseDatabase.getDatabase(this)
 
+        // Setup toolbar
+        setSupportActionBar(binding.toolbar)
+
         // Setup navigation
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
-        navController = navHostFragment?.navController 
+        navController = navHostFragment?.navController
             ?: error("NavHostFragment not found")
 
         // Setup bottom navigation with nav controller
         binding.bottomNavigation.setupWithNavController(navController)
 
+        // Setup toolbar menu item click listener
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            onOptionsItemSelected(menuItem)
+        }
+
         // Initialize sample data on first launch
         initializeSampleData(database)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_privacy_policy -> {
+                navController.navigate(R.id.privacy_policy_fragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**
