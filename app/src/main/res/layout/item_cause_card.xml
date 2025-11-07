@@ -3,57 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    app:cardCornerRadius="20dp"
-    app:cardUseCompatPadding="true"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="false"
     app:cardElevation="2dp">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:minHeight="100dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <!-- Cause Image -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
 
-            <!-- Cause Image -->
-            <ImageView
-                android:id="@+id/causeImageView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/app_name" />
+                android:layout_height="match_parent">
 
-        <!-- Cause Info -->
+                <ImageView
+                    android:id="@+id/causeImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/app_name" />
+
+                <!-- Active Indicator Badge -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/activeIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="4dp"
+                    android:text="✓"
+                    android:textSize="8sp"
+                    android:visibility="gone"
+                    app:chipBackgroundColor="@color/primary"
+                    app:chipCornerRadius="8dp"
+                    app:chipMinHeight="16dp"
+                    app:chipMinTouchTargetSize="0dp"
+                    style="@style/Widget.MaterialComponents.Chip.Action" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Cause Info Container -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center_vertical">
 
+            <!-- Cause Name -->
             <TextView
                 android:id="@+id/causeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cause Name"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:textColor="@color/text_primary" />
 
+            <!-- Category -->
             <TextView
                 android:id="@+id/causeCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textSize="12sp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="8dp"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/text_secondary" />
 
             <!-- Action Buttons Row -->
@@ -61,53 +90,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/viewDetailsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:text="Details"
-                    android:textSize="11sp"
-                    android:minHeight="0dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:layout_marginEnd="6dp"
-                    app:cornerRadius="8dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" />
+                android:layout_marginTop="8dp"
+                android:gravity="start">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/setActiveButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="36dp"
                     android:text="Set Active"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:minHeight="0dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    app:cornerRadius="8dp" />
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:cornerRadius="18dp"
+                    style="@style/Widget.MaterialComponents.Button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/viewDetailsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Details"
+                    android:textSize="12sp"
+                    android:minHeight="0dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:cornerRadius="18dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-        <!-- Active Indicator Badge -->
-        <com.google.android.material.chip.Chip
-            android:id="@+id/activeIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_margin="8dp"
-            android:text="Active"
-            android:textSize="10sp"
-            android:visibility="gone"
-            app:chipBackgroundColor="@color/primary"
-            app:chipCornerRadius="12dp"
-            app:chipMinHeight="24dp"
-            style="@style/Widget.MaterialComponents.Chip.Action" />
-
-    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -14,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.data.models.Cause
 import ch.heuscher.ad2cause.databinding.FragmentCausesBinding
@@ -86,7 +86,7 @@ class CausesFragment : Fragment() {
 
         binding.causesRecyclerView.apply {
             adapter = causeAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
     }
