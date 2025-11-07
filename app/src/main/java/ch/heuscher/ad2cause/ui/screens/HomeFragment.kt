@@ -124,11 +124,11 @@ class HomeFragment : Fragment() {
             causeViewModel.activeCause.collect { cause ->
                 if (cause != null) {
                     binding.activeCauseName.text = getString(R.string.supporting_cause, cause.name)
-                    binding.totalEarningsText.text = String.format("$%.2f", cause.totalEarned)
+                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned * 100)
                     binding.noCauseGuidance.visibility = View.GONE
                 } else {
                     binding.activeCauseName.text = getString(R.string.no_cause_selected)
-                    binding.totalEarningsText.text = "$0.00"
+                    binding.totalEarningsText.text = "0 points"
                     binding.noCauseGuidance.visibility = View.VISIBLE
                 }
             }
@@ -177,7 +177,7 @@ class HomeFragment : Fragment() {
             causeViewModel.activeCause.collect { cause ->
                 if (cause != null) {
                     binding.activeCauseName.text = getString(R.string.supporting_cause, cause.name)
-                    binding.totalEarningsText.text = String.format("$%.2f", cause.totalEarned)
+                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned * 100)
                 }
             }
         }
