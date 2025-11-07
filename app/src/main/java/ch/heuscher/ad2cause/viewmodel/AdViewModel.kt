@@ -13,7 +13,7 @@ class AdViewModel(application: Application) : AndroidViewModel(application) {
 
     // Reward amount per ad
     companion object {
-        const val REWARD_AMOUNT = 0.01 // 1 point per ad (stored as 0.01, displayed as 1 when multiplied by 100)
+        const val REWARD_AMOUNT = 1.0 // 1 point per ad
     }
 
     // Event when user earns reward

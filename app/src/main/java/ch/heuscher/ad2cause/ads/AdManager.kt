@@ -150,7 +150,7 @@ class AdManager(private val context: Context) {
         rewardedAd?.let { ad ->
             ad.show(activity) { reward ->
                 Log.d(TAG, "User earned reward: ${reward.amount}")
-                val rewardAmount = 0.01 // 1 point per ad (stored as 0.01, displayed as 1 when multiplied by 100)
+                val rewardAmount = 1.0 // 1 point per ad
                 onRewardEarned?.invoke(rewardAmount)
             }
         }
