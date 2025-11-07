@@ -102,7 +102,6 @@ If you use the app without signing in, your data is stored locally on your devic
 **Cloud Storage (With Google Sign-In):**
 If you sign in with your Google account, your data is stored on Firebase servers (Google Cloud Platform) including:
 - Your active cause selection
-- Custom causes you create
 - Earnings per cause
 - User preferences
 
@@ -147,7 +146,6 @@ Ad2Cause is not intended for use by children under the age of 13. We do not know
 **Access and Control:**
 You have the right to:
 - View all causes and earnings data within the App
-- Add, edit, or delete custom causes at any time
 - Export your data (contact us for assistance)
 - Sign out of your Google account at any time
 
@@ -193,7 +191,6 @@ The App may contain links to third-party websites or services (such as cause web
 
 **Local Data (Without Sign-In):**
 Data is retained on your device until you:
-- Delete a specific cause
 - Clear the app's data through device settings
 - Uninstall the application
 
@@ -266,7 +263,6 @@ For issues related to Google services:
 | Google email address | Yes (optional, if signed in) | Authentication, account management | Firebase Authentication |
 | Google profile info | Yes (optional, if signed in) | Display name, profile picture | Firebase Authentication |
 | Google user ID (UID) | Yes (optional, if signed in) | Unique identifier for your account | Firebase Authentication |
-| Cause names & descriptions | Yes (user-provided) | Display causes, track preferences | Firebase Realtime DB/Firestore (if signed in) or Local device |
 | Earnings per cause | Yes (calculated) | Track hypothetical donations | Firebase Realtime DB/Firestore (if signed in) or Local device |
 | Active cause selection | Yes (user choice) | Remember user preference | Firebase Realtime DB/Firestore (if signed in) or Local device |
 | Device identifiers | No | N/A | N/A |
