@@ -98,14 +98,19 @@ class MainActivity : AppCompatActivity() {
      * Observe authentication state and show sign-in prompt if needed
      */
     private fun observeAuthState() {
+        var hasShownPrompt = false // Track if we've shown the prompt
+
         lifecycleScope.launch {
             authViewModel.isSignedIn.collect { isSignedIn ->
-                if (!isSignedIn) {
-                    // Show optional sign-in prompt
+                android.util.Log.d("MainActivity", "Auth state changed: isSignedIn=$isSignedIn")
+
+                if (!isSignedIn && !hasShownPrompt) {
+                    // Show optional sign-in prompt only once
+                    hasShownPrompt = true
                     showSignInPrompt()
                     // Clear toolbar subtitle when signed out
                     supportActionBar?.subtitle = null
-                } else {
+                } else if (isSignedIn) {
                     // Show user info in toolbar when signed in
                     updateToolbarWithUserInfo()
                 }
