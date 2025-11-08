@@ -63,7 +63,7 @@ class StatsFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.allCauses.collect { causes ->
                 val totalEarnings = causes.sumOf { it.totalEarned }
-                binding.totalEarningsValue.text = String.format("$%.2f", totalEarnings)
+                binding.totalEarningsValue.text = String.format("%.0f points", totalEarnings * 100)
 
                 // Update stats list
                 statsAdapter.submitList(causes.sortedByDescending { it.totalEarned })
@@ -76,7 +76,7 @@ class StatsFragment : Fragment() {
             causeViewModel.activeCause.collect { activeCause ->
                 if (activeCause != null) {
                     binding.activeCauseNameStat.text = activeCause.name
-                    binding.activeCauseEarningsStat.text = String.format("Earned: $%.2f", activeCause.totalEarned)
+                    binding.activeCauseEarningsStat.text = String.format("Earned: %.0f points", activeCause.totalEarned * 100)
                 } else {
                     binding.activeCauseNameStat.text = "No active cause"
                     binding.activeCauseEarningsStat.text = "Select a cause to start earning"
@@ -118,7 +118,7 @@ class StatsFragment : Fragment() {
             fun bind(cause: Cause) {
                 binding.causeStatName.text = cause.name
                 binding.causeStatCategory.text = cause.category
-                binding.causeStatEarnings.text = String.format("$%.2f", cause.totalEarned)
+                binding.causeStatEarnings.text = String.format("%.0f points", cause.totalEarned * 100)
             }
         }
     }

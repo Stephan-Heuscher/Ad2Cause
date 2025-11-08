@@ -95,14 +95,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/your_contribution"
+                        android:text="@string/your_points"
                         style="@style/TextStyle.BodyMedium" />
 
                     <TextView
                         android:id="@+id/totalEarningsText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="$0.00"
+                        android:text="0 points"
                         style="@style/TextStyle.HeadlineLarge"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/primary" />

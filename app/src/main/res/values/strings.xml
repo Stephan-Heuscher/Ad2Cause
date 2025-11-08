@@ -5,10 +5,10 @@
     <!-- Home Screen -->
     <string name="home_tab_label">Home</string>
     <string name="supporting_cause">Supporting: %s</string>
-    <string name="your_contribution">Your Contribution</string>
+    <string name="your_points">Your Points</string>
     <string name="watch_video_ad">📺 Watch Standard Ad</string>
     <string name="engage_interactive_ad">⭐ Interactive Ad (Earn More)</string>
-    <string name="ad_watch_reward" formatted="false">Thank you! You\'ve earned $%.2f for %s</string>
+    <string name="ad_watch_reward" formatted="false">Thank you! You\'ve earned %.0f points for %s</string>
     <string name="no_cause_selected">No cause selected</string>
     <string name="select_cause_prompt">Choose a cause to start making a difference! Watch ads to support causes you care about.</string>
     <string name="browse_causes">Browse Causes</string>
@@ -24,7 +24,7 @@
     <!-- Cause Detail Screen -->
     <string name="set_as_active_cause">Set as Active Cause</string>
     <string name="currently_active">Currently Active</string>
-    <string name="total_earned">Total Earned: $%.2f</string>
+    <string name="total_earned">Total Earned: %.0f points</string>
 
     <!-- Add Cause Dialog/Screen -->
     <string name="add_new_cause_title">Add New Cause</string>
@@ -37,7 +37,7 @@
 
     <!-- Stats Screen -->
     <string name="stats_tab_label">Stats</string>
-    <string name="total_earned_all_time">Total Earned (All Time)</string>
+    <string name="total_points_all_time">Total Points (All Time)</string>
 
     <!-- Error Messages -->
     <string name="error_generic">An error occurred. Please try again.</string>

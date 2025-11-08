@@ -35,14 +35,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_earned_all_time"
+                        android:text="@string/total_points_all_time"
                         style="@style/TextStyle.BodyMedium" />
 
                     <TextView
                         android:id="@+id/totalEarningsValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="$0.00"
+                        android:text="0 points"
                         style="@style/TextStyle.HeadlineLarge"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/primary" />
@@ -85,7 +85,7 @@
                         android:id="@+id/activeCauseEarningsStat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Earned: $0.00"
+                        android:text="Earned: 0 points"
                         style="@style/TextStyle.BodyMedium"
                         android:layout_marginTop="4dp"
                         android:textColor="@color/text_secondary" />
