@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:fitsSystemWindows="true">
 
     <!-- App Bar / Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -14,7 +15,8 @@
         android:background="@color/primary"
         android:elevation="4dp"
         app:title="@string/app_name"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@android:color/white"
+        app:subtitleTextColor="@android:color/white" />
 
     <!-- Navigation Container -->
     <androidx.fragment.app.FragmentContainerView
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/surface"
+        android:elevation="8dp"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 

@@ -191,11 +191,9 @@ class HomeFragment : Fragment() {
         }
 
         adManager.onAdFailedToLoad = { adError ->
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.error_generic),
-                Toast.LENGTH_SHORT
-            ).show()
+            // Silently handle ad loading failures during initial setup
+            // Only show error if user explicitly tried to watch an ad
+            // This prevents error toasts when logging in or navigating to the fragment
         }
     }
 
