@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Choose an image that represents your cause"
-                style="@style/TextStyle.BodySmall"
+                style="@style/TextStyle.BodyMedium"
                 android:textColor="@color/text_secondary"
                 android:layout_marginBottom="12dp" />
 
