@@ -66,6 +66,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: android.view.Menu?): Boolean {
+        lifecycleScope.launch {
+            authViewModel.isSignedIn.collect { isSignedIn ->
+                menu?.findItem(R.id.action_sign_in)?.isVisible = !isSignedIn
+                menu?.findItem(R.id.action_sign_out)?.isVisible = isSignedIn
+            }
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_privacy_policy -> {
@@ -93,9 +103,30 @@ class MainActivity : AppCompatActivity() {
                 if (!isSignedIn) {
                     // Show optional sign-in prompt
                     showSignInPrompt()
+                    // Clear toolbar subtitle when signed out
+                    supportActionBar?.subtitle = null
+                } else {
+                    // Show user info in toolbar when signed in
+                    updateToolbarWithUserInfo()
                 }
                 // Update menu visibility
                 invalidateOptionsMenu()
+            }
+        }
+    }
+
+    /**
+     * Update toolbar to show user information
+     */
+    private fun updateToolbarWithUserInfo() {
+        lifecycleScope.launch {
+            authViewModel.currentUser.collect { user ->
+                if (user != null) {
+                    val userDisplay = user.email ?: user.displayName ?: "Signed In"
+                    supportActionBar?.subtitle = "✓ $userDisplay"
+                } else {
+                    supportActionBar?.subtitle = null
+                }
             }
         }
     }
