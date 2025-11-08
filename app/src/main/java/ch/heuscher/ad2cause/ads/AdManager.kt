@@ -152,9 +152,9 @@ class AdManager(private val context: Context) {
         rewardedAd?.let { ad ->
             ad.show(activity) { reward ->
                 // Use the reward amount from AdMob (configured in AdMob console)
-                // The reward.amount is an integer, convert to decimal (e.g., 1 -> 0.01, 10 -> 0.10)
-                val rewardAmount = reward.amount / 100.0
-                Log.d(TAG, "User earned reward: ${reward.amount} (${rewardAmount} in app currency)")
+                // 1 AdMob point = 1 point in the app
+                val rewardAmount = reward.amount.toDouble()
+                Log.d(TAG, "User earned reward: ${rewardAmount} points")
                 onRewardEarned?.invoke(rewardAmount)
             }
         }
