@@ -69,7 +69,7 @@
     <string name="fields_required">Please fill in all fields</string>
 
     <!-- Firebase Web Client ID - Replace with your actual Web Client ID from google-services.json -->
-    <string name="default_web_client_id" translatable="false">1:5208240869:android:cc0f68f94c19d4bca3da0c</string>
+    <string name="default_web_client_id" translatable="false">5208240869-csjamckufpikqa0mcs9f38b2tbhc0tr8.apps.googleusercontent.com</string>
 
     <!-- Image Upload -->
     <string name="select_image">Select Image</string>
