@@ -70,4 +70,34 @@ interface CauseDao {
      */
     @Query("SELECT * FROM causes WHERE isUserAdded = 0")
     fun getPredefinedCauses(): Flow<List<Cause>>
+
+    /**
+     * Get a cause by its Firestore ID.
+     */
+    @Query("SELECT * FROM causes WHERE firestoreId = :firestoreId LIMIT 1")
+    suspend fun getCauseByFirestoreId(firestoreId: String): Cause?
+
+    /**
+     * Get all approved causes.
+     */
+    @Query("SELECT * FROM causes WHERE status = 'APPROVED'")
+    fun getApprovedCauses(): Flow<List<Cause>>
+
+    /**
+     * Get all pending causes.
+     */
+    @Query("SELECT * FROM causes WHERE status = 'PENDING'")
+    fun getPendingCauses(): Flow<List<Cause>>
+
+    /**
+     * Delete all causes (used for sync).
+     */
+    @Query("DELETE FROM causes")
+    suspend fun deleteAllCauses()
+
+    /**
+     * Insert or replace a cause (upsert).
+     */
+    @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
+    suspend fun upsertCause(cause: Cause): Long
 }

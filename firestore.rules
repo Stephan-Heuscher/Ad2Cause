@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ========== Helper Functions ==========
+
+    /**
+     * Check if the request is from a signed-in user
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Check if the user is the owner of the resource
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Check if the user is an admin
+     */
+    function isAdmin() {
+      return isSignedIn() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    /**
+     * Check if the cause image is valid
+     */
+    function hasValidImage() {
+      return request.resource.data.imageUrl != null &&
+             request.resource.data.imageUrl.size() > 0;
+    }
+
+    // ========== Users Collection ==========
+
+    match /users/{userId} {
+      // Users can read their own document
+      allow read: if isOwner(userId);
+
+      // Users can create their own document (on first sign-in)
+      allow create: if isOwner(userId) &&
+                      request.resource.data.isAdmin == false; // Can't make themselves admin
+
+      // Users can update their own document
+      allow update: if isOwner(userId) &&
+                      // Prevent users from making themselves admin
+                      request.resource.data.isAdmin == resource.data.isAdmin &&
+                      // Ensure userId doesn't change
+                      request.resource.data.userId == resource.data.userId;
+
+      // No deletions allowed
+      allow delete: if false;
+
+      // ========== Earning History Sub-collection ==========
+
+      match /earnings/{earningId} {
+        // Users can read their own earnings
+        allow read: if isOwner(userId);
+
+        // Users can create earnings for themselves
+        allow create: if isOwner(userId) &&
+                        request.resource.data.userId == userId &&
+                        request.resource.data.amount > 0 &&
+                        request.resource.data.causeId != null;
+
+        // No updates or deletes (earnings are immutable)
+        allow update, delete: if false;
+      }
+    }
+
+    // ========== Causes Collection ==========
+
+    match /causes/{causeId} {
+      // Anyone can read approved causes
+      allow read: if resource.data.status == 'APPROVED';
+
+      // Admins can read all causes (including pending/rejected)
+      allow read: if isAdmin();
+
+      // Users can read causes they created
+      allow read: if isSignedIn() && resource.data.createdBy == request.auth.uid;
+
+      // Only signed-in users can create causes
+      allow create: if isSignedIn() &&
+                      // Must have an image
+                      hasValidImage() &&
+                      // Must start as PENDING
+                      request.resource.data.status == 'PENDING' &&
+                      // Must be marked as user-added
+                      request.resource.data.isUserAdded == true &&
+                      // Created by must match auth user
+                      request.resource.data.createdBy == request.auth.uid &&
+                      // Basic field validation
+                      request.resource.data.name.size() > 0 &&
+                      request.resource.data.description.size() > 0 &&
+                      request.resource.data.category.size() > 0;
+
+      // Only admins can update causes (for approval/rejection)
+      allow update: if isAdmin() &&
+                      // Can only change status, approvedAt, and approvedBy
+                      request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['status', 'approvedAt', 'approvedBy']);
+
+      // Only admins can delete causes
+      allow delete: if isAdmin();
+    }
+
+    // ========== Admin-only Collections ==========
+
+    // Prevent access to any other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
