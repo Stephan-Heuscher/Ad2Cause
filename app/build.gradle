@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'ch.heuscher.ad2cause'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "ch.heuscher.ad2cause"
         minSdk 26
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
