@@ -191,7 +191,7 @@ class HomeFragment : Fragment() {
                 }
 
                 // Show reward message
-                val message = getString(R.string.ad_watch_reward, rewardAmount * 100, cause.name)
+                val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }

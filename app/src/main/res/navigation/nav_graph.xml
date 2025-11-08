@@ -18,11 +18,22 @@
         android:name="ch.heuscher.ad2cause.ui.screens.CausesFragment"
         android:label="@string/causes_tab_label"
         tools:layout="@layout/fragment_causes">
-        
+
         <action
             android:id="@+id/action_causes_to_detail"
             app:destination="@id/cause_detail_fragment" />
+
+        <action
+            android:id="@+id/action_causes_to_request"
+            app:destination="@id/request_cause_fragment" />
     </fragment>
+
+    <!-- Request Cause Fragment -->
+    <fragment
+        android:id="@+id/request_cause_fragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.RequestCauseFragment"
+        android:label="@string/add_new_cause_title"
+        tools:layout="@layout/fragment_request_cause" />
 
     <!-- Cause Detail Fragment -->
     <fragment
