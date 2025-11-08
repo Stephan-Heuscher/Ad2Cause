@@ -148,11 +148,14 @@ class AuthRepository(private val context: Context) {
             val userId = firebaseUser.uid
             val userRef = firestore.collection("users").document(userId)
 
+            android.util.Log.d("AuthRepository", "Creating/updating user in Firestore: $userId")
+
             // Check if user already exists
             val userDoc = userRef.get().await()
 
             if (userDoc.exists()) {
                 // Update last sign-in time
+                android.util.Log.d("AuthRepository", "User exists, updating last sign-in")
                 userRef.update(
                     mapOf(
                         "lastSignInAt" to Date(),
@@ -161,8 +164,10 @@ class AuthRepository(private val context: Context) {
                         "photoUrl" to (firebaseUser.photoUrl?.toString() ?: "")
                     )
                 ).await()
+                android.util.Log.d("AuthRepository", "User updated successfully")
             } else {
                 // Create new user document
+                android.util.Log.d("AuthRepository", "Creating new user document")
                 val user = User(
                     userId = userId,
                     email = firebaseUser.email ?: "",
@@ -175,8 +180,10 @@ class AuthRepository(private val context: Context) {
                     lastSignInAt = Date()
                 )
                 userRef.set(user).await()
+                android.util.Log.d("AuthRepository", "User created successfully: ${user.email}")
             }
         } catch (e: Exception) {
+            android.util.Log.e("AuthRepository", "Failed to create/update user in Firestore", e)
             throw Exception("Failed to create/update user in Firestore: ${e.message}")
         }
     }

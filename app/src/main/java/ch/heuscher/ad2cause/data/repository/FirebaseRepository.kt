@@ -53,15 +53,23 @@ class FirebaseRepository {
      */
     suspend fun createCause(cause: FirestoreCause, userId: String): Result<String> {
         return try {
+            android.util.Log.d("FirebaseRepository", "Creating cause in Firestore for user: $userId")
+
             val causeData = cause.copy(
                 createdBy = userId,
                 status = CauseStatus.PENDING.name,
                 isUserAdded = true
             )
 
+            android.util.Log.d("FirebaseRepository", "Cause data to save: name=${causeData.name}, category=${causeData.category}, status=${causeData.status}")
+
             val docRef = causesCollection.add(causeData).await()
+
+            android.util.Log.d("FirebaseRepository", "Cause successfully created with ID: ${docRef.id}")
+
             Result.success(docRef.id)
         } catch (e: Exception) {
+            android.util.Log.e("FirebaseRepository", "Failed to create cause in Firestore", e)
             Result.failure(Exception("Failed to create cause: ${e.message}"))
         }
     }
@@ -197,6 +205,8 @@ class FirebaseRepository {
         adType: AdType
     ): Result<String> {
         return try {
+            android.util.Log.d("FirebaseRepository", "Recording earning for user $userId, cause $causeId, amount $amount")
+
             val earning = EarningHistory(
                 userId = userId,
                 causeId = causeId,
@@ -212,8 +222,11 @@ class FirebaseRepository {
                 .add(earning)
                 .await()
 
+            android.util.Log.d("FirebaseRepository", "Earning recorded successfully with ID: ${docRef.id}")
+
             Result.success(docRef.id)
         } catch (e: Exception) {
+            android.util.Log.e("FirebaseRepository", "Failed to record earning", e)
             Result.failure(Exception("Failed to record earning: ${e.message}"))
         }
     }

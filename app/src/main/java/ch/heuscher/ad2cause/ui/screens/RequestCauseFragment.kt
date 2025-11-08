@@ -183,6 +183,9 @@ class RequestCauseFragment : Fragment() {
                 // Create cause with Firebase
                 causeViewModel.addNewUserCause(name, description, category, imageUrl, userId)
 
+                // Log success
+                android.util.Log.d("RequestCauseFragment", "Cause created successfully: $name")
+
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.cause_submitted),
@@ -192,6 +195,9 @@ class RequestCauseFragment : Fragment() {
                 // Navigate back
                 findNavController().navigateUp()
             } catch (e: Exception) {
+                // Log the error
+                android.util.Log.e("RequestCauseFragment", "Failed to create cause", e)
+
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.image_upload_error) + ": ${e.message}",

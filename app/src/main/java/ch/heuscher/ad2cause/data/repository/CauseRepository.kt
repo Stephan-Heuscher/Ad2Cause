@@ -145,18 +145,24 @@ class CauseRepository(
             val firebaseRepo = firebaseRepository
                 ?: return Result.failure(Exception("Firebase not initialized"))
 
+            android.util.Log.d("CauseRepository", "Creating cause in Firestore: ${cause.name}")
+
             // Create Firestore cause
             val firestoreCause = cause.toFirestoreCause().copy(
                 imageUrl = imageUrl,
                 createdBy = userId
             )
 
+            android.util.Log.d("CauseRepository", "Firestore cause object: $firestoreCause")
+
             val result = firebaseRepo.createCause(firestoreCause, userId)
             if (result.isFailure) {
+                android.util.Log.e("CauseRepository", "Firestore creation failed: ${result.exceptionOrNull()?.message}")
                 return result
             }
 
             val firestoreId = result.getOrNull()!!
+            android.util.Log.d("CauseRepository", "Cause created in Firestore with ID: $firestoreId")
 
             // Also save locally with pending status
             val localCause = cause.copy(
@@ -165,9 +171,11 @@ class CauseRepository(
                 createdBy = userId
             )
             causeDao.insertCause(localCause)
+            android.util.Log.d("CauseRepository", "Cause saved locally with ID: $firestoreId")
 
             Result.success(firestoreId)
         } catch (e: Exception) {
+            android.util.Log.e("CauseRepository", "Failed to create cause", e)
             Result.failure(Exception("Failed to create cause: ${e.message}"))
         }
     }
