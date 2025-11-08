@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             if (existingCauses.isEmpty()) {
                 // Insert sample cause
                 val sampleCause = Cause(
-                    name = "Support Assistive Touch App",
+                    name = "Support Assistive Tap App",
                     description = "Supporting the development of accessibility features and assistive technology",
                     category = "Technology",
                     imageUrl = "https://via.placeholder.com/200?text=Assistive",
