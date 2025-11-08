@@ -180,20 +180,57 @@ class RequestCauseFragment : Fragment() {
 
                 val imageUrl = imageResult.getOrNull()!!
 
-                // Create cause with Firebase
-                causeViewModel.addNewUserCause(name, description, category, imageUrl, userId)
+                // Create cause with Firebase - call repository directly to get Firestore ID
+                val newCause = ch.heuscher.ad2cause.data.models.Cause(
+                    name = name,
+                    description = description,
+                    category = category,
+                    imageUrl = imageUrl,
+                    isUserAdded = true,
+                    totalEarned = 0.0,
+                    status = ch.heuscher.ad2cause.data.models.CauseStatus.PENDING.name,
+                    createdBy = userId
+                )
 
-                // Log success
-                android.util.Log.d("RequestCauseFragment", "Cause created successfully: $name")
+                val database = ch.heuscher.ad2cause.data.database.Ad2CauseDatabase.getDatabase(requireContext())
+                val repository = ch.heuscher.ad2cause.data.repository.CauseRepository(
+                    database.causeDao(),
+                    firebaseRepository
+                )
 
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.cause_submitted),
-                    Toast.LENGTH_LONG
-                ).show()
+                val createResult = repository.createUserCause(newCause, userId, imageUrl)
 
-                // Navigate back
-                findNavController().navigateUp()
+                if (createResult.isSuccess) {
+                    val firestoreId = createResult.getOrNull()!!
+                    android.util.Log.d("RequestCauseFragment", "Cause created with Firestore ID: $firestoreId")
+
+                    // Verify the data was written by reading it back
+                    kotlinx.coroutines.delay(1000) // Wait 1 second for write to complete
+
+                    val verificationResult = firebaseRepository.getCauseById(firestoreId)
+
+                    if (verificationResult.isSuccess) {
+                        val verifiedCause = verificationResult.getOrNull()
+                        android.util.Log.d("RequestCauseFragment", "✓ VERIFICATION SUCCESS: Cause found in Firestore: ${verifiedCause?.name}")
+                        Toast.makeText(
+                            requireContext(),
+                            "✓ SUCCESS: ${getString(R.string.cause_submitted)}\nVerified in Firestore!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        android.util.Log.e("RequestCauseFragment", "✗ VERIFICATION FAILED: Could not read cause from Firestore")
+                        Toast.makeText(
+                            requireContext(),
+                            "⚠ WARNING: Cause submitted but not found in Firestore.\nCheck Firebase security rules!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    // Navigate back
+                    findNavController().navigateUp()
+                } else {
+                    throw createResult.exceptionOrNull() ?: Exception("Failed to create cause")
+                }
             } catch (e: Exception) {
                 // Log the error
                 android.util.Log.e("RequestCauseFragment", "Failed to create cause", e)
