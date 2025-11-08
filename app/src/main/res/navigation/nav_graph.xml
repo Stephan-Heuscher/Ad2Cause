@@ -52,4 +52,11 @@
         android:label="@string/privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
 
+    <!-- Sign-In Fragment -->
+    <fragment
+        android:id="@+id/sign_in_fragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.SignInFragment"
+        android:label="@string/sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+
 </navigation>

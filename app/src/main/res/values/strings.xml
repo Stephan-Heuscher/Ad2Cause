@@ -49,15 +49,27 @@
 
     <!-- Authentication -->
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_in_with_email">Sign in with Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
     <string name="sign_in_required">Sign in to sync your data across devices</string>
     <string name="sign_in_description">Sign in with your Google account to save your progress and sync across all your devices.</string>
     <string name="sign_in_error">Sign in failed. Please try again.</string>
     <string name="sign_out_confirm">Are you sure you want to sign out?</string>
     <string name="signed_in_as">Signed in as %s</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="or_divider">OR</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_account">Already have an account? Sign in</string>
+    <string name="dont_have_account">Don\'t have an account? Sign up</string>
+    <string name="invalid_email">Please enter a valid email</string>
+    <string name="password_too_short">Password must be at least 6 characters</string>
+    <string name="fields_required">Please fill in all fields</string>
 
     <!-- Firebase Web Client ID - Replace with your actual Web Client ID from google-services.json -->
-    <string name="default_web_client_id" translatable="false">YOUR_WEB_CLIENT_ID_FROM_FIREBASE</string>
+    <string name="default_web_client_id" translatable="false">1:5208240869:android:cc0f68f94c19d4bca3da0c</string>
 
     <!-- Image Upload -->
     <string name="select_image">Select Image</string>

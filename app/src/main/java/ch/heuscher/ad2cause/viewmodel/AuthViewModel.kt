@@ -89,6 +89,42 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
+     * Sign in with email and password
+     */
+    fun signInWithEmailPassword(email: String, password: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val result = authRepository.signInWithEmailPassword(email, password)
+            _signInResult.value = result
+
+            if (result.isSuccess) {
+                loadFirestoreUser()
+                checkAdminStatus()
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    /**
+     * Create account with email and password
+     */
+    fun createAccountWithEmailPassword(email: String, password: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val result = authRepository.createAccountWithEmailPassword(email, password)
+            _signInResult.value = result
+
+            if (result.isSuccess) {
+                loadFirestoreUser()
+                checkAdminStatus()
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    /**
      * Sign out from Firebase and Google
      */
     fun signOut() {

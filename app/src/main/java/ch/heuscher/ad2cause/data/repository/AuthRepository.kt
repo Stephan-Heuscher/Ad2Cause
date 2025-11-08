@@ -81,6 +81,44 @@ class AuthRepository(private val context: Context) {
     }
 
     /**
+     * Sign in with email and password
+     */
+    suspend fun signInWithEmailPassword(email: String, password: String): Result<FirebaseUser> {
+        return try {
+            val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            val user = authResult.user
+
+            if (user != null) {
+                createOrUpdateUserInFirestore(user)
+                Result.success(user)
+            } else {
+                Result.failure(Exception("Sign in failed: User is null"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("Sign in failed: ${e.message}"))
+        }
+    }
+
+    /**
+     * Create account with email and password
+     */
+    suspend fun createAccountWithEmailPassword(email: String, password: String): Result<FirebaseUser> {
+        return try {
+            val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            val user = authResult.user
+
+            if (user != null) {
+                createOrUpdateUserInFirestore(user)
+                Result.success(user)
+            } else {
+                Result.failure(Exception("Account creation failed: User is null"))
+            }
+        } catch (e: Exception) {
+            Result.failure(Exception("Account creation failed: ${e.message}"))
+        }
+    }
+
+    /**
      * Sign out from Firebase and Google
      */
     suspend fun signOut() {
