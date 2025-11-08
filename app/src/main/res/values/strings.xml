@@ -46,4 +46,37 @@
     <!-- Privacy Policy -->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="menu_privacy_policy">Privacy Policy</string>
+
+    <!-- Authentication -->
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="sign_in_required">Sign in to sync your data across devices</string>
+    <string name="sign_in_description">Sign in with your Google account to save your progress and sync across all your devices.</string>
+    <string name="sign_in_error">Sign in failed. Please try again.</string>
+    <string name="sign_out_confirm">Are you sure you want to sign out?</string>
+    <string name="signed_in_as">Signed in as %s</string>
+
+    <!-- Firebase Web Client ID - Replace with your actual Web Client ID from google-services.json -->
+    <string name="default_web_client_id" translatable="false">YOUR_WEB_CLIENT_ID_FROM_FIREBASE</string>
+
+    <!-- Image Upload -->
+    <string name="select_image">Select Image</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="image_required">An image is required for this cause</string>
+    <string name="uploading_image">Uploading image...</string>
+    <string name="image_upload_error">Failed to upload image. Please try again.</string>
+
+    <!-- Cause Approval -->
+    <string name="cause_pending_approval">This cause is pending approval</string>
+    <string name="cause_approved">Cause approved!</string>
+    <string name="cause_rejected">Cause was rejected</string>
+    <string name="approve_cause">Approve</string>
+    <string name="reject_cause">Reject</string>
+    <string name="pending_causes">Pending Causes</string>
+    <string name="cause_submitted">Your cause has been submitted for approval</string>
+
+    <!-- Sync -->
+    <string name="syncing">Syncing...</string>
+    <string name="sync_complete">Sync complete</string>
+    <string name="sync_error">Sync failed. Will retry.</string>
 </resources>

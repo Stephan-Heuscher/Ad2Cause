@@ -1,0 +1,75 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ========== Helper Functions ==========
+
+    /**
+     * Check if the request is from a signed-in user
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Check if the file is a valid image
+     */
+    function isValidImage() {
+      return request.resource.size < 5 * 1024 * 1024 && // Max 5MB
+             request.resource.contentType.matches('image/.*'); // Must be an image type
+    }
+
+    /**
+     * Check if the file is within size limits
+     */
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024; // Max 5MB
+    }
+
+    // ========== Cause Images ==========
+
+    match /causes/{imageId} {
+      // Anyone can read cause images (public access for displaying in app)
+      allow read: if true;
+
+      // Only signed-in users can upload images
+      allow create: if isSignedIn() &&
+                      isValidImage();
+
+      // Users can update images they uploaded
+      // (In production, you might want to track uploader in metadata)
+      allow update: if isSignedIn() &&
+                      isValidImage();
+
+      // Only the uploader or admins can delete
+      // (Simplified: any signed-in user can delete for now)
+      allow delete: if isSignedIn();
+    }
+
+    // ========== User Profile Photos (optional for future) ==========
+
+    match /users/{userId}/profile/{imageId} {
+      // Users can read their own profile photos
+      allow read: if isSignedIn() && request.auth.uid == userId;
+
+      // Users can upload their own profile photos
+      allow create: if isSignedIn() &&
+                      request.auth.uid == userId &&
+                      isValidImage();
+
+      // Users can update their own profile photos
+      allow update: if isSignedIn() &&
+                      request.auth.uid == userId &&
+                      isValidImage();
+
+      // Users can delete their own profile photos
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ========== Deny all other access ==========
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
