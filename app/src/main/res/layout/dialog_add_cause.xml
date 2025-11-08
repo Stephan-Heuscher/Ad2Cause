@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:fillViewport="true"
     android:background="@color/background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <!-- Dialog Title -->
     <TextView
@@ -13,23 +18,35 @@
         android:layout_height="wrap_content"
         android:text="@string/add_new_cause_title"
         style="@style/TextStyle.HeadlineMedium"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="8dp" />
+
+    <!-- Dialog Description -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/request_cause_description"
+        style="@style/TextStyle.BodyMedium"
+        android:textColor="@color/text_secondary"
+        android:layout_marginBottom="24dp" />
 
     <!-- Cause Name Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/causeNameInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="20dp"
         app:boxBackgroundColor="@color/surface_variant"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:helperText="@string/cause_name_helper"
+        app:helperTextEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/causeNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/cause_name_hint"
-            android:inputType="text" />
+            android:inputType="textCapWords"
+            android:maxLines="2" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,16 +55,18 @@
         android:id="@+id/causeCategoryInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="20dp"
         app:boxBackgroundColor="@color/surface_variant"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:helperText="@string/cause_category_helper"
+        app:helperTextEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/causeCategoryInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/cause_category_hint"
-            android:inputType="text" />
+            android:inputType="textCapWords" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,19 +74,25 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/causeDescriptionInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         app:boxBackgroundColor="@color/surface_variant"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:helperText="@string/cause_description_helper"
+        app:helperTextEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="500">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/causeDescriptionInput"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/cause_description_hint"
-            android:inputType="textMultiLine"
-            android:gravity="top" />
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top"
+            android:minLines="4"
+            android:maxLines="8"
+            android:maxLength="500" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,15 +100,32 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         app:cardElevation="2dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/primary">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cause Image"
+                style="@style/TextStyle.BodyLarge"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose an image that represents your cause"
+                style="@style/TextStyle.BodySmall"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="12dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/selectImageButton"
@@ -97,19 +139,20 @@
             <ImageView
                 android:id="@+id/selectedImagePreview"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="12dp"
                 android:scaleType="centerCrop"
                 android:visibility="gone"
-                android:contentDescription="Selected cause image" />
+                android:contentDescription="Selected cause image"
+                android:background="@color/surface_variant" />
 
             <TextView
                 android:id="@+id/imageRequiredText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/image_required"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textColor="?attr/colorError"
                 android:visibility="gone" />
 
@@ -122,22 +165,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="end"
+        android:layout_marginTop="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="12dp"
             android:text="@string/cancel"
+            android:minWidth="100dp"
             style="@style/Widget.MaterialComponents.Button.TextButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveCauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save_cause" />
+            android:text="@string/save_cause"
+            android:minWidth="140dp" />
 
     </LinearLayout>
 
 </LinearLayout>
+
+</ScrollView>

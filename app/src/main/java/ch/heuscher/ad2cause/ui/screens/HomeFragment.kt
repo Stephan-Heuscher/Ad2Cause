@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var adViewModel: AdViewModel
     private lateinit var adManager: AdManager
     private val firebaseRepository = FirebaseRepository()
+    private var adsAvailable = true  // Track if ads can be loaded
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -142,8 +143,7 @@ class HomeFragment : Fragment() {
 
         // Observe ad loading state
         adViewModel.isAdLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.watchVideoAdButton.isEnabled = !isLoading
-            binding.engageInteractiveAdButton.isEnabled = !isLoading
+            updateButtonStates()
 
             // Show/hide loading indicator
             binding.adLoadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -155,6 +155,12 @@ class HomeFragment : Fragment() {
      * Setup AdMob manager callbacks.
      */
     private fun setupAdCallbacks() {
+        adManager.onAdLoaded = {
+            // Ads are available
+            adsAvailable = true
+            updateButtonStates()
+        }
+
         adManager.onRewardEarned = { rewardAmount ->
             val cause = causeViewModel.activeCause.value
             if (cause != null) {
@@ -191,10 +197,28 @@ class HomeFragment : Fragment() {
         }
 
         adManager.onAdFailedToLoad = { adError ->
+            // Mark ads as unavailable
+            adsAvailable = false
+            updateButtonStates()
             // Silently handle ad loading failures during initial setup
             // Only show error if user explicitly tried to watch an ad
             // This prevents error toasts when logging in or navigating to the fragment
         }
+    }
+
+    /**
+     * Update button states based on ad availability
+     */
+    private fun updateButtonStates() {
+        val isLoading = adViewModel.isAdLoading.value ?: false
+        val buttonsEnabled = adsAvailable && !isLoading
+
+        binding.watchVideoAdButton.isEnabled = buttonsEnabled
+        binding.engageInteractiveAdButton.isEnabled = buttonsEnabled
+
+        // Set alpha to make buttons appear gray when disabled
+        binding.watchVideoAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
+        binding.engageInteractiveAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
     }
 
     override fun onResume() {

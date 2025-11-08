@@ -19,21 +19,25 @@
     <string name="causes_tab_label">Causes</string>
     <string name="search_causes_hint">Search causes...</string>
     <string name="no_causes_found">No causes found</string>
-    <string name="add_cause_fab_content_desc">Add new cause</string>
+    <string name="add_cause_fab_content_desc">Request new cause</string>
 
     <!-- Cause Detail Screen -->
     <string name="set_as_active_cause">Set as Active Cause</string>
     <string name="currently_active">Currently Active</string>
     <string name="total_earned">Total Earned: %.0f points</string>
 
-    <!-- Add Cause Dialog/Screen -->
-    <string name="add_new_cause_title">Add New Cause</string>
+    <!-- Request Cause Dialog/Screen -->
+    <string name="add_new_cause_title">Request a New Cause</string>
+    <string name="request_cause_description">Submit a cause you care about. We\'ll review it and add it to the app if approved.</string>
     <string name="cause_name_hint">Cause name</string>
-    <string name="cause_description_hint">Describe the cause...</string>
-    <string name="cause_category_hint">Category (e.g., Education, Environment)</string>
-    <string name="save_cause">Save Cause</string>
+    <string name="cause_name_helper">E.g., "Help Feed Homeless Families"</string>
+    <string name="cause_description_hint">Why is this cause important?</string>
+    <string name="cause_description_helper">Tell us about the cause and why people should support it</string>
+    <string name="cause_category_hint">Category</string>
+    <string name="cause_category_helper">E.g., Education, Health, Environment, Technology</string>
+    <string name="save_cause">Submit Request</string>
     <string name="cancel">Cancel</string>
-    <string name="cause_added_success">Cause "%s" added successfully!</string>
+    <string name="cause_added_success">Cause "%s" requested successfully!</string>
 
     <!-- Stats Screen -->
     <string name="stats_tab_label">Stats</string>
