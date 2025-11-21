@@ -73,7 +73,6 @@ class CauseDetailFragment : Fragment() {
                         error(R.drawable.ic_placeholder)
                     }
                     binding.causeDetailName.text = it.name
-                    binding.causeDetailCategory.text = it.category
                     binding.causeDetailDescription.text = it.description
                     binding.causeDetailEarnings.text = getString(R.string.total_earned, it.totalEarned)
 

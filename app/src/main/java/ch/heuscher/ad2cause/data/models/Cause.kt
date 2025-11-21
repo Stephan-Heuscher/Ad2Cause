@@ -10,7 +10,6 @@ import androidx.room.PrimaryKey
  * @property id Unique identifier for the cause in Room database (Primary Key)
  * @property name Name of the cause
  * @property description Detailed description of the cause
- * @property category Category of the cause (e.g., "Environment", "Animals", "Education")
  * @property imageUrl URL for the cause's logo or representative image (required)
  * @property isUserAdded Boolean flag to distinguish pre-defined causes from user-added ones
  * @property totalEarned Total amount of money earned for this cause
@@ -21,7 +20,6 @@ data class Cause(
     val id: Int = 0,
     val name: String,
     val description: String,
-    val category: String,
     val imageUrl: String,
     val isUserAdded: Boolean = false,
     val totalEarned: Double = 0.0

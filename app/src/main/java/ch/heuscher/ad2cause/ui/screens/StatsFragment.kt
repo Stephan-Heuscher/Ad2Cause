@@ -117,7 +117,6 @@ class StatsFragment : Fragment() {
 
             fun bind(cause: Cause) {
                 binding.causeStatName.text = cause.name
-                binding.causeStatCategory.text = cause.category
                 binding.causeStatEarnings.text = String.format("%.0f points", cause.totalEarned)
             }
         }

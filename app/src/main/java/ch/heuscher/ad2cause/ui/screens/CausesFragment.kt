@@ -142,7 +142,6 @@ class CausesFragment : Fragment() {
         // Observe search query with debounce
         lifecycleScope.launch {
             searchQueryFlow.debounce(300).collect { query ->
-                // Search without category filtering
                 if (query.isEmpty()) {
                     causeViewModel.allCauses.collect { causes ->
                         causeAdapter.submitList(causes)

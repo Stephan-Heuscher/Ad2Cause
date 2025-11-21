@@ -36,7 +36,7 @@
                 android:contentDescription="@string/app_name"
                 android:background="@color/surface_variant" />
 
-            <!-- Cause Name and Category -->
+            <!-- Cause Name -->
             <TextView
                 android:id="@+id/causeDetailName"
                 android:layout_width="match_parent"
@@ -44,15 +44,6 @@
                 android:text="Cause Name"
                 style="@style/TextStyle.HeadlineLarge"
                 android:layout_marginTop="16dp" />
-
-            <TextView
-                android:id="@+id/causeDetailCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Category"
-                style="@style/TextStyle.BodyMedium"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/text_secondary" />
 
             <!-- Earnings Display -->
             <com.google.android.material.card.MaterialCardView

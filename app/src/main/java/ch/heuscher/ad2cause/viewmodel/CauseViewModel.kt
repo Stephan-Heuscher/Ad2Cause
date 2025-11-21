@@ -35,10 +35,6 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    // Category filter
-    private val _selectedCategory = MutableStateFlow<String?>(null)
-    val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
-
     // Event for UI feedback
     private val _uiEvent = MutableLiveData<UiEvent>()
     val uiEvent: LiveData<UiEvent> = _uiEvent
@@ -98,12 +94,11 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Insert a new cause (typically user-added).
      */
-    fun addNewCause(name: String, description: String, category: String) {
+    fun addNewCause(name: String, description: String) {
         viewModelScope.launch {
             val newCause = Cause(
                 name = name,
                 description = description,
-                category = category,
                 imageUrl = "https://via.placeholder.com/200?text=${name.take(3)}", // Placeholder image
                 isUserAdded = true,
                 totalEarned = 0.0
@@ -142,41 +137,6 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun clearSearch() {
         _searchQuery.value = ""
-    }
-
-    /**
-     * Filter causes by category.
-     */
-    fun filterByCategory(category: String?) {
-        _selectedCategory.value = category
-    }
-
-    /**
-     * Get filtered causes based on search query and category.
-     */
-    fun getFilteredCauses(searchQuery: String, category: String?): Flow<List<Cause>> {
-        return kotlinx.coroutines.flow.flow {
-            repository.getAllCauses().collect { allCauses ->
-                var filtered = allCauses
-
-                // Filter by search query
-                if (searchQuery.isNotEmpty()) {
-                    filtered = filtered.filter { cause ->
-                        cause.name.contains(searchQuery, ignoreCase = true) ||
-                        cause.description.contains(searchQuery, ignoreCase = true)
-                    }
-                }
-
-                // Filter by category
-                if (category != null && category != "All") {
-                    filtered = filtered.filter { cause ->
-                        cause.category.equals(category, ignoreCase = true)
-                    }
-                }
-
-                emit(filtered)
-            }
-        }
     }
 
     /**

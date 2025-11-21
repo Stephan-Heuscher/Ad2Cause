@@ -58,7 +58,6 @@ class CauseAdapter(
                 }
 
                 causeName.text = cause.name
-                causeCategory.text = cause.category
 
                 val isActive = cause.id == activeCauseId
 
