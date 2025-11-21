@@ -17,8 +17,10 @@ import ch.heuscher.ad2cause.data.models.Cause
  * - v1: Initial schema
  * - v2: Added Firestore sync fields (removed in v3)
  * - v3: Removed Firebase dependencies, simplified schema
+ * - v4: Removed category field
+ * - v5: Bump version to force migration
  */
-@Database(entities = [Cause::class], version = 3, exportSchema = false)
+@Database(entities = [Cause::class], version = 5, exportSchema = false)
 abstract class Ad2CauseDatabase : RoomDatabase() {
 
     /**
