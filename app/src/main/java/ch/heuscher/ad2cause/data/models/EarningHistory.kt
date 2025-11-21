@@ -9,7 +9,8 @@ import java.util.Date
  */
 enum class AdType {
     INTERACTIVE,        // Higher-paying interactive ads
-    NON_INTERACTIVE    // Standard video ads
+    NON_INTERACTIVE,   // Standard video ads
+    ADS_18_PLUS        // 18+ ads (configurable, default hidden)
 }
 
 /**

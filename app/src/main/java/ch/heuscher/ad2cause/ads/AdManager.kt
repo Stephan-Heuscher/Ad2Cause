@@ -39,6 +39,10 @@ class AdManager(private val context: Context) {
         // Ad unit name: "Reward not interactive"
         private const val REWARDED_AD_UNIT_ID_NON_INTERACTIVE = "ca-app-pub-5567609971256551/1251831518"
 
+        // 18+ Rewarded Ad Unit (Configurable, hidden by default)
+        // Ad unit name: "Reward-Ad-18+"
+        private const val REWARDED_AD_UNIT_ID_18_PLUS = "ca-app-pub-5567609971256551/9232656056"
+
         // Test IDs (for development/testing):
         // private const val REWARDED_AD_UNIT_ID_TEST = "ca-app-pub-3940256099942544/5224354917"
     }
@@ -48,7 +52,8 @@ class AdManager(private val context: Context) {
      */
     enum class AdType {
         INTERACTIVE,      // Users can interact - higher earnings
-        NON_INTERACTIVE   // Passive viewing only - standard earnings
+        NON_INTERACTIVE,  // Passive viewing only - standard earnings
+        ADS_18_PLUS       // 18+ ads - configurable, hidden by default
     }
 
     private var rewardedAd: RewardedAd? = null
@@ -87,6 +92,7 @@ class AdManager(private val context: Context) {
         val adUnitId = when (type) {
             AdType.INTERACTIVE -> REWARDED_AD_UNIT_ID_INTERACTIVE
             AdType.NON_INTERACTIVE -> REWARDED_AD_UNIT_ID_NON_INTERACTIVE
+            AdType.ADS_18_PLUS -> REWARDED_AD_UNIT_ID_18_PLUS
         }
 
         val adRequest = AdRequest.Builder().build()

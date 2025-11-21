@@ -14,6 +14,7 @@ import ch.heuscher.ad2cause.ads.AdManager
 import ch.heuscher.ad2cause.data.models.AdType
 import ch.heuscher.ad2cause.data.repository.FirebaseRepository
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
+import ch.heuscher.ad2cause.utils.PreferencesManager
 import ch.heuscher.ad2cause.viewmodel.AdViewModel
 import ch.heuscher.ad2cause.viewmodel.AuthViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var adViewModel: AdViewModel
     private lateinit var adManager: AdManager
+    private lateinit var preferencesManager: PreferencesManager
     private val firebaseRepository = FirebaseRepository()
     private var adsAvailable = true  // Track if ads can be loaded
 
@@ -54,9 +56,13 @@ class HomeFragment : Fragment() {
         adManager = AdManager(requireContext())
         adManager.initializeMobileAds()
 
+        // Initialize PreferencesManager
+        preferencesManager = PreferencesManager(requireContext())
+
         setupUI()
         observeViewModel()
         setupAdCallbacks()
+        updateButtonVisibility()
     }
 
     /**
@@ -98,8 +104,30 @@ class HomeFragment : Fragment() {
             watchAd(AdManager.AdType.INTERACTIVE)
         }
 
+        // 18+ Ad Button (Configurable, hidden by default)
+        binding.watch18PlusAdButton.setOnClickListener {
+            if (causeViewModel.activeCause.value == null) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.no_cause_selected),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            watchAd(AdManager.AdType.ADS_18_PLUS)
+        }
+
         // Load the first ad on startup (non-interactive as default)
         adManager.loadRewardedAd(AdManager.AdType.NON_INTERACTIVE)
+    }
+
+    /**
+     * Update button visibility based on preferences
+     */
+    private fun updateButtonVisibility() {
+        val is18PlusEnabled = preferencesManager.isAds18PlusEnabled()
+        binding.watch18PlusAdButton.visibility = if (is18PlusEnabled) View.VISIBLE else View.GONE
     }
 
     /**
@@ -215,10 +243,12 @@ class HomeFragment : Fragment() {
 
         binding.watchVideoAdButton.isEnabled = buttonsEnabled
         binding.engageInteractiveAdButton.isEnabled = buttonsEnabled
+        binding.watch18PlusAdButton.isEnabled = buttonsEnabled
 
         // Set alpha to make buttons appear gray when disabled
         binding.watchVideoAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
         binding.engageInteractiveAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
+        binding.watch18PlusAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
     }
 
     override fun onResume() {
