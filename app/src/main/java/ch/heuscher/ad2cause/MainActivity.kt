@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 val causes = listOf(
                     Cause(
                         name = "AI Rescue Ring",
-                        description = "An AI-powered emergency assistance system that provides intelligent rescue coordination and safety monitoring",
+                        description = "AI-powered rescue assistant that provides instant help with a tap using Gemini 2.5. Features a floating rescue ring that captures your screen for context-aware assistance through voice or text.",
                         imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     ),
                     Cause(
                         name = "Safe Home Button",
-                        description = "A safety-focused home automation solution providing secure access control and emergency home features",
+                        description = "A floating accessibility button that always brings you safely back home with a simple tap. Helps users with motor limitations navigate their device through customizable gestures and modes.",
                         imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
