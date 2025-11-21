@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Initialize the database with the 3 predefined causes on first launch.
+     * Sets Safe Home Button as the default active cause.
      */
     private fun initializeSampleData(database: Ad2CauseDatabase) {
         lifecycleScope.launch {
@@ -106,6 +107,11 @@ class MainActivity : AppCompatActivity() {
                 causes.forEach { cause ->
                     repository.insertCause(cause)
                 }
+
+                // Set Safe Home Button as the default active cause
+                val allCauses = repository.getAllCausesSync()
+                val safeHomeButton = allCauses.find { it.name == "Safe Home Button" }
+                safeHomeButton?.let { causeViewModel.setActiveCause(it) }
             }
         }
     }

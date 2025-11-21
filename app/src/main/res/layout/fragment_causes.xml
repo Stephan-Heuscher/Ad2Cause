@@ -60,48 +60,6 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Category Chips (Play style) -->
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/categoryChips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:singleSelection="true"
-        app:selectionRequired="false"
-        app:chipSpacingHorizontal="8dp">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipAll"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All"
-            app:chipBackgroundColor="@color/surface_variant" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipTechnology"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Technology" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipHealth"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Health" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipEnvironment"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Environment" />
-    </com.google.android.material.chip.ChipGroup>
-
     <!-- Causes RecyclerView (Grid) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/causesRecyclerView"

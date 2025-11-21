@@ -1,5 +1,7 @@
 package ch.heuscher.ad2cause.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 /**
  * Causes Screen Fragment
  * Displays a list of all causes with search functionality.
- * Allows users to add new causes and navigate to cause details.
+ * Users can request new causes via email.
  */
 class CausesFragment : Fragment() {
 
@@ -33,7 +35,6 @@ class CausesFragment : Fragment() {
     private lateinit var causeAdapter: CauseAdapter
 
     private val searchQueryFlow = MutableStateFlow("")
-    private var selectedCategory: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +52,7 @@ class CausesFragment : Fragment() {
 
         setupRecyclerView()
         setupSearch()
-        setupCategoryChips()
+        setupFab()
         observeData()
     }
 
@@ -86,6 +87,29 @@ class CausesFragment : Fragment() {
     }
 
     /**
+     * Setup the FAB to request a new cause via email
+     */
+    private fun setupFab() {
+        binding.addCauseFab.setOnClickListener {
+            val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("stv.heuscher@gmail.com"))
+                putExtra(Intent.EXTRA_SUBJECT, "My Cause")
+            }
+
+            try {
+                startActivity(emailIntent)
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "No email app found",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    /**
      * Setup search functionality
      */
     @OptIn(FlowPreview::class)
@@ -106,47 +130,18 @@ class CausesFragment : Fragment() {
         // Observe search query with debounce
         lifecycleScope.launch {
             searchQueryFlow.debounce(300).collect { query ->
-                updateFilteredCauses(query, selectedCategory)
-            }
-        }
-    }
-
-    /**
-     * Setup category filter chips
-     */
-    private fun setupCategoryChips() {
-        binding.chipAll.setOnClickListener {
-            selectedCategory = null
-            updateFilteredCauses(searchQueryFlow.value, null)
-        }
-
-        binding.chipTechnology.setOnClickListener {
-            selectedCategory = "Technology"
-            updateFilteredCauses(searchQueryFlow.value, "Technology")
-        }
-
-        binding.chipHealth.setOnClickListener {
-            selectedCategory = "Health"
-            updateFilteredCauses(searchQueryFlow.value, "Health")
-        }
-
-        binding.chipEnvironment.setOnClickListener {
-            selectedCategory = "Environment"
-            updateFilteredCauses(searchQueryFlow.value, "Environment")
-        }
-
-        // Set "All" as default selected
-        binding.chipAll.isChecked = true
-    }
-
-    /**
-     * Update the filtered causes list
-     */
-    private fun updateFilteredCauses(searchQuery: String, category: String?) {
-        lifecycleScope.launch {
-            causeViewModel.getFilteredCauses(searchQuery, category).collect { causes ->
-                causeAdapter.submitList(causes)
-                binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                // Search without category filtering
+                if (query.isEmpty()) {
+                    causeViewModel.allCauses.collect { causes ->
+                        causeAdapter.submitList(causes)
+                        binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                    }
+                } else {
+                    causeViewModel.searchCauses(query).collect { causes ->
+                        causeAdapter.submitList(causes)
+                        binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                    }
+                }
             }
         }
     }
