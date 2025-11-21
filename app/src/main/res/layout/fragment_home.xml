@@ -41,13 +41,54 @@
                         style="@style/TextStyle.BodyMedium"
                         android:textColor="@color/text_secondary" />
 
-                    <TextView
-                        android:id="@+id/activeCauseName"
+                    <!-- Cause Info Container with Icon -->
+                    <LinearLayout
+                        android:id="@+id/causeInfoContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/no_cause_selected"
-                        style="@style/TextStyle.HeadlineMedium"
-                        android:layout_marginTop="8dp" />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone">
+
+                        <!-- Cause Icon -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:id="@+id/activeCauseIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/app_name" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Cause Name -->
+                        <TextView
+                            android:id="@+id/activeCauseName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/no_cause_selected"
+                            style="@style/TextStyle.HeadlineMedium"
+                            android:layout_marginStart="12dp"
+                            android:layout_gravity="center_vertical" />
+
+                    </LinearLayout>
+
+                    <!-- Cause Description -->
+                    <TextView
+                        android:id="@+id/activeCauseDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        style="@style/TextStyle.BodyMedium"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="12dp"
+                        android:visibility="gone" />
 
                     <!-- Empty state guidance -->
                     <LinearLayout
