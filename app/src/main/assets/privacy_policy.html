@@ -101,21 +101,11 @@
     <p>By using the Ad2Cause app, you agree to the collection and use of information in accordance with this Privacy Policy. If you do not agree with the terms of this Privacy Policy, please do not use the App.</p>
 
     <h2>App Overview</h2>
-    <p>Ad2Cause is a rewarded advertising application that allows users to watch video advertisements and allocate the generated revenue to charitable causes of their choice. Users can browse causes managed centrally on our Firebase backend, select active causes, and optionally sign in with their Google account to synchronize data across multiple devices.</p>
+    <p>Ad2Cause is a rewarded advertising application that allows users to watch video advertisements and allocate the generated revenue to charitable causes of their choice. All data is stored locally on your device.</p>
 
     <h2>Information We Collect</h2>
 
     <h3>1. Information You Provide Directly</h3>
-    <p><strong>Google Account Information (Optional):</strong><br>
-    If you choose to sign in with your Google account, we collect:</p>
-    <ul>
-        <li>Email address</li>
-        <li>Google account name</li>
-        <li>Profile picture URL</li>
-        <li>Unique Google user identifier (UID)</li>
-    </ul>
-    <p>This information is used solely for authentication and data synchronization across your devices. <span class="emphasis">Signing in is completely optional</span> – you can use the app without an account, but your data will only be stored locally on your device.</p>
-
     <p><strong>Cause Interaction Data:</strong></p>
     <ul>
         <li>Selection of your active charitable cause</li>
@@ -135,9 +125,8 @@
     <p><strong>Device Permissions:</strong><br>
     The App requests the following Android permissions:</p>
     <ul>
-        <li><strong>INTERNET</strong>: Required to load and display advertisements, sync data with Firebase, and authenticate users</li>
-        <li><strong>ACCESS_NETWORK_STATE</strong>: Required to check network connectivity before loading ads and syncing data</li>
-        <li><strong>GET_ACCOUNTS</strong> (Optional): Used only if you choose to sign in with Google Sign-In</li>
+        <li><strong>INTERNET</strong>: Required to load and display advertisements</li>
+        <li><strong>ACCESS_NETWORK_STATE</strong>: Required to check network connectivity before loading ads</li>
     </ul>
 
     <h3>3. Information Collected by Third Parties</h3>
@@ -153,34 +142,14 @@
     </ul>
     <p>Google AdMob's data collection and use are governed by <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and the <a href="https://policies.google.com/technologies/ads">Google Ads Privacy Policy</a>.</p>
 
-    <p><strong>Google Sign-In:</strong><br>
-    If you choose to sign in with Google, authentication is handled by Google Sign-In services. Google's collection and use of your authentication data are governed by <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>.</p>
-
-    <p><strong>Firebase (Google Cloud Platform):</strong><br>
-    We use Firebase services to manage causes and synchronize user data:</p>
-    <ul>
-        <li><strong>Firebase Authentication</strong>: Manages user sign-in (if you choose to sign in)</li>
-        <li><strong>Firebase Realtime Database/Firestore</strong>: Stores cause data and user preferences (if signed in)</li>
-        <li><strong>Firebase Hosting</strong>: Serves centrally managed cause content</li>
-    </ul>
-    <p>Firebase's data processing is governed by <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> and <a href="https://firebase.google.com/support/privacy">Firebase's Privacy and Security documentation</a>.</p>
-
     <h2>How We Use Your Information</h2>
     <p>We use the information collected to:</p>
     <ol>
         <li><strong>Provide Core Functionality:</strong>
             <ul>
-                <li>Display centrally managed charitable causes</li>
+                <li>Display charitable causes</li>
                 <li>Track earnings per cause</li>
                 <li>Remember your active cause selection</li>
-                <li>Synchronize your data across devices (if signed in)</li>
-            </ul>
-        </li>
-        <li><strong>Authentication and Account Management (Optional):</strong>
-            <ul>
-                <li>Authenticate you via Google Sign-In</li>
-                <li>Associate your data with your account for multi-device access</li>
-                <li>Provide personalized experience across devices</li>
             </ul>
         </li>
         <li><strong>Deliver Advertisements:</strong>
@@ -193,39 +162,24 @@
             <ul>
                 <li>Ensure the App functions properly</li>
                 <li>Optimize ad loading and display</li>
-                <li>Manage and update causes centrally</li>
             </ul>
         </li>
     </ol>
 
     <h2>Data Storage and Security</h2>
 
-    <p><strong>Local Storage (Without Sign-In):</strong><br>
-    If you use the app without signing in, your data is stored locally on your device using:</p>
+    <p><strong>Local Storage:</strong><br>
+    All your data is stored locally on your device using:</p>
     <ul>
         <li>Room Database (SQLite)</li>
         <li>SharedPreferences</li>
     </ul>
 
-    <p><strong>Cloud Storage (With Google Sign-In):</strong><br>
-    If you sign in with your Google account, your data is stored on Firebase servers (Google Cloud Platform) including:</p>
-    <ul>
-        <li>Your active cause selection</li>
-        <li>Custom causes you create</li>
-        <li>Earnings per cause</li>
-        <li>User preferences</li>
-    </ul>
-
-    <p><strong>Data Synchronization:</strong><br>
-    When signed in, your data syncs across all devices where you're logged in with the same Google account. Changes made on one device will be reflected on all your devices.</p>
-
     <p><strong>Security Measures:</strong></p>
     <ul>
-        <li>All data transmitted to Firebase is encrypted using HTTPS/TLS</li>
-        <li>Firebase Authentication uses industry-standard OAuth 2.0 protocols</li>
-        <li>Access to user data is restricted through Firebase Security Rules</li>
-        <li>We implement principle of least privilege for data access</li>
-        <li>Firebase infrastructure complies with major security certifications (ISO 27001, SOC 2, SOC 3)</li>
+        <li>All ad-related data transmitted to Google AdMob is encrypted using HTTPS/TLS</li>
+        <li>Your cause data and earnings remain private on your device</li>
+        <li>No cloud synchronization or external data storage</li>
     </ul>
     <p>While we implement reasonable security measures, please be aware that no method of transmission over the internet or electronic storage is 100% secure.</p>
 
@@ -235,13 +189,11 @@
     We do not sell, trade, or rent your personal information to third parties.</p>
 
     <p><strong>Service Providers:</strong><br>
-    We share data with the following service providers who process data on our behalf:</p>
+    We share data with the following service provider who processes data on our behalf:</p>
     <ul>
-        <li><strong>Google Firebase</strong>: For cloud storage, authentication, and backend services</li>
         <li><strong>Google AdMob</strong>: For serving advertisements</li>
-        <li><strong>Google Sign-In</strong>: For authentication services (optional)</li>
     </ul>
-    <p>These providers only access data necessary to perform their functions and are contractually obligated to protect your data.</p>
+    <p>This provider only accesses data necessary to perform their functions and is contractually obligated to protect your data.</p>
 
     <p><strong>Third-Party Ad Network:</strong><br>
     Google AdMob may collect and use data as described in their privacy policy for the purpose of serving personalized advertisements. You can manage your ad preferences through your device settings:</p>
@@ -253,7 +205,7 @@
     We may disclose information if required to do so by law or in response to valid requests by public authorities (e.g., court orders, government agencies).</p>
 
     <h2>Children's Privacy</h2>
-    <p>Ad2Cause is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us, and we will delete such information from our records and Firebase servers.</p>
+    <p>Ad2Cause is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us, and we will delete such information from our records.</p>
 
     <h2>Your Data Rights</h2>
 
@@ -263,21 +215,13 @@
         <li>View all causes and earnings data within the App</li>
         <li>Add, edit, or delete custom causes at any time</li>
         <li>Export your data (contact us for assistance)</li>
-        <li>Sign out of your Google account at any time</li>
     </ul>
 
     <p><strong>Data Deletion:</strong></p>
-    <p><em>Without Google Sign-In:</em></p>
     <ul>
         <li>Uninstall the app or clear app data through device settings</li>
+        <li>All data stored locally on your device will be deleted</li>
     </ul>
-    <p><em>With Google Sign-In:</em></p>
-    <ul>
-        <li>Sign out to disconnect your account</li>
-        <li>Request account deletion by contacting us (email below)</li>
-        <li>We will delete your data from Firebase within 30 days of your request</li>
-    </ul>
-    <p>To request deletion of your account and all associated data from our Firebase servers, please contact us at the email address provided below.</p>
 
     <p><strong>Opting Out of Personalized Ads:</strong><br>
     To opt out of personalized advertising:</p>
@@ -286,20 +230,18 @@
     </ul>
 
     <h2>International Data Transfers</h2>
-    <p>Your data may be transferred to and processed in countries outside your country of residence, including the United States, where Firebase (Google Cloud Platform) servers are located. These transfers are conducted in accordance with:</p>
+    <p>All your cause data and earnings are stored locally on your device only. However, when you view advertisements, Google AdMob may transfer advertising-related data to countries outside your country of residence. These transfers are conducted in accordance with:</p>
     <ul>
         <li>Google's Privacy Policy</li>
         <li>GDPR Standard Contractual Clauses (for EEA users)</li>
         <li>Applicable data protection laws</li>
     </ul>
-    <p>Firebase maintains data centers in multiple regions. Data residency depends on your Firebase configuration and Google's infrastructure.</p>
 
     <h2>Changes to This Privacy Policy</h2>
     <p>We may update our Privacy Policy from time to time. We will notify you of any changes by:</p>
     <ul>
         <li>Updating the "Last Updated" date at the top of this Privacy Policy</li>
         <li>Posting the new Privacy Policy in the App and on our repository</li>
-        <li>Sending an in-app notification for material changes (if signed in)</li>
     </ul>
     <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted.</p>
 
@@ -308,7 +250,7 @@
 
     <h2>Data Retention</h2>
 
-    <p><strong>Local Data (Without Sign-In):</strong><br>
+    <p><strong>Local Data:</strong><br>
     Data is retained on your device until you:</p>
     <ul>
         <li>Delete a specific cause</li>
@@ -316,18 +258,11 @@
         <li>Uninstall the application</li>
     </ul>
 
-    <p><strong>Cloud Data (With Google Sign-In):</strong></p>
-    <ul>
-        <li>Data is retained on Firebase servers for as long as your account is active</li>
-        <li>If you don't use the app for 3 years, we may delete your inactive account data</li>
-        <li>You can request deletion at any time by contacting us</li>
-    </ul>
-
     <p><strong>AdMob Data:</strong><br>
     Data collected by Google AdMob is retained according to Google's data retention policies. Please refer to <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> for details.</p>
 
     <h2>Your Consent</h2>
-    <p>By using Ad2Cause, you consent to our Privacy Policy and agree to its terms. If you choose to sign in with Google, you provide additional consent for data synchronization and cloud storage.</p>
+    <p>By using Ad2Cause, you consent to our Privacy Policy and agree to its terms.</p>
 
     <h2>California Privacy Rights (CCPA)</h2>
     <p>If you are a California resident, you have the right to:</p>
@@ -356,7 +291,7 @@
 
     <p><strong>Legal Basis for Processing (GDPR):</strong></p>
     <ul>
-        <li><strong>Consent</strong>: When you sign in with Google, you consent to data processing</li>
+        <li><strong>Consent</strong>: When you use the app, you consent to data processing</li>
         <li><strong>Legitimate Interests</strong>: To provide app functionality and improve services</li>
         <li><strong>Contractual Necessity</strong>: To deliver the services you request</li>
     </ul>
@@ -369,7 +304,6 @@
 
     <p><strong>For data deletion requests</strong>, please include:</p>
     <ul>
-        <li>Your Google account email (if signed in)</li>
         <li>Confirmation of deletion request</li>
         <li>Any specific data you want removed</li>
     </ul>
@@ -377,8 +311,6 @@
     <p>For issues related to Google services:</p>
     <ul>
         <li>Google AdMob: <a href="https://policies.google.com/">Google's Privacy & Terms</a></li>
-        <li>Google Sign-In: <a href="https://support.google.com/accounts">Google Account Help</a></li>
-        <li>Firebase: <a href="https://firebase.google.com/support/privacy">Firebase Support</a></li>
     </ul>
 
     <h2>Summary of Data Collection</h2>
@@ -393,40 +325,22 @@
         </thead>
         <tbody>
             <tr>
-                <td>Google email address</td>
-                <td>Yes (optional, if signed in)</td>
-                <td>Authentication, account management</td>
-                <td>Firebase Authentication</td>
-            </tr>
-            <tr>
-                <td>Google profile info</td>
-                <td>Yes (optional, if signed in)</td>
-                <td>Display name, profile picture</td>
-                <td>Firebase Authentication</td>
-            </tr>
-            <tr>
-                <td>Google user ID (UID)</td>
-                <td>Yes (optional, if signed in)</td>
-                <td>Unique identifier for your account</td>
-                <td>Firebase Authentication</td>
-            </tr>
-            <tr>
                 <td>Cause names & descriptions</td>
                 <td>Yes (user-provided)</td>
                 <td>Display causes, track preferences</td>
-                <td>Firebase DB (if signed in) or Local device</td>
+                <td>Local device</td>
             </tr>
             <tr>
                 <td>Earnings per cause</td>
                 <td>Yes (calculated)</td>
                 <td>Track hypothetical donations</td>
-                <td>Firebase DB (if signed in) or Local device</td>
+                <td>Local device</td>
             </tr>
             <tr>
                 <td>Active cause selection</td>
                 <td>Yes (user choice)</td>
                 <td>Remember user preference</td>
-                <td>Firebase DB (if signed in) or Local device</td>
+                <td>Local device</td>
             </tr>
             <tr>
                 <td>Device identifiers</td>
@@ -468,18 +382,6 @@
     </table>
 
     <h2>Third-Party Services</h2>
-
-    <p><strong>Google Firebase:</strong></p>
-    <ul>
-        <li>Privacy Policy: <a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a></li>
-        <li>Terms of Service: <a href="https://firebase.google.com/terms">https://firebase.google.com/terms</a></li>
-    </ul>
-
-    <p><strong>Google Sign-In:</strong></p>
-    <ul>
-        <li>Privacy Policy: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li>
-        <li>Terms of Service: <a href="https://policies.google.com/terms">https://policies.google.com/terms</a></li>
-    </ul>
 
     <p><strong>Google AdMob:</strong></p>
     <ul>
