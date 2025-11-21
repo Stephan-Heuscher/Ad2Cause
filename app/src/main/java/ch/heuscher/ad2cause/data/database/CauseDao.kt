@@ -72,25 +72,7 @@ interface CauseDao {
     fun getPredefinedCauses(): Flow<List<Cause>>
 
     /**
-     * Get a cause by its Firestore ID.
-     */
-    @Query("SELECT * FROM causes WHERE firestoreId = :firestoreId LIMIT 1")
-    suspend fun getCauseByFirestoreId(firestoreId: String): Cause?
-
-    /**
-     * Get all approved causes.
-     */
-    @Query("SELECT * FROM causes WHERE status = 'APPROVED'")
-    fun getApprovedCauses(): Flow<List<Cause>>
-
-    /**
-     * Get all pending causes.
-     */
-    @Query("SELECT * FROM causes WHERE status = 'PENDING'")
-    fun getPendingCauses(): Flow<List<Cause>>
-
-    /**
-     * Delete all causes (used for sync).
+     * Delete all causes.
      */
     @Query("DELETE FROM causes")
     suspend fun deleteAllCauses()

@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.databinding.FragmentCausesBinding
 import ch.heuscher.ad2cause.ui.adapters.CauseAdapter
-import ch.heuscher.ad2cause.viewmodel.AuthViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +30,6 @@ class CausesFragment : Fragment() {
 
     private lateinit var binding: FragmentCausesBinding
     private lateinit var causeViewModel: CauseViewModel
-    private lateinit var authViewModel: AuthViewModel
     private lateinit var causeAdapter: CauseAdapter
 
     private val searchQueryFlow = MutableStateFlow("")
@@ -50,10 +48,8 @@ class CausesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         causeViewModel = ViewModelProvider(requireActivity())[CauseViewModel::class.java]
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
 
         setupRecyclerView()
-        setupFab()
         setupSearch()
         setupCategoryChips()
         observeData()
@@ -88,16 +84,6 @@ class CausesFragment : Fragment() {
             setHasFixedSize(true)
         }
     }
-
-    /**
-     * Setup the Floating Action Button to add new causes.
-     */
-    private fun setupFab() {
-        binding.addCauseFab.setOnClickListener {
-            findNavController().navigate(R.id.action_causes_to_request)
-        }
-    }
-
 
     /**
      * Setup search functionality

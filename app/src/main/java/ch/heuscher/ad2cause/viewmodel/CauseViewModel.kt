@@ -8,9 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import ch.heuscher.ad2cause.data.database.Ad2CauseDatabase
 import ch.heuscher.ad2cause.data.models.Cause
-import ch.heuscher.ad2cause.data.models.CauseStatus
 import ch.heuscher.ad2cause.data.repository.CauseRepository
-import ch.heuscher.ad2cause.data.repository.FirebaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,8 +45,7 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         val database = Ad2CauseDatabase.getDatabase(application)
-        val firebaseRepository = FirebaseRepository()
-        repository = CauseRepository(database.causeDao(), firebaseRepository)
+        repository = CauseRepository(database.causeDao())
         allCauses = repository.getAllCauses()
 
         // Load the active cause from SharedPreferences
@@ -190,53 +187,6 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
             repository.deleteCause(cause)
             _uiEvent.value = UiEvent.CauseDeleted(cause.name)
         }
-    }
-
-    // ========== Firebase Methods ==========
-
-    /**
-     * Sync causes from Firestore to local database
-     */
-    fun syncCausesFromCloud() {
-        viewModelScope.launch {
-            repository.syncCausesFromFirestore()
-        }
-    }
-
-    /**
-     * Add a new user-created cause (requires Firebase)
-     */
-    fun addNewUserCause(name: String, description: String, category: String, imageUrl: String, userId: String) {
-        viewModelScope.launch {
-            val newCause = Cause(
-                name = name,
-                description = description,
-                category = category,
-                imageUrl = imageUrl,
-                isUserAdded = true,
-                totalEarned = 0.0,
-                status = CauseStatus.PENDING.name,
-                createdBy = userId
-            )
-            repository.createUserCause(newCause, userId, imageUrl)
-            _uiEvent.value = UiEvent.CauseAdded(name)
-        }
-    }
-
-    /**
-     * Approve a cause (admin only)
-     */
-    fun approveCause(causeId: String, adminUserId: String) {
-        viewModelScope.launch {
-            repository.approveCause(causeId, adminUserId)
-        }
-    }
-
-    /**
-     * Get pending causes (admin only)
-     */
-    fun getPendingCauses(): Flow<List<Cause>> {
-        return repository.getPendingCauses()
     }
 
     /**

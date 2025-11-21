@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'com.google.gms.google-services'
 }
 
 android {
@@ -62,22 +61,6 @@ dependencies {
 
     // Google Mobile Ads SDK (AdMob)
     implementation 'com.google.android.gms:play-services-ads:23.4.0'
-
-    // Firebase BoM (Bill of Materials) - manages Firebase versions
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
-
-    // Firebase Authentication with Google Sign-In
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.android.gms:play-services-auth:21.2.0'
-
-    // Firestore
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-
-    // Firebase Storage (for cause images)
-    implementation 'com.google.firebase:firebase-storage-ktx'
-
-    // Firebase Analytics (optional but recommended)
-    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Coil for image loading
     implementation 'io.coil-kt:coil:2.7.0'

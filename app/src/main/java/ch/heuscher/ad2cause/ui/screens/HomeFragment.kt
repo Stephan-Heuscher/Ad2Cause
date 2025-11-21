@@ -12,10 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.ads.AdManager
 import ch.heuscher.ad2cause.data.models.AdType
-import ch.heuscher.ad2cause.data.repository.FirebaseRepository
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
 import ch.heuscher.ad2cause.viewmodel.AdViewModel
-import ch.heuscher.ad2cause.viewmodel.AuthViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
 import kotlinx.coroutines.launch
 
@@ -27,10 +25,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var causeViewModel: CauseViewModel
-    private lateinit var authViewModel: AuthViewModel
     private lateinit var adViewModel: AdViewModel
     private lateinit var adManager: AdManager
-    private val firebaseRepository = FirebaseRepository()
     private var adsAvailable = true  // Track if ads can be loaded
 
     override fun onCreateView(
@@ -47,7 +43,6 @@ class HomeFragment : Fragment() {
 
         // Initialize ViewModels
         causeViewModel = ViewModelProvider(requireActivity())[CauseViewModel::class.java]
-        authViewModel = ViewModelProvider(requireActivity())[AuthViewModel::class.java]
         adViewModel = ViewModelProvider(requireActivity())[AdViewModel::class.java]
 
         // Initialize AdManager
@@ -166,29 +161,6 @@ class HomeFragment : Fragment() {
             if (cause != null) {
                 // Update local earnings in database
                 causeViewModel.updateActiveCauseEarnings(rewardAmount)
-
-                // If user is signed in, also record in Firestore
-                val userId = authViewModel.getCurrentUserId()
-                if (userId != null && cause.firestoreId != null) {
-                    lifecycleScope.launch {
-                        try {
-                            // Record earning in Firestore
-                            firebaseRepository.recordEarning(
-                                userId = userId,
-                                causeId = cause.firestoreId!!,
-                                causeName = cause.name,
-                                amount = rewardAmount,
-                                adType = AdType.NON_INTERACTIVE // You can track ad type if needed
-                            )
-
-                            // Update user's total earned in Firestore
-                            authViewModel.updateTotalEarned(rewardAmount)
-                        } catch (e: Exception) {
-                            // Silently fail - local earnings are still saved
-                            // Could optionally queue for retry later
-                        }
-                    }
-                }
 
                 // Show reward message
                 val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
