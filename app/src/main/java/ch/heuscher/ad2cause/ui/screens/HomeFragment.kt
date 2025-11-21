@@ -92,21 +92,45 @@ class HomeFragment : Fragment() {
             watchAd(AdManager.AdType.INTERACTIVE)
         }
 
-        // Load the first ad on startup (non-interactive as default)
-        adManager.loadRewardedAd(AdManager.AdType.NON_INTERACTIVE)
+        // Load the first ad on startup (non-interactive as default) with cause info
+        lifecycleScope.launch {
+            causeViewModel.activeCause.collect { cause ->
+                if (cause != null && !adManager.isAdReady() && !adManager.isAdLoading()) {
+                    adManager.loadRewardedAd(
+                        AdManager.AdType.NON_INTERACTIVE,
+                        cause.id.toString(),
+                        cause.name
+                    )
+                }
+            }
+        }
     }
 
     /**
      * Watch ad of specified type
      */
     private fun watchAd(adType: AdManager.AdType) {
+        val cause = causeViewModel.activeCause.value
+        if (cause == null) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.no_cause_selected),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         if (adManager.isAdReady()) {
             // Ad is already loaded, show it
             adManager.showRewardedAd(requireActivity())
         } else {
-            // Load ad of specified type
+            // Load ad of specified type with cause information
             if (!adManager.isAdLoading()) {
-                adManager.loadRewardedAd(adType)
+                adManager.loadRewardedAd(
+                    adType,
+                    cause.id.toString(),
+                    cause.name
+                )
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.ad_loading),

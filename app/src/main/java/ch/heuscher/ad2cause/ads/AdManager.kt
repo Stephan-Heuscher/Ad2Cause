@@ -7,6 +7,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions
 
 /**
  * Manager class for handling Google AdMob rewarded ads.
@@ -54,6 +55,8 @@ class AdManager(private val context: Context) {
     private var rewardedAd: RewardedAd? = null
     private var isLoading = false
     private var adType: AdType = AdType.NON_INTERACTIVE  // Default to non-interactive
+    private var currentCauseId: String? = null  // Track which cause the ad is for
+    private var currentCauseName: String? = null
 
     // Callback interfaces for ad lifecycle events
     var onAdLoaded: (() -> Unit)? = null
@@ -75,8 +78,14 @@ class AdManager(private val context: Context) {
      * Can be called multiple times; new ads will replace previous ones.
      *
      * @param type AdType to load (INTERACTIVE for higher earnings, NON_INTERACTIVE for standard)
+     * @param causeId The ID of the cause this ad will support (for tracking)
+     * @param causeName The name of the cause (for tracking)
      */
-    fun loadRewardedAd(type: AdType = AdType.NON_INTERACTIVE) {
+    fun loadRewardedAd(
+        type: AdType = AdType.NON_INTERACTIVE,
+        causeId: String? = null,
+        causeName: String? = null
+    ) {
         if (isLoading || rewardedAd != null) {
             Log.d(TAG, "Ad is already loaded or currently loading")
             return
@@ -84,6 +93,9 @@ class AdManager(private val context: Context) {
 
         isLoading = true
         adType = type
+        currentCauseId = causeId
+        currentCauseName = causeName
+
         val adUnitId = when (type) {
             AdType.INTERACTIVE -> REWARDED_AD_UNIT_ID_INTERACTIVE
             AdType.NON_INTERACTIVE -> REWARDED_AD_UNIT_ID_NON_INTERACTIVE
@@ -91,7 +103,7 @@ class AdManager(private val context: Context) {
 
         val adRequest = AdRequest.Builder().build()
 
-        Log.d(TAG, "Loading ${type.name} rewarded ad with Unit ID: $adUnitId")
+        Log.d(TAG, "Loading ${type.name} rewarded ad with Unit ID: $adUnitId for cause: $causeName (ID: $causeId)")
 
         RewardedAd.load(
             context,
@@ -102,6 +114,16 @@ class AdManager(private val context: Context) {
                     super.onAdLoaded(ad)
                     Log.d(TAG, "Rewarded ad (${type.name}) loaded successfully")
                     rewardedAd = ad
+
+                    // Set server-side verification options to track the cause
+                    if (causeId != null || causeName != null) {
+                        val ssv = ServerSideVerificationOptions.Builder()
+                            .setCustomData("cause_id:${causeId ?: "unknown"},cause_name:${causeName ?: "unknown"}")
+                            .build()
+                        ad.setServerSideVerificationOptions(ssv)
+                        Log.d(TAG, "Set SSV with cause data: $causeName")
+                    }
+
                     isLoading = false
                     onAdLoaded?.invoke()
                 }
@@ -132,15 +154,16 @@ class AdManager(private val context: Context) {
                 Log.d(TAG, "Ad dismissed")
                 rewardedAd = null
                 onAdClosed?.invoke()
-                // Optionally reload the ad for the next viewing
-                loadRewardedAd()
+                // Reload the ad for the next viewing with the same cause info
+                loadRewardedAd(adType, currentCauseId, currentCauseName)
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                 Log.e(TAG, "Ad failed to show: ${adError.message}")
                 rewardedAd = null
                 onAdClosed?.invoke()
-                loadRewardedAd()
+                // Reload the ad with the same cause info
+                loadRewardedAd(adType, currentCauseId, currentCauseName)
             }
 
             override fun onAdShowedFullScreenContent() {
@@ -183,4 +206,14 @@ class AdManager(private val context: Context) {
      * Get the current loading state.
      */
     fun isAdLoading(): Boolean = isLoading
+
+    /**
+     * Get the current cause ID being tracked for this ad.
+     */
+    fun getCurrentCauseId(): String? = currentCauseId
+
+    /**
+     * Get the current cause name being tracked for this ad.
+     */
+    fun getCurrentCauseName(): String? = currentCauseName
 }
