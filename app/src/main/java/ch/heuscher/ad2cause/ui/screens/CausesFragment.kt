@@ -94,7 +94,19 @@ class CausesFragment : Fragment() {
             val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("stv.heuscher@gmail.com"))
-                putExtra(Intent.EXTRA_SUBJECT, "My Cause")
+                putExtra(Intent.EXTRA_SUBJECT, "Request to Add New Cause")
+                putExtra(Intent.EXTRA_TEXT, """
+                    Please provide the following information:
+
+                    Cause Name:
+
+                    Cause Description:
+
+                    Why should this cause be added to Ad2Cause?
+
+
+                    Additional Information:
+                """.trimIndent())
             }
 
             try {
