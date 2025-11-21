@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     ),
                     Cause(
                         name = "Assistive Tap",
-                        description = "Supporting the development of accessibility features and assistive technology for users with disabilities",
+                        description = "A floating button that helps users reach home with their thumb from anywhere on the screen. Features Safe-Home mode for maximum security with tap-to-home functionality and protected repositioning to prevent accidental moves.",
                         imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
