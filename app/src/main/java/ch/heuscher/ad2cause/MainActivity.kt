@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                         name = "AI Rescue Ring",
                         description = "An AI-powered emergency assistance system that provides intelligent rescue coordination and safety monitoring",
                         category = "Technology",
-                        imageUrl = "https://raw.githubusercontent.com/Stephan-Heuscher/AI-Rescue-Ring/main/icon.png",
+                        imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                         name = "Assistive Tap",
                         description = "Supporting the development of accessibility features and assistive technology for users with disabilities",
                         category = "Technology",
-                        imageUrl = "https://raw.githubusercontent.com/Stephan-Heuscher/Assistive-Tap/main/icon.png",
+                        imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                         name = "Safe Home Button",
                         description = "A safety-focused home automation solution providing secure access control and emergency home features",
                         category = "Technology",
-                        imageUrl = "https://raw.githubusercontent.com/Stephan-Heuscher/Safe-Home-Button/main/icon.png",
+                        imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     )
