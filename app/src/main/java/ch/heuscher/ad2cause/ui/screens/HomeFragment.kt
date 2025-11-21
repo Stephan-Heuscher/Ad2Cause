@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.ads.AdManager
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
@@ -148,13 +149,28 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.activeCause.collect { cause ->
                 if (cause != null) {
-                    binding.activeCauseName.text = getString(R.string.supporting_cause, cause.name)
-                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned)
+                    // Show cause info and hide empty state
+                    binding.causeInfoContainer.visibility = View.VISIBLE
+                    binding.activeCauseDescription.visibility = View.VISIBLE
                     binding.noCauseGuidance.visibility = View.GONE
+
+                    // Load cause icon
+                    binding.activeCauseIcon.load(cause.imageUrl) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_placeholder)
+                        error(R.drawable.ic_placeholder)
+                    }
+
+                    // Set cause name and description
+                    binding.activeCauseName.text = cause.name
+                    binding.activeCauseDescription.text = cause.description
+                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned)
                 } else {
-                    binding.activeCauseName.text = getString(R.string.no_cause_selected)
-                    binding.totalEarningsText.text = "0 points"
+                    // Hide cause info and show empty state
+                    binding.causeInfoContainer.visibility = View.GONE
+                    binding.activeCauseDescription.visibility = View.GONE
                     binding.noCauseGuidance.visibility = View.VISIBLE
+                    binding.totalEarningsText.text = "0 points"
                 }
             }
         }
@@ -222,7 +238,16 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.activeCause.collect { cause ->
                 if (cause != null) {
-                    binding.activeCauseName.text = getString(R.string.supporting_cause, cause.name)
+                    // Load cause icon
+                    binding.activeCauseIcon.load(cause.imageUrl) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_placeholder)
+                        error(R.drawable.ic_placeholder)
+                    }
+
+                    // Set cause name, description and earnings
+                    binding.activeCauseName.text = cause.name
+                    binding.activeCauseDescription.text = cause.description
                     binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned)
                 }
             }
