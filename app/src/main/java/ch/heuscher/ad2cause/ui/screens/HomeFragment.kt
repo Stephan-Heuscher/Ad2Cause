@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.ads.AdManager
-import ch.heuscher.ad2cause.data.models.AdType
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
 import ch.heuscher.ad2cause.viewmodel.AdViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
