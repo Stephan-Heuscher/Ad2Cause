@@ -1,118 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Home Screen Content -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:paddingBottom="80dp"
-            android:clipToPadding="false">
+            android:paddingBottom="24dp">
 
-            <!-- Active Cause Card -->
+            <!-- ============ HERO SECTION: Your Impact ============ -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                android:layout_margin="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:background="@drawable/bg_points_card"
+                    android:padding="24dp">
+
+                    <!-- Points Header Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_trophy"
+                            android:contentDescription="Trophy icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/your_impact"
+                            style="@style/TextStyle.Overline"
+                            android:textColor="@color/tertiary_dark"
+                            android:layout_marginStart="8dp" />
+
+                    </LinearLayout>
+
+                    <!-- Large Points Display -->
+                    <TextView
+                        android:id="@+id/totalEarningsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        style="@style/TextStyle.DisplayLarge"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginTop="8dp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/home_tab_label"
+                        android:text="@string/points_earned"
                         style="@style/TextStyle.BodyMedium"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="4dp" />
 
-                    <!-- Cause Info Container with Icon -->
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ============ ACTIVE CAUSE SECTION ============ -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Section Label -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/currently_supporting"
+                        style="@style/TextStyle.Overline"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Cause Info Container (visible when cause selected) -->
                     <LinearLayout
                         android:id="@+id/causeInfoContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
                         android:visibility="gone">
 
-                        <!-- Cause Icon -->
+                        <!-- Cause Image -->
                         <com.google.android.material.card.MaterialCardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="0dp">
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
 
                             <ImageView
                                 android:id="@+id/activeCauseIcon"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
+                                android:background="@color/surface_variant"
                                 android:contentDescription="@string/app_name" />
 
                         </com.google.android.material.card.MaterialCardView>
 
-                        <!-- Cause Name -->
-                        <TextView
-                            android:id="@+id/activeCauseName"
+                        <!-- Cause Details -->
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/no_cause_selected"
-                            style="@style/TextStyle.HeadlineMedium"
-                            android:layout_marginStart="12dp"
-                            android:layout_gravity="center_vertical" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:id="@+id/activeCauseName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_cause_selected"
+                                style="@style/TextStyle.HeadlineSmall"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
+
+                            <TextView
+                                android:id="@+id/activeCauseDescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                style="@style/TextStyle.BodySmall"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_marginTop="4dp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                        <!-- Change Cause Arrow -->
+                        <ImageView
+                            android:id="@+id/changeCauseArrow"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_forward"
+                            android:layout_marginStart="8dp"
+                            android:contentDescription="Change cause" />
 
                     </LinearLayout>
 
-                    <!-- Cause Description -->
-                    <TextView
-                        android:id="@+id/activeCauseDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        style="@style/TextStyle.BodyMedium"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginTop="12dp"
-                        android:visibility="gone" />
-
-                    <!-- Empty state guidance -->
+                    <!-- Empty State (visible when no cause) -->
                     <LinearLayout
                         android:id="@+id/noCauseGuidance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="8dp"
                         android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_heart_filled"
+                            android:alpha="0.6"
+                            android:contentDescription="Heart icon" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/choose_cause_title"
+                            style="@style/TextStyle.HeadlineSmall"
+                            android:gravity="center"
+                            android:layout_marginTop="16dp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/select_cause_prompt"
                             style="@style/TextStyle.BodyMedium"
-                            android:textColor="@color/text_secondary" />
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:paddingHorizontal="16dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/browseCausesButton"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:text="@string/browse_causes"
-                            android:layout_marginTop="8dp"
-                            style="@style/Widget.MaterialComponents.Button.TextButton" />
+                            android:textSize="14sp"
+                            android:textAllCaps="false"
+                            android:layout_marginTop="20dp"
+                            app:cornerRadius="24dp"
+                            app:icon="@drawable/ic_heart_filled"
+                            app:iconTint="@color/on_primary"
+                            app:iconPadding="8dp"
+                            style="@style/Widget.MaterialComponents.Button" />
 
                     </LinearLayout>
 
@@ -120,88 +228,232 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Earnings Card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- ============ AD ACTION BUTTONS ============ -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/primary_container">
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="8dp">
+
+                <!-- Section Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/earn_points"
+                    style="@style/TextStyle.Overline"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="4dp" />
+
+                <!-- Loading State -->
+                <LinearLayout
+                    android:id="@+id/loadingContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/adLoadingIndicator"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:indeterminate="true"
+                        app:indicatorSize="24dp"
+                        app:trackThickness="3dp"
+                        app:indicatorColor="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/loadingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ad_loading"
+                        style="@style/TextStyle.BodyMedium"
+                        android:layout_marginStart="12dp" />
+
+                </LinearLayout>
+
+                <!-- Primary CTA: Watch Video Ad -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/watchVideoAdCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:strokeWidth="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_video_ad"
+                            android:contentDescription="Video ad" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/watch_video_ad_title"
+                                android:textColor="@color/text_on_primary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/watch_video_ad_desc"
+                                android:textColor="@color/text_on_primary"
+                                android:textSize="13sp"
+                                android:alpha="0.85"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/watchVideoAdButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="@string/watch"
+                            android:textColor="@color/primary"
+                            android:textSize="13sp"
+                            android:textAllCaps="false"
+                            android:backgroundTint="@color/surface"
+                            app:cornerRadius="20dp"
+                            android:minWidth="72dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Secondary CTA: Interactive Ad -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/interactiveAdCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:strokeWidth="1.5dp"
+                    app:strokeColor="@color/primary"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="20dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_interactive_ad"
+                            android:contentDescription="Interactive ad" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/interactive_ad_title"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/interactive_ad_desc"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="13sp"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/engageInteractiveAdButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="@string/engage"
+                            android:textSize="13sp"
+                            android:textAllCaps="false"
+                            app:cornerRadius="20dp"
+                            android:minWidth="72dp"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- ============ MOTIVATIONAL TIP ============ -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tipCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/secondary_container"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:padding="16dp">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/your_points"
-                        style="@style/TextStyle.BodyMedium" />
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="💡"
+                        android:textSize="24sp"
+                        android:gravity="center" />
 
                     <TextView
-                        android:id="@+id/totalEarningsText"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tipText"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="0 points"
-                        style="@style/TextStyle.HeadlineLarge"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/primary" />
+                        android:layout_weight="1"
+                        android:text="@string/daily_tip"
+                        style="@style/TextStyle.BodyMedium"
+                        android:textColor="@color/secondary_dark"
+                        android:layout_marginStart="12dp" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Ad Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <!-- Loading Indicator -->
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/adLoadingIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:visibility="gone"
-                    app:indicatorColor="@color/primary" />
-
-                <TextView
-                    android:id="@+id/loadingText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ad_loading"
-                    android:visibility="gone"
-                    android:layout_marginBottom="16dp"
-                    style="@style/TextStyle.BodyMedium"
-                    android:textColor="@color/text_secondary" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/watchVideoAdButton"
-                    android:layout_width="280dp"
-                    android:layout_height="52dp"
-                    android:text="@string/watch_video_ad"
-                    android:textSize="14sp"
-                    app:cornerRadius="12dp"
-                    android:layout_marginBottom="12dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/engageInteractiveAdButton"
-                    android:layout_width="280dp"
-                    android:layout_height="52dp"
-                    android:text="@string/engage_interactive_ad"
-                    android:textSize="14sp"
-                    app:cornerRadius="12dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

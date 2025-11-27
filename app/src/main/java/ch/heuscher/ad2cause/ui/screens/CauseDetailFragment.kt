@@ -67,16 +67,22 @@ class CauseDetailFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.getCauseById(causeId).collect { cause ->
                 cause?.let {
+                    // Load hero image
                     binding.causeDetailImage.load(it.imageUrl) {
                         crossfade(true)
                         placeholder(R.drawable.ic_placeholder)
                         error(R.drawable.ic_placeholder)
                     }
+                    
+                    // Set cause name in CollapsingToolbar
+                    binding.collapsingToolbar.title = it.name
                     binding.causeDetailName.text = it.name
                     binding.causeDetailDescription.text = it.description
-                    binding.causeDetailEarnings.text = getString(R.string.total_earned, it.totalEarned)
+                    
+                    // Display earnings as number only (label is separate)
+                    binding.causeDetailEarnings.text = String.format("%.0f", it.totalEarned)
 
-                    // Update button state
+                    // Update button and status state
                     updateButtonState(it.id)
                 }
             }
@@ -89,12 +95,12 @@ class CauseDetailFragment : Fragment() {
     private fun setupButton() {
         binding.setActiveCauseButton.setOnClickListener {
             lifecycleScope.launch {
-                val cause = causeViewModel.getCauseById(causeId).collect { c ->
+                causeViewModel.getCauseById(causeId).collect { c ->
                     c?.let {
                         causeViewModel.setActiveCause(it)
                         Toast.makeText(
                             requireContext(),
-                            "Active cause set to: ${it.name}",
+                            getString(R.string.active_cause_set, it.name),
                             Toast.LENGTH_SHORT
                         ).show()
                         // Navigate back to home
@@ -112,6 +118,19 @@ class CauseDetailFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.activeCause.collect { activeCause ->
                 val isActive = activeCause?.id == causeId
+                
+                // Update status text
+                binding.causeStatusText.text = if (isActive) {
+                    getString(R.string.active)
+                } else {
+                    getString(R.string.inactive)
+                }
+                binding.causeStatusText.setTextColor(
+                    if (isActive) resources.getColor(R.color.success, null)
+                    else resources.getColor(R.color.text_secondary, null)
+                )
+                
+                // Update button
                 binding.setActiveCauseButton.apply {
                     isEnabled = !isActive
                     text = if (isActive) {

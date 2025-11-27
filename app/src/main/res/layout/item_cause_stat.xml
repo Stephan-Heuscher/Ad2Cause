@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,20 +15,60 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
+        <!-- Rank Indicator -->
+        <FrameLayout
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_stat_item">
+
+            <TextView
+                android:id="@+id/causeStatRank"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="1"
+                style="@style/TextStyle.LabelLarge"
+                android:textColor="@color/primary" />
+
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/causeStatName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cause Name"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
+                style="@style/TextStyle.TitleMedium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp">
+
+                <View
+                    android:id="@+id/causeStatProgress"
+                    android:layout_width="60dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/bg_active_badge" />
+
+                <TextView
+                    android:id="@+id/causeStatPercentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    style="@style/TextStyle.BodySmall"
+                    android:textColor="@color/text_tertiary"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -35,9 +76,8 @@
             android:id="@+id/causeStatEarnings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$0.00"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:text="0 pts"
+            style="@style/TextStyle.TitleLarge"
             android:textColor="@color/primary" />
 
     </LinearLayout>

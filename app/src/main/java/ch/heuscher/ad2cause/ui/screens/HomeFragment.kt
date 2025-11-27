@@ -64,33 +64,29 @@ class HomeFragment : Fragment() {
                 R.id.bottomNavigation
             )?.selectedItemId = R.id.nav_causes
         }
+        
+        // Cause info container click - navigate to causes
+        binding.causeInfoContainer.setOnClickListener {
+            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigation
+            )?.selectedItemId = R.id.nav_causes
+        }
 
         // Non-Interactive Ad Button (Standard earnings, passive viewing)
+        // Both the card and button are clickable
+        binding.watchVideoAdCard.setOnClickListener {
+            handleWatchAdClick(AdManager.AdType.NON_INTERACTIVE)
+        }
         binding.watchVideoAdButton.setOnClickListener {
-            if (causeViewModel.activeCause.value == null) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.no_cause_selected),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-
-            watchAd(AdManager.AdType.NON_INTERACTIVE)
+            handleWatchAdClick(AdManager.AdType.NON_INTERACTIVE)
         }
 
         // Interactive Ad Button (Higher earnings, users can interact)
+        binding.interactiveAdCard.setOnClickListener {
+            handleWatchAdClick(AdManager.AdType.INTERACTIVE)
+        }
         binding.engageInteractiveAdButton.setOnClickListener {
-            if (causeViewModel.activeCause.value == null) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.no_cause_selected),
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-
-            watchAd(AdManager.AdType.INTERACTIVE)
+            handleWatchAdClick(AdManager.AdType.INTERACTIVE)
         }
 
         // Load the first ad on startup (non-interactive as default) with cause info
@@ -105,6 +101,21 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+    
+    /**
+     * Handle watch ad button click
+     */
+    private fun handleWatchAdClick(adType: AdManager.AdType) {
+        if (causeViewModel.activeCause.value == null) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.no_cause_selected),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+        watchAd(adType)
     }
 
     /**
@@ -151,7 +162,6 @@ class HomeFragment : Fragment() {
                 if (cause != null) {
                     // Show cause info and hide empty state
                     binding.causeInfoContainer.visibility = View.VISIBLE
-                    binding.activeCauseDescription.visibility = View.VISIBLE
                     binding.noCauseGuidance.visibility = View.GONE
 
                     // Load cause icon
@@ -161,16 +171,24 @@ class HomeFragment : Fragment() {
                         error(R.drawable.ic_placeholder)
                     }
 
-                    // Set cause name and description
+                    // Set cause name
                     binding.activeCauseName.text = cause.name
-                    binding.activeCauseDescription.text = cause.description
-                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned)
+                    
+                    // Set description if available
+                    if (!cause.description.isNullOrEmpty()) {
+                        binding.activeCauseDescription.text = cause.description
+                        binding.activeCauseDescription.visibility = View.VISIBLE
+                    } else {
+                        binding.activeCauseDescription.visibility = View.GONE
+                    }
+                    
+                    // Update points display - just the number
+                    binding.totalEarningsText.text = String.format("%.0f", cause.totalEarned)
                 } else {
                     // Hide cause info and show empty state
                     binding.causeInfoContainer.visibility = View.GONE
-                    binding.activeCauseDescription.visibility = View.GONE
                     binding.noCauseGuidance.visibility = View.VISIBLE
-                    binding.totalEarningsText.text = "0 points"
+                    binding.totalEarningsText.text = "0"
                 }
             }
         }
@@ -180,8 +198,7 @@ class HomeFragment : Fragment() {
             updateButtonStates()
 
             // Show/hide loading indicator
-            binding.adLoadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
-            binding.loadingText.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.loadingContainer.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
@@ -226,10 +243,12 @@ class HomeFragment : Fragment() {
 
         binding.watchVideoAdButton.isEnabled = buttonsEnabled
         binding.engageInteractiveAdButton.isEnabled = buttonsEnabled
+        binding.watchVideoAdCard.isClickable = buttonsEnabled
+        binding.interactiveAdCard.isClickable = buttonsEnabled
 
-        // Set alpha to make buttons appear gray when disabled
-        binding.watchVideoAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
-        binding.engageInteractiveAdButton.alpha = if (buttonsEnabled) 1.0f else 0.5f
+        // Set alpha to make cards appear disabled when not available
+        binding.watchVideoAdCard.alpha = if (buttonsEnabled) 1.0f else 0.6f
+        binding.interactiveAdCard.alpha = if (buttonsEnabled) 1.0f else 0.6f
     }
 
     override fun onResume() {
@@ -245,10 +264,15 @@ class HomeFragment : Fragment() {
                         error(R.drawable.ic_placeholder)
                     }
 
-                    // Set cause name, description and earnings
+                    // Set cause name and earnings
                     binding.activeCauseName.text = cause.name
-                    binding.activeCauseDescription.text = cause.description
-                    binding.totalEarningsText.text = String.format("%.0f points", cause.totalEarned)
+                    binding.totalEarningsText.text = String.format("%.0f", cause.totalEarned)
+                    
+                    // Set description if available
+                    if (!cause.description.isNullOrEmpty()) {
+                        binding.activeCauseDescription.text = cause.description
+                        binding.activeCauseDescription.visibility = View.VISIBLE
+                    }
                 }
             }
         }

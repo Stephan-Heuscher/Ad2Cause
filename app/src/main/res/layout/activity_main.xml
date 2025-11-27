@@ -1,41 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
     android:fitsSystemWindows="true">
 
-    <!-- App Bar / Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
-        android:elevation="4dp"
-        app:title="@string/app_name"
-        app:titleTextColor="@android:color/white"
-        app:subtitleTextColor="@android:color/white" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!-- Navigation Container -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph" />
+        <!-- Modern App Bar with subtle elevation -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/surface"
+            app:elevation="0dp">
 
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/surface"
-        android:elevation="8dp"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/surface"
+                app:title="@string/app_name"
+                app:titleTextAppearance="@style/TextStyle.HeadlineMedium"
+                app:titleTextColor="@color/text_primary"
+                app:menu="@menu/main_menu" />
 
-</LinearLayout>
+            <!-- Subtle divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Navigation Container -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
+
+        <!-- Modern Bottom Navigation with elevation shadow -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/surface"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            app:itemActiveIndicatorStyle="@null"
+            app:itemIconSize="24dp"
+            app:itemIconTint="@color/bottom_nav_color_selector"
+            app:itemTextColor="@color/bottom_nav_color_selector"
+            app:itemTextAppearanceActive="@style/TextStyle.LabelMedium"
+            app:itemTextAppearanceInactive="@style/TextStyle.LabelMedium"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

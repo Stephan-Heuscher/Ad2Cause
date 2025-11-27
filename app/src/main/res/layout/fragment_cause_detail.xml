@@ -1,82 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Top App Bar with Back Button -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/detailToolbar"
+    <!-- Collapsing Toolbar with Hero Image -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/surface"
-        app:title="Cause Details"
-        app:navigationIcon="@drawable/ic_back" />
+        android:layout_height="280dp"
+        android:fitsSystemWindows="true"
+        android:background="@android:color/transparent">
 
-    <!-- Cause Details ScrollView -->
-    <ScrollView
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/primary"
+            app:expandedTitleGravity="bottom"
+            app:expandedTitleMarginStart="20dp"
+            app:expandedTitleMarginBottom="20dp"
+            app:collapsedTitleTextAppearance="@style/TextStyle.HeadlineSmall"
+            app:expandedTitleTextAppearance="@style/TextStyle.HeadlineLarge">
+
+            <!-- Hero Image -->
+            <ImageView
+                android:id="@+id/causeDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:background="@color/surface_variant"
+                android:contentDescription="@string/app_name"
+                app:layout_collapseMode="parallax" />
+
+            <!-- Gradient Overlay for readability -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_gradient_overlay"
+                app:layout_collapseMode="parallax" />
+
+            <!-- Toolbar -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/detailToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_back"
+                app:navigationIconTint="@color/text_on_primary" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="100dp">
 
-            <!-- Cause Image -->
-            <ImageView
-                android:id="@+id/causeDetailImage"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/app_name"
-                android:background="@color/surface_variant" />
-
-            <!-- Cause Name -->
+            <!-- Cause Name (for non-collapsing display) -->
             <TextView
                 android:id="@+id/causeDetailName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cause Name"
-                style="@style/TextStyle.HeadlineLarge"
-                android:layout_marginTop="16dp" />
+                style="@style/TextStyle.HeadlineLarge" />
 
-            <!-- Earnings Display -->
+            <!-- Stats Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/primary_container"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="horizontal"
+                    android:padding="20dp">
 
-                    <TextView
-                        android:id="@+id/causeDetailEarnings"
-                        android:layout_width="match_parent"
+                    <!-- Total Earned -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_earned"
-                        style="@style/TextStyle.BodyLarge" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_earned_label"
+                            style="@style/TextStyle.Overline"
+                            android:textColor="@color/primary_dark" />
+
+                        <TextView
+                            android:id="@+id/causeDetailEarnings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            style="@style/TextStyle.DisplayMedium"
+                            android:textColor="@color/primary"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/points"
+                            style="@style/TextStyle.BodySmall"
+                            android:textColor="@color/primary_dark" />
+
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_light"
+                        android:alpha="0.3" />
+
+                    <!-- Status -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_label"
+                            style="@style/TextStyle.Overline"
+                            android:textColor="@color/primary_dark" />
+
+                        <TextView
+                            android:id="@+id/causeStatusText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/inactive"
+                            style="@style/TextStyle.HeadlineSmall"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="8dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Description -->
+            <!-- About Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description:"
-                style="@style/TextStyle.HeadlineMedium"
-                android:layout_marginTop="24dp" />
+                android:text="@string/about_this_cause"
+                style="@style/TextStyle.Overline"
+                android:layout_marginTop="28dp" />
 
             <TextView
                 android:id="@+id/causeDetailDescription"
@@ -84,21 +182,46 @@
                 android:layout_height="wrap_content"
                 android:text="Cause description goes here..."
                 style="@style/TextStyle.BodyLarge"
+                android:textColor="@color/text_secondary"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_secondary" />
-
-            <!-- Action Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/setActiveCauseButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="@string/set_as_active_cause"
-                app:cornerRadius="12dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp" />
+                android:lineSpacingMultiplier="1.5" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+    <!-- Sticky Bottom Action Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@color/surface"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:elevation="8dp">
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/setActiveCauseButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/set_as_active_cause"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_heart_filled"
+            app:iconTint="@color/on_primary"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            style="@style/Widget.MaterialComponents.Button" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

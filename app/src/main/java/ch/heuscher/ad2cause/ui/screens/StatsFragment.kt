@@ -14,6 +14,8 @@ import ch.heuscher.ad2cause.data.models.Cause
 import ch.heuscher.ad2cause.databinding.FragmentStatsBinding
 import ch.heuscher.ad2cause.databinding.ItemCauseStatBinding
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
+import coil.load
+import coil.transform.CircleCropTransformation
 import kotlinx.coroutines.launch
 
 /**
@@ -53,6 +55,7 @@ class StatsFragment : Fragment() {
             adapter = statsAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
+            isNestedScrollingEnabled = false
         }
     }
 
@@ -63,11 +66,23 @@ class StatsFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.allCauses.collect { causes ->
                 val totalEarnings = causes.sumOf { it.totalEarned }
-                binding.totalEarningsValue.text = String.format("%.0f points", totalEarnings)
+                binding.totalEarningsValue.text = String.format("%.0f", totalEarnings)
+                
+                // Calculate additional stats
+                val causesWithEarnings = causes.filter { it.totalEarned > 0 }
+                binding.causesSupportedValue.text = causesWithEarnings.size.toString()
+                
+                // Estimate ads watched (assuming 1 point per ad)
+                binding.adsWatchedValue.text = String.format("%.0f", totalEarnings)
 
-                // Update stats list
-                statsAdapter.submitList(causes.sortedByDescending { it.totalEarned })
-                binding.emptyStatsText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                // Update stats list with ranking data
+                val sortedCauses = causes.sortedByDescending { it.totalEarned }
+                statsAdapter.submitList(sortedCauses, totalEarnings)
+                
+                // Handle empty state
+                val isEmpty = causes.isEmpty()
+                binding.emptyStatsContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                binding.causesStatsRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
             }
         }
 
@@ -76,24 +91,40 @@ class StatsFragment : Fragment() {
             causeViewModel.activeCause.collect { activeCause ->
                 if (activeCause != null) {
                     binding.activeCauseNameStat.text = activeCause.name
-                    binding.activeCauseEarningsStat.text = String.format("Earned: %.0f points", activeCause.totalEarned)
+                    binding.activeCauseEarningsStat.text = String.format("%.0f points earned", activeCause.totalEarned)
+                    binding.activeCauseCard.visibility = View.VISIBLE
+                    
+                    // Load active cause image
+                    if (activeCause.imageUrl.isNotEmpty()) {
+                        binding.activeCauseImage.load(activeCause.imageUrl) {
+                            crossfade(true)
+                            placeholder(R.drawable.ic_heart_filled)
+                            error(R.drawable.ic_heart_filled)
+                            transformations(CircleCropTransformation())
+                        }
+                    } else {
+                        binding.activeCauseImage.setImageResource(R.drawable.ic_heart_filled)
+                    }
                 } else {
-                    binding.activeCauseNameStat.text = "No active cause"
-                    binding.activeCauseEarningsStat.text = "Select a cause to start earning"
+                    binding.activeCauseNameStat.text = getString(R.string.no_active_cause)
+                    binding.activeCauseEarningsStat.text = getString(R.string.select_cause_to_earn)
+                    binding.activeCauseImage.setImageResource(R.drawable.ic_heart_filled)
                 }
             }
         }
     }
 
     /**
-     * Simple adapter for cause statistics
+     * Enhanced adapter for cause statistics with ranking and progress
      */
     private class CauseStatsAdapter : RecyclerView.Adapter<CauseStatsAdapter.StatsViewHolder>() {
 
         private var causes: List<Cause> = emptyList()
+        private var totalEarnings: Double = 0.0
 
-        fun submitList(newCauses: List<Cause>) {
+        fun submitList(newCauses: List<Cause>, total: Double) {
             causes = newCauses
+            totalEarnings = total
             notifyDataSetChanged()
         }
 
@@ -107,7 +138,7 @@ class StatsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: StatsViewHolder, position: Int) {
-            holder.bind(causes[position])
+            holder.bind(causes[position], position + 1, totalEarnings)
         }
 
         override fun getItemCount() = causes.size
@@ -115,9 +146,25 @@ class StatsFragment : Fragment() {
         class StatsViewHolder(private val binding: ItemCauseStatBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(cause: Cause) {
+            fun bind(cause: Cause, rank: Int, totalEarnings: Double) {
                 binding.causeStatName.text = cause.name
-                binding.causeStatEarnings.text = String.format("%.0f points", cause.totalEarned)
+                binding.causeStatRank.text = rank.toString()
+                binding.causeStatEarnings.text = String.format("%.0f pts", cause.totalEarned)
+                
+                // Calculate and display percentage
+                val percentage = if (totalEarnings > 0) {
+                    (cause.totalEarned / totalEarnings * 100).toInt()
+                } else {
+                    0
+                }
+                binding.causeStatPercentage.text = "$percentage%"
+                
+                // Update progress bar width based on percentage
+                val params = binding.causeStatProgress.layoutParams
+                val maxWidth = 100 // dp
+                params.width = (maxWidth * percentage / 100).coerceIn(4, maxWidth) * 
+                    binding.root.context.resources.displayMetrics.density.toInt()
+                binding.causeStatProgress.layoutParams = params
             }
         }
     }

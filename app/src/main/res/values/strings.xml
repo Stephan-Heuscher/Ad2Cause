@@ -6,25 +6,49 @@
     <string name="home_tab_label">Home</string>
     <string name="supporting_cause">Supporting: %s</string>
     <string name="your_points">Your Points</string>
+    <string name="your_impact">YOUR IMPACT</string>
+    <string name="points_earned">points earned for good causes</string>
+    <string name="currently_supporting">CURRENTLY SUPPORTING</string>
+    <string name="earn_points">EARN POINTS</string>
+    <string name="choose_cause_title">Choose a Cause</string>
     <string name="watch_video_ad">📺 Watch Standard Ad</string>
+    <string name="watch_video_ad_title">Watch Video Ad</string>
+    <string name="watch_video_ad_desc">Watch a short video to earn points</string>
+    <string name="interactive_ad_title">Interactive Ad</string>
+    <string name="interactive_ad_desc">Engage &amp; earn bonus points</string>
+    <string name="watch">Watch</string>
+    <string name="engage">Engage</string>
     <string name="engage_interactive_ad">⭐ Interactive Ad (Earn More)</string>
     <string name="ad_watch_reward" formatted="false">Thank you! You\'ve earned %.0f points for %s</string>
     <string name="no_cause_selected">No cause selected</string>
-    <string name="select_cause_prompt">Choose a cause to start making a difference! Watch ads to support causes you care about.</string>
-    <string name="browse_causes">Browse Causes</string>
-    <string name="ad_loading">Loading ad...</string>
+    <string name="select_cause_prompt">Watch ads to earn points and support causes you care about. Every view makes a difference!</string>
+    <string name="browse_causes">Find a Cause</string>
+    <string name="ad_loading">Loading ad…</string>
     <string name="ad_not_ready">Ad is not ready yet. Please try again in a moment.</string>
+    <string name="daily_tip">Every ad you watch contributes to real causes. Thank you for making a difference!</string>
 
     <!-- Causes Screen -->
     <string name="causes_tab_label">Causes</string>
-    <string name="search_causes_hint">Search causes...</string>
+    <string name="search_causes_hint">Search causes…</string>
     <string name="no_causes_found">No causes found</string>
+    <string name="try_different_search">Try a different search term or browse all causes</string>
     <string name="add_cause_fab_content_desc">Request new cause</string>
+    <string name="request_cause">Request Cause</string>
+    <string name="support">Support</string>
+    <string name="details">Details</string>
 
     <!-- Cause Detail Screen -->
-    <string name="set_as_active_cause">Set as Active Cause</string>
+    <string name="set_as_active_cause">Support This Cause</string>
     <string name="currently_active">Currently Active</string>
     <string name="total_earned">Total Earned: %.0f points</string>
+    <string name="total_earned_label">TOTAL EARNED</string>
+    <string name="points">points</string>
+    <string name="status_label">STATUS</string>
+    <string name="active">Active</string>
+    <string name="inactive">Not Active</string>
+    <string name="about_this_cause">ABOUT THIS CAUSE</string>
+    <string name="active_cause_set">Active cause set to: %s</string>
+    <string name="select_cause_to_earn">Select a cause to start earning</string>
 
     <!-- Request Cause Dialog/Screen -->
     <string name="add_new_cause_title">Request a New Cause</string>
@@ -42,6 +66,14 @@
     <!-- Stats Screen -->
     <string name="stats_tab_label">Stats</string>
     <string name="total_points_all_time">Total Points (All Time)</string>
+    <string name="total_impact">TOTAL IMPACT</string>
+    <string name="total_points_earned">total points earned</string>
+    <string name="ads_watched">Ads watched</string>
+    <string name="causes_supported">Causes supported</string>
+    <string name="all_causes_stats">ALL CAUSES BREAKDOWN</string>
+    <string name="no_active_cause">No active cause</string>
+    <string name="no_causes_yet">No causes yet</string>
+    <string name="start_watching_ads">Start watching ads to support causes!</string>
 
     <!-- Error Messages -->
     <string name="error_generic">An error occurred. Please try again.</string>

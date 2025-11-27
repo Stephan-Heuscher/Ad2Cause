@@ -145,16 +145,24 @@ class CausesFragment : Fragment() {
                 if (query.isEmpty()) {
                     causeViewModel.allCauses.collect { causes ->
                         causeAdapter.submitList(causes)
-                        binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                        updateEmptyState(causes.isEmpty())
                     }
                 } else {
                     causeViewModel.searchCauses(query).collect { causes ->
                         causeAdapter.submitList(causes)
-                        binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                        updateEmptyState(causes.isEmpty())
                     }
                 }
             }
         }
+    }
+    
+    /**
+     * Update empty state visibility
+     */
+    private fun updateEmptyState(isEmpty: Boolean) {
+        binding.emptyStateContainer.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.causesRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
     /**
@@ -171,7 +179,7 @@ class CausesFragment : Fragment() {
         lifecycleScope.launch {
             causeViewModel.allCauses.collect { causes ->
                 causeAdapter.submitList(causes)
-                binding.emptyStateText.visibility = if (causes.isEmpty()) View.VISIBLE else View.GONE
+                updateEmptyState(causes.isEmpty())
             }
         }
     }

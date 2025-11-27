@@ -1,127 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Stats Content -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
 
-            <!-- Total Earnings Card -->
+            <!-- ============ HERO STATS CARD ============ -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/primary_container">
+                app:cardBackgroundColor="@android:color/transparent"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:background="@drawable/bg_points_card"
+                    android:padding="24dp">
 
-                    <TextView
+                    <!-- Header Row -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_points_all_time"
-                        style="@style/TextStyle.BodyMedium" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_trophy"
+                            android:contentDescription="Trophy" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_impact"
+                            style="@style/TextStyle.Overline"
+                            android:textColor="@color/tertiary_dark"
+                            android:layout_marginStart="8dp" />
+
+                    </LinearLayout>
+
+                    <!-- Main Stats -->
                     <TextView
                         android:id="@+id/totalEarningsValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 points"
-                        style="@style/TextStyle.HeadlineLarge"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/primary" />
+                        android:text="0"
+                        style="@style/TextStyle.DisplayLarge"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_points_earned"
+                        style="@style/TextStyle.BodyMedium"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="4dp" />
+
+                    <!-- Stats Grid -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp">
+
+                        <!-- Ads Watched -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_stat_item"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:id="@+id/adsWatchedValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                style="@style/TextStyle.HeadlineLarge"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ads_watched"
+                                style="@style/TextStyle.BodySmall"
+                                android:layout_marginTop="4dp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="1dp" />
+
+                        <!-- Causes Supported -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_stat_item"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:id="@+id/causesSupportedValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                style="@style/TextStyle.HeadlineLarge"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/causes_supported"
+                                style="@style/TextStyle.BodySmall"
+                                android:layout_marginTop="4dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Active Cause Stats -->
+            <!-- ============ ACTIVE CAUSE SECTION ============ -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Active Cause"
-                style="@style/TextStyle.HeadlineMedium"
-                android:layout_marginBottom="8dp" />
+                android:text="@string/currently_active"
+                style="@style/TextStyle.Overline"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="4dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/activeCauseCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/surface"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/primary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/activeCauseNameStat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="No active cause"
-                        style="@style/TextStyle.BodyLarge"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/activeCauseImage"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/bg_cause_image"
+                        android:contentDescription="Active cause" />
 
-                    <TextView
-                        android:id="@+id/activeCauseEarningsStat"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Earned: 0 points"
-                        style="@style/TextStyle.BodyMedium"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/text_secondary" />
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <TextView
+                            android:id="@+id/activeCauseNameStat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_active_cause"
+                            style="@style/TextStyle.HeadlineSmall" />
+
+                        <TextView
+                            android:id="@+id/activeCauseEarningsStat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0 points earned"
+                            style="@style/TextStyle.BodySmall"
+                            android:textColor="@color/primary"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_check_circle"
+                        android:contentDescription="Active" />
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Earnings Breakdown -->
+            <!-- ============ ALL CAUSES BREAKDOWN ============ -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="All Causes"
-                style="@style/TextStyle.HeadlineMedium"
-                android:layout_marginBottom="8dp" />
+                android:text="@string/all_causes_stats"
+                style="@style/TextStyle.Overline"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="4dp" />
 
             <!-- Causes List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/causesStatsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
 
-            <TextView
-                android:id="@+id/emptyStatsText"
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/emptyStatsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No causes yet"
-                android:visibility="gone"
-                style="@style/TextStyle.BodyLarge"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:textColor="@color/text_secondary"
-                android:layout_marginTop="32dp" />
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_stats"
+                    android:alpha="0.4"
+                    android:contentDescription="No stats" />
+
+                <TextView
+                    android:id="@+id/emptyStatsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_causes_yet"
+                    android:gravity="center"
+                    style="@style/TextStyle.HeadlineSmall"
+                    android:layout_marginTop="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_watching_ads"
+                    android:gravity="center"
+                    style="@style/TextStyle.BodyMedium"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

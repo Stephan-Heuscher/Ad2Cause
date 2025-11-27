@@ -1,95 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background">
 
-    <!-- Search Bar -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="2dp"
-        app:strokeColor="@color/outline"
-        app:strokeWidth="1dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="12dp">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_search"
-                android:tint="@color/outline"
-                android:contentDescription="Search icon" />
-
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:hint="Search causes..."
-                android:textColorHint="@color/outline"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:background="@android:color/transparent"
-                android:inputType="text"
-                android:imeOptions="actionSearch"
-                android:maxLines="1" />
-
-            <ImageView
-                android:id="@+id/clearSearchButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:tint="@color/outline"
-                android:visibility="gone"
-                android:contentDescription="Clear search"
-                android:clickable="true"
-                android:focusable="true" />
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Causes RecyclerView (Grid) -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/causesRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="8dp"
-        android:clipToPadding="false" />
-
-    <!-- Empty State -->
-    <TextView
-        android:id="@+id/emptyStateText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/no_causes_found"
-        android:gravity="center"
-        android:visibility="gone"
-        style="@style/TextStyle.BodyLarge" />
+        android:orientation="vertical">
 
-    <!-- Add New Cause FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <!-- Modern Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="8dp"
+            android:background="@color/background">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_search_bar"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_search"
+                    android:contentDescription="Search icon" />
+
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:hint="@string/search_causes_hint"
+                    android:textColorHint="@color/text_tertiary"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:background="@android:color/transparent"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1" />
+
+                <ImageView
+                    android:id="@+id/clearSearchButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_close"
+                    android:visibility="gone"
+                    android:contentDescription="Clear search"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="2dp" />
+
+            </LinearLayout>
+
+            <!-- Results count / filter chips area -->
+            <TextView
+                android:id="@+id/resultsCountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                style="@style/TextStyle.BodySmall"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="4dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Causes RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/causesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="88dp"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay" />
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/emptyStateContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_search"
+                android:alpha="0.4"
+                android:contentDescription="No results" />
+
+            <TextView
+                android:id="@+id/emptyStateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_causes_found"
+                android:gravity="center"
+                style="@style/TextStyle.HeadlineSmall"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/try_different_search"
+                android:gravity="center"
+                style="@style/TextStyle.BodyMedium"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addCauseFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:text="@string/request_cause"
+        android:textAllCaps="false"
         android:contentDescription="@string/add_cause_fab_content_desc"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:scaleType="center" />
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/on_primary"
+        app:backgroundTint="@color/primary"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
