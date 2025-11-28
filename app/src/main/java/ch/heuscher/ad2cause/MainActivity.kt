@@ -121,21 +121,21 @@ class MainActivity : AppCompatActivity() {
                 val causes = listOf(
                     Cause(
                         name = "AI Rescue Ring",
-                        description = "Your intelligent companion on Android - always visible, always ready to help. Tap the rescue ring whenever you need assistance, and a powerful AI (Gemini 2.5 Flash) will help you with any task on your device. Features context-aware help that sees what you see, voice or text chat, smart keyboard avoidance, and customizable appearance. Privacy-first: your API key stays on your device.",
+                        description = "Your intelligent assistant, always ready to help – An AI-powered Android app providing instant assistance through a floating rescue ring. The AI \"sees\" what you see and instantly analyzes your current screen to provide relevant answers. Features AI-powered voice or text chat powered by Google's Gemini 2.5 Flash, smart keyboard avoidance, and customizable appearance. Privacy-first: your API key stays on your device, requests go directly to Google.",
                         imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Assistive Tap",
-                        description = "Your navigation helper – A floating dot that helps users reach Home or navigate with their thumb from anywhere on the screen. Features Safe-Home mode (all taps go Home) for maximum security, and Navi mode for advanced users (1x tap = Back, 2x = Switch app, 3x = Recent apps, long press = Home). Designed for accessibility with WCAG 2.1 Level AA compliance.",
+                        description = "Ihr Tipp-Helfer zur Navigation – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebendem Punkt. Stell dir vor, deine Oma hätte Probleme, die Handy-Tasten unten zu erreichen. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal wo sie gerade ist.",
                         imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Safe Home Button",
-                        description = "A floating accessibility button that always brings you safely back home with a simple tap. Ideal for users with motor limitations who have difficulty reaching the phone's navigation buttons. Features Safe-Home mode with square design (like Android navigation), protected repositioning to prevent accidental moves, keyboard avoidance, and clean architecture for reliability.",
+                        description = "Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button. Stell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.",
                         imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0

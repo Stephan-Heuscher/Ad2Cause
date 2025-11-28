@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
             requireActivity().runOnUiThread {
                 Toast.makeText(
                     requireContext(),
-                    "Ad session cancelled",
+                    getString(R.string.ad_cancelled),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -263,6 +263,7 @@ class HomeFragment : Fragment() {
     
     /**
      * Start watching multiple ads
+     * Always uses INTERACTIVE ads for better engagement in multi-ad mode
      */
     private fun startMultiAdMode(count: Int) {
         adsToWatch = count
@@ -275,7 +276,8 @@ class HomeFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
         
-        watchAd(AdManager.AdType.NON_INTERACTIVE)
+        // Always use INTERACTIVE ads for multi-ad mode
+        watchAd(AdManager.AdType.INTERACTIVE)
     }
     
     /**
@@ -289,10 +291,9 @@ class HomeFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
             
-            // Load and show next ad after a short delay
-            handler.postDelayed({
-                watchAd(AdManager.AdType.NON_INTERACTIVE)
-            }, 1500)
+            // Immediately load and show next ad (no delay in multi-ad mode)
+            // Always use INTERACTIVE ads for multi-ad mode for better engagement
+            watchAd(AdManager.AdType.INTERACTIVE)
         } else if (isMultiAdMode) {
             // Completed all ads
             isMultiAdMode = false
@@ -495,14 +496,14 @@ class HomeFragment : Fragment() {
             
             // Check if we should continue multi-ad mode
             if (isMultiAdMode && adsWatched < adsToWatch) {
-                // In multi-ad mode, set pending flag for next ad
+                // In multi-ad mode, immediately continue to next ad
                 pendingAdShow = true
                 continueMultiAdMode()
             } else {
                 // End multi-ad mode if active
                 isMultiAdMode = false
                 
-                // Preload next ad after closing (but don't auto-show)
+                // Preload next ad after 1 second (reduced from 2 seconds for faster experience)
                 val cause = causeViewModel.activeCause.value
                 if (cause != null) {
                     handler.postDelayed({
@@ -513,7 +514,7 @@ class HomeFragment : Fragment() {
                                 cause.name
                             )
                         }
-                    }, 2000)
+                    }, 1000)
                 }
             }
         }

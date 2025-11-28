@@ -144,5 +144,9 @@
     
     <!-- Ad Escape -->
     <string name="close_ad">Close ad</string>
+    <string name="cancel_ad">Cancel ad session</string>
+    <string name="cancel_ad_label">CANCEL</string>
+    <string name="no_credit_warning">No credit to cause</string>
+    <string name="ad_cancelled">Ad session cancelled - no points earned</string>
     <string name="overlay_permission_required">Overlay permission is needed to show the escape button during ads</string>
 </resources>
