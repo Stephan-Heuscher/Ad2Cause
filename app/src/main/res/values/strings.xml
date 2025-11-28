@@ -141,4 +141,8 @@
     <string name="syncing">Syncing...</string>
     <string name="sync_complete">Sync complete</string>
     <string name="sync_error">Sync failed. Will retry.</string>
+    
+    <!-- Ad Escape -->
+    <string name="close_ad">Close ad</string>
+    <string name="overlay_permission_required">Overlay permission is needed to show the escape button during ads</string>
 </resources>

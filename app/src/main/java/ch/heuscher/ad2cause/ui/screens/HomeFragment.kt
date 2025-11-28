@@ -1,9 +1,13 @@
 package ch.heuscher.ad2cause.ui.screens
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.ads.AdManager
+import ch.heuscher.ad2cause.ads.AdEscapeOverlayService
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
 import ch.heuscher.ad2cause.viewmodel.AdViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
@@ -38,6 +43,9 @@ class HomeFragment : Fragment() {
     private var adsToWatch = 0
     private var adsWatched = 0
     private var isMultiAdMode = false
+    
+    // Flag to track if user clicked to watch ad (prevent auto-show on preload)
+    private var pendingAdShow = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,9 +70,89 @@ class HomeFragment : Fragment() {
         setupUI()
         observeViewModel()
         setupAdCallbacks()
+        setupEscapeOverlay()
         
         // Pre-load an ad
         preloadAd()
+    }
+    
+    /**
+     * Setup the escape overlay callback
+     */
+    private fun setupEscapeOverlay() {
+        AdEscapeOverlayService.onEscapePressed = {
+            // User pressed escape - cancel multi-ad mode and reset state
+            isMultiAdMode = false
+            pendingAdShow = false
+            adsToWatch = 0
+            adsWatched = 0
+            
+            // Try to go back to home
+            requireActivity().runOnUiThread {
+                Toast.makeText(
+                    requireContext(),
+                    "Ad session cancelled",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+    
+    /**
+     * Show the escape overlay during ad playback
+     */
+    private fun showEscapeOverlay() {
+        if (canDrawOverlay()) {
+            val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
+                action = AdEscapeOverlayService.ACTION_SHOW
+            }
+            requireContext().startService(intent)
+        }
+    }
+    
+    /**
+     * Hide the escape overlay
+     */
+    private fun hideEscapeOverlay() {
+        val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
+            action = AdEscapeOverlayService.ACTION_HIDE
+        }
+        try {
+            requireContext().startService(intent)
+        } catch (e: Exception) {
+            // Ignore if service not running
+        }
+    }
+    
+    /**
+     * Check if overlay permission is granted
+     */
+    private fun canDrawOverlay(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(requireContext())
+        } else {
+            true
+        }
+    }
+    
+    /**
+     * Request overlay permission if not granted
+     */
+    private fun requestOverlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(requireContext())) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Permission Required")
+                .setMessage(getString(R.string.overlay_permission_required))
+                .setPositiveButton("Grant") { _, _ ->
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:${requireContext().packageName}")
+                    )
+                    startActivity(intent)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
     }
     
     /**
@@ -253,10 +341,15 @@ class HomeFragment : Fragment() {
 
         // Show loading state
         showLoading(true)
+        
+        // Mark that user wants to see an ad
+        pendingAdShow = true
 
         if (adManager.isAdReady()) {
             // Ad is already loaded, show it
             showLoading(false)
+            pendingAdShow = false
+            showEscapeOverlay()  // Show escape button during ad
             adManager.showRewardedAd(requireActivity())
         } else {
             // Load ad of specified type with cause information
@@ -349,8 +442,10 @@ class HomeFragment : Fragment() {
             showLoading(false)
             updateButtonStates()
             
-            // Auto-show ad if loading was triggered by button click
-            if (adManager.isAdReady()) {
+            // Only auto-show if user explicitly requested it (button was clicked)
+            if (pendingAdShow && adManager.isAdReady()) {
+                pendingAdShow = false
+                showEscapeOverlay()  // Show escape button during ad
                 adManager.showRewardedAd(requireActivity())
             }
         }
@@ -379,9 +474,11 @@ class HomeFragment : Fragment() {
         adManager.onAdFailedToLoad = { adError ->
             // Mark ads as unavailable
             adsAvailable = false
+            pendingAdShow = false
             showLoading(false)
             updateButtonStates()
             isMultiAdMode = false
+            hideEscapeOverlay()  // Hide escape button on failure
             Toast.makeText(
                 requireContext(),
                 getString(R.string.ad_not_ready),
@@ -390,11 +487,22 @@ class HomeFragment : Fragment() {
         }
         
         adManager.onAdClosed = {
+            // Hide escape overlay
+            hideEscapeOverlay()
+            
+            // Reset pending flag - user has seen an ad or closed it
+            pendingAdShow = false
+            
             // Check if we should continue multi-ad mode
             if (isMultiAdMode && adsWatched < adsToWatch) {
+                // In multi-ad mode, set pending flag for next ad
+                pendingAdShow = true
                 continueMultiAdMode()
             } else {
-                // Preload next ad after closing
+                // End multi-ad mode if active
+                isMultiAdMode = false
+                
+                // Preload next ad after closing (but don't auto-show)
                 val cause = causeViewModel.activeCause.value
                 if (cause != null) {
                     handler.postDelayed({
@@ -405,7 +513,7 @@ class HomeFragment : Fragment() {
                                 cause.name
                             )
                         }
-                    }, 1000)
+                    }, 2000)
                 }
             }
         }
@@ -461,5 +569,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
+        hideEscapeOverlay()
+        AdEscapeOverlayService.onEscapePressed = null
     }
 }

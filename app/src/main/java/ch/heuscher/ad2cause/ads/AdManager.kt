@@ -154,16 +154,14 @@ class AdManager(private val context: Context) {
                 Log.d(TAG, "Ad dismissed")
                 rewardedAd = null
                 onAdClosed?.invoke()
-                // Reload the ad for the next viewing with the same cause info
-                loadRewardedAd(adType, currentCauseId, currentCauseName)
+                // Note: Caller (HomeFragment) will handle reloading if needed
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                 Log.e(TAG, "Ad failed to show: ${adError.message}")
                 rewardedAd = null
                 onAdClosed?.invoke()
-                // Reload the ad with the same cause info
-                loadRewardedAd(adType, currentCauseId, currentCauseName)
+                // Note: Caller (HomeFragment) will handle reloading if needed
             }
 
             override fun onAdShowedFullScreenContent() {

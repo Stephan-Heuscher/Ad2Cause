@@ -37,8 +37,9 @@ class MainActivity : AppCompatActivity() {
         // Initialize database
         val database = Ad2CauseDatabase.getDatabase(this)
 
-        // Setup toolbar
+        // Setup toolbar - hide the default title since we have a custom header
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // Setup navigation
         val navHostFragment = supportFragmentManager
