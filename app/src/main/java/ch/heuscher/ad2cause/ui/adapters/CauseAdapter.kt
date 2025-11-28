@@ -17,7 +17,8 @@ import ch.heuscher.ad2cause.databinding.ItemCauseCardBinding
  */
 class CauseAdapter(
     private val onCauseClick: (Cause) -> Unit,
-    private val onSetActive: (Cause) -> Unit
+    private val onSetActive: (Cause) -> Unit,
+    private val onIconClick: (Cause) -> Unit
 ) : ListAdapter<Cause, CauseAdapter.CauseViewHolder>(CauseDiffCallback()) {
 
     var activeCauseId: Int? = null
@@ -32,7 +33,7 @@ class CauseAdapter(
             parent,
             false
         )
-        return CauseViewHolder(binding, onCauseClick, onSetActive)
+        return CauseViewHolder(binding, onCauseClick, onSetActive, onIconClick)
     }
 
     override fun onBindViewHolder(holder: CauseViewHolder, position: Int) {
@@ -45,7 +46,8 @@ class CauseAdapter(
     class CauseViewHolder(
         private val binding: ItemCauseCardBinding,
         private val onCauseClick: (Cause) -> Unit,
-        private val onSetActive: (Cause) -> Unit
+        private val onSetActive: (Cause) -> Unit,
+        private val onIconClick: (Cause) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cause: Cause, activeCauseId: Int?) {
@@ -67,6 +69,11 @@ class CauseAdapter(
                 // Update button state
                 setActiveButton.isEnabled = !isActive
                 setActiveButton.text = if (isActive) "Active" else "Set Active"
+
+                // Handle icon click - set as active cause
+                causeImageView.setOnClickListener {
+                    onIconClick(cause)
+                }
 
                 // Handle details button click
                 viewDetailsButton.setOnClickListener {

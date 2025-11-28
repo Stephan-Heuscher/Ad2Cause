@@ -10,6 +10,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Header with Back Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
+            android:background="@color/surface">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                android:padding="8dp"
+                app:tint="@color/text_primary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/causes_tab_label"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
         <!-- Modern Search Bar -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,7 +166,7 @@
         android:text="@string/request_cause"
         android:textAllCaps="false"
         android:contentDescription="@string/add_cause_fab_content_desc"
-        app:icon="@drawable/ic_add"
+        app:icon="@drawable/ic_email"
         app:iconTint="@color/on_primary"
         app:backgroundTint="@color/primary"
         app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />

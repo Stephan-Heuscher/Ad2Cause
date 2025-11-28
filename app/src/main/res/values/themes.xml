@@ -28,7 +28,7 @@
         
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/primary</item>
-        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:navigationBarColor">@color/nav_bar_background</item>
         
         <!-- Ripple -->
         <item name="colorControlHighlight">@color/ripple_primary</item>

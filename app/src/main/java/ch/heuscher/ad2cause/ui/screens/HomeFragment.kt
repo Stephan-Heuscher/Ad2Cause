@@ -1,9 +1,13 @@
 package ch.heuscher.ad2cause.ui.screens
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +32,12 @@ class HomeFragment : Fragment() {
     private lateinit var adViewModel: AdViewModel
     private lateinit var adManager: AdManager
     private var adsAvailable = true  // Track if ads can be loaded
+    private val handler = Handler(Looper.getMainLooper())
+    
+    // Multi-ad tracking
+    private var adsToWatch = 0
+    private var adsWatched = 0
+    private var isMultiAdMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +62,23 @@ class HomeFragment : Fragment() {
         setupUI()
         observeViewModel()
         setupAdCallbacks()
+        
+        // Pre-load an ad
+        preloadAd()
+    }
+    
+    /**
+     * Preload an ad for faster display
+     */
+    private fun preloadAd() {
+        val cause = causeViewModel.activeCause.value
+        if (cause != null && !adManager.isAdReady() && !adManager.isAdLoading()) {
+            adManager.loadRewardedAd(
+                AdManager.AdType.NON_INTERACTIVE,
+                cause.id.toString(),
+                cause.name
+            )
+        }
     }
 
     /**
@@ -89,6 +116,14 @@ class HomeFragment : Fragment() {
             handleWatchAdClick(AdManager.AdType.INTERACTIVE)
         }
 
+        // Multi-ad option
+        binding.multiAdCard.setOnClickListener {
+            showMultiAdDialog()
+        }
+        binding.multiAdButton.setOnClickListener {
+            showMultiAdDialog()
+        }
+
         // Load the first ad on startup (non-interactive as default) with cause info
         lifecycleScope.launch {
             causeViewModel.activeCause.collect { cause ->
@@ -104,17 +139,101 @@ class HomeFragment : Fragment() {
     }
     
     /**
+     * Show dialog to select number of ads to watch
+     */
+    private fun showMultiAdDialog() {
+        val cause = causeViewModel.activeCause.value
+        if (cause == null) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.select_cause_to_earn),
+                Toast.LENGTH_SHORT
+            ).show()
+            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigation
+            )?.selectedItemId = R.id.nav_causes
+            return
+        }
+        
+        val numberPicker = NumberPicker(requireContext()).apply {
+            minValue = 2
+            maxValue = 10
+            value = 3
+            wrapSelectorWheel = false
+        }
+        
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.multi_ad_dialog_title))
+            .setMessage(getString(R.string.multi_ad_dialog_message))
+            .setView(numberPicker)
+            .setPositiveButton(getString(R.string.watch)) { _, _ ->
+                startMultiAdMode(numberPicker.value)
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+    
+    /**
+     * Start watching multiple ads
+     */
+    private fun startMultiAdMode(count: Int) {
+        adsToWatch = count
+        adsWatched = 0
+        isMultiAdMode = true
+        
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.multi_ad_progress, 1, adsToWatch),
+            Toast.LENGTH_SHORT
+        ).show()
+        
+        watchAd(AdManager.AdType.NON_INTERACTIVE)
+    }
+    
+    /**
+     * Continue with next ad in multi-ad mode
+     */
+    private fun continueMultiAdMode() {
+        if (isMultiAdMode && adsWatched < adsToWatch) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.multi_ad_progress, adsWatched + 1, adsToWatch),
+                Toast.LENGTH_SHORT
+            ).show()
+            
+            // Load and show next ad after a short delay
+            handler.postDelayed({
+                watchAd(AdManager.AdType.NON_INTERACTIVE)
+            }, 1500)
+        } else if (isMultiAdMode) {
+            // Completed all ads
+            isMultiAdMode = false
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.multi_ad_complete, adsWatched),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+    
+    /**
      * Handle watch ad button click
      */
     private fun handleWatchAdClick(adType: AdManager.AdType) {
-        if (causeViewModel.activeCause.value == null) {
+        val cause = causeViewModel.activeCause.value
+        if (cause == null) {
             Toast.makeText(
                 requireContext(),
-                getString(R.string.no_cause_selected),
+                getString(R.string.select_cause_to_earn),
                 Toast.LENGTH_SHORT
             ).show()
+            // Navigate to causes to select one
+            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigation
+            )?.selectedItemId = R.id.nav_causes
             return
         }
+        isMultiAdMode = false
         watchAd(adType)
     }
 
@@ -126,14 +245,18 @@ class HomeFragment : Fragment() {
         if (cause == null) {
             Toast.makeText(
                 requireContext(),
-                getString(R.string.no_cause_selected),
+                getString(R.string.select_cause_to_earn),
                 Toast.LENGTH_SHORT
             ).show()
             return
         }
 
+        // Show loading state
+        showLoading(true)
+
         if (adManager.isAdReady()) {
             // Ad is already loaded, show it
+            showLoading(false)
             adManager.showRewardedAd(requireActivity())
         } else {
             // Load ad of specified type with cause information
@@ -143,13 +266,18 @@ class HomeFragment : Fragment() {
                     cause.id.toString(),
                     cause.name
                 )
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.ad_loading),
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
+    }
+    
+    /**
+     * Show/hide loading state
+     */
+    private fun showLoading(show: Boolean) {
+        binding.loadingContainer.visibility = if (show) View.VISIBLE else View.GONE
+        binding.watchVideoAdButton.isEnabled = !show
+        binding.engageInteractiveAdButton.isEnabled = !show
+        binding.multiAdButton.isEnabled = !show
     }
 
     /**
@@ -184,6 +312,15 @@ class HomeFragment : Fragment() {
                     
                     // Update points display - just the number
                     binding.totalEarningsText.text = String.format("%.0f", cause.totalEarned)
+                    
+                    // Preload ad for the active cause
+                    if (!adManager.isAdReady() && !adManager.isAdLoading()) {
+                        adManager.loadRewardedAd(
+                            AdManager.AdType.NON_INTERACTIVE,
+                            cause.id.toString(),
+                            cause.name
+                        )
+                    }
                 } else {
                     // Hide cause info and show empty state
                     binding.causeInfoContainer.visibility = View.GONE
@@ -209,7 +346,13 @@ class HomeFragment : Fragment() {
         adManager.onAdLoaded = {
             // Ads are available
             adsAvailable = true
+            showLoading(false)
             updateButtonStates()
+            
+            // Auto-show ad if loading was triggered by button click
+            if (adManager.isAdReady()) {
+                adManager.showRewardedAd(requireActivity())
+            }
         }
 
         adManager.onRewardEarned = { rewardAmount ->
@@ -217,20 +360,54 @@ class HomeFragment : Fragment() {
             if (cause != null) {
                 // Update local earnings in database
                 causeViewModel.updateActiveCauseEarnings(rewardAmount)
+                
+                // Track for multi-ad mode
+                if (isMultiAdMode) {
+                    adsWatched++
+                }
 
-                // Show reward message
-                val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
-                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                // Show reward message after a short delay (ad dismissal)
+                handler.postDelayed({
+                    if (!isMultiAdMode) {
+                        val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                    }
+                }, 500)
             }
         }
 
         adManager.onAdFailedToLoad = { adError ->
             // Mark ads as unavailable
             adsAvailable = false
+            showLoading(false)
             updateButtonStates()
-            // Silently handle ad loading failures during initial setup
-            // Only show error if user explicitly tried to watch an ad
-            // This prevents error toasts when logging in or navigating to the fragment
+            isMultiAdMode = false
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.ad_not_ready),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        
+        adManager.onAdClosed = {
+            // Check if we should continue multi-ad mode
+            if (isMultiAdMode && adsWatched < adsToWatch) {
+                continueMultiAdMode()
+            } else {
+                // Preload next ad after closing
+                val cause = causeViewModel.activeCause.value
+                if (cause != null) {
+                    handler.postDelayed({
+                        if (!adManager.isAdReady() && !adManager.isAdLoading()) {
+                            adManager.loadRewardedAd(
+                                AdManager.AdType.NON_INTERACTIVE,
+                                cause.id.toString(),
+                                cause.name
+                            )
+                        }
+                    }, 1000)
+                }
+            }
         }
     }
 
@@ -243,12 +420,15 @@ class HomeFragment : Fragment() {
 
         binding.watchVideoAdButton.isEnabled = buttonsEnabled
         binding.engageInteractiveAdButton.isEnabled = buttonsEnabled
+        binding.multiAdButton.isEnabled = buttonsEnabled
         binding.watchVideoAdCard.isClickable = buttonsEnabled
         binding.interactiveAdCard.isClickable = buttonsEnabled
+        binding.multiAdCard.isClickable = buttonsEnabled
 
         // Set alpha to make cards appear disabled when not available
         binding.watchVideoAdCard.alpha = if (buttonsEnabled) 1.0f else 0.6f
         binding.interactiveAdCard.alpha = if (buttonsEnabled) 1.0f else 0.6f
+        binding.multiAdCard.alpha = if (buttonsEnabled) 1.0f else 0.6f
     }
 
     override fun onResume() {
@@ -280,5 +460,6 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
     }
 }

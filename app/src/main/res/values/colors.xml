@@ -38,6 +38,7 @@
     <color name="surface">#FFFFFF</color>
     <color name="surface_variant">#F5F5F7</color>
     <color name="surface_elevated">#FFFFFF</color>
+    <color name="nav_bar_background">#1A1A2E</color>
     
     <!-- Text Colors -->
     <color name="text_primary">#1A1A2E</color>
@@ -63,7 +64,9 @@
     
     <!-- Bottom Navigation -->
     <color name="nav_selected">#FF6B5B</color>
-    <color name="nav_unselected">#9CA3AF</color>
+    <color name="nav_unselected">#BFBFBF</color>
+    <color name="nav_bar_text_selected">#FFFFFF</color>
+    <color name="nav_bar_text_unselected">#9CA3AF</color>
     
     <!-- Status Indicators -->
     <color name="active_indicator">#4CAF50</color>

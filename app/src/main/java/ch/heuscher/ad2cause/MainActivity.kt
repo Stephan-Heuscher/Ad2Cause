@@ -1,8 +1,11 @@
 package ch.heuscher.ad2cause
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -61,8 +64,45 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.privacy_policy_fragment)
                 true
             }
+            R.id.action_feedback -> {
+                sendFeedbackEmail()
+                true
+            }
+            R.id.action_about -> {
+                showAboutDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    /**
+     * Send feedback via email
+     */
+    private fun sendFeedbackEmail() {
+        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("stv.heuscher@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_email_subject))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_email_body))
+        }
+
+        try {
+            startActivity(emailIntent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Show about dialog
+     */
+    private fun showAboutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.app_name))
+            .setMessage("${getString(R.string.app_slogan)}\n\nVersion 1.0\n\n© 2025 Stephan Heuscher\n\nAd2Cause helps you support open-source accessibility projects by watching ads. Every view contributes to making technology accessible for everyone.")
+            .setPositiveButton("OK", null)
+            .show()
     }
 
     /**
@@ -76,25 +116,25 @@ class MainActivity : AppCompatActivity() {
             // Check if database is empty
             val existingCauses = repository.getAllCausesSync()
             if (existingCauses.isEmpty()) {
-                // Insert the 3 predefined causes
+                // Insert the 3 predefined causes with updated descriptions from GitHub
                 val causes = listOf(
                     Cause(
                         name = "AI Rescue Ring",
-                        description = "AI-powered rescue assistant that provides instant help with a tap using Gemini 2.5. Features a floating rescue ring that captures your screen for context-aware assistance through voice or text.",
+                        description = "Your intelligent companion on Android - always visible, always ready to help. Tap the rescue ring whenever you need assistance, and a powerful AI (Gemini 2.5 Flash) will help you with any task on your device. Features context-aware help that sees what you see, voice or text chat, smart keyboard avoidance, and customizable appearance. Privacy-first: your API key stays on your device.",
                         imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Assistive Tap",
-                        description = "A floating button that helps users reach home with their thumb from anywhere on the screen. Features Safe-Home mode for maximum security with tap-to-home functionality and protected repositioning to prevent accidental moves.",
+                        description = "Your navigation helper – A floating dot that helps users reach Home or navigate with their thumb from anywhere on the screen. Features Safe-Home mode (all taps go Home) for maximum security, and Navi mode for advanced users (1x tap = Back, 2x = Switch app, 3x = Recent apps, long press = Home). Designed for accessibility with WCAG 2.1 Level AA compliance.",
                         imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Safe Home Button",
-                        description = "A floating accessibility button that always brings you safely back home with a simple tap. Helps users with motor limitations navigate their device through customizable gestures and modes.",
+                        description = "A floating accessibility button that always brings you safely back home with a simple tap. Ideal for users with motor limitations who have difficulty reaching the phone's navigation buttons. Features Safe-Home mode with square design (like Android navigation), protected repositioning to prevent accidental moves, keyboard avoidance, and clean architecture for reliability.",
                         imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0

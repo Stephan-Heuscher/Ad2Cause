@@ -50,10 +50,23 @@ class CausesFragment : Fragment() {
 
         causeViewModel = ViewModelProvider(requireActivity())[CauseViewModel::class.java]
 
+        setupBackButton()
         setupRecyclerView()
         setupSearch()
         setupFab()
         observeData()
+    }
+
+    /**
+     * Setup back button to navigate to home
+     */
+    private fun setupBackButton() {
+        binding.backButton.setOnClickListener {
+            // Navigate back to home tab
+            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                R.id.bottomNavigation
+            )?.selectedItemId = R.id.nav_home
+        }
     }
 
     /**
@@ -73,9 +86,26 @@ class CausesFragment : Fragment() {
                 causeViewModel.setActiveCause(cause)
                 Toast.makeText(
                     requireContext(),
-                    "Active cause: ${cause.name}",
+                    getString(R.string.active_cause_set, cause.name),
                     Toast.LENGTH_SHORT
                 ).show()
+                // Navigate back to home after selecting
+                requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                    R.id.bottomNavigation
+                )?.selectedItemId = R.id.nav_home
+            },
+            onIconClick = { cause ->
+                // Set cause as active when icon is clicked
+                causeViewModel.setActiveCause(cause)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.active_cause_set, cause.name),
+                    Toast.LENGTH_SHORT
+                ).show()
+                // Navigate back to home after selecting
+                requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                    R.id.bottomNavigation
+                )?.selectedItemId = R.id.nav_home
             }
         )
 

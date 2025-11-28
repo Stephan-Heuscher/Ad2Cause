@@ -410,6 +410,75 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Multi-Ad Option -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/multiAdCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/tertiary_container"
+                    app:strokeWidth="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_multi_ad"
+                            android:contentDescription="Multi ad" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/multi_ad_title"
+                                android:textColor="@color/tertiary_dark"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/multi_ad_desc"
+                                android:textColor="@color/tertiary_dark"
+                                android:textSize="12sp"
+                                android:alpha="0.8"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/multiAdButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="@string/multi_ad_button"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:backgroundTint="@color/tertiary"
+                            android:textColor="@color/text_on_primary"
+                            app:cornerRadius="18dp"
+                            android:minWidth="64dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
 
             <!-- ============ MOTIVATIONAL TIP ============ -->

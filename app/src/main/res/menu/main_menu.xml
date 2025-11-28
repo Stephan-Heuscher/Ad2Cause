@@ -3,9 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_feedback"
+        android:title="@string/menu_feedback"
+        android:icon="@drawable/ic_feedback"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/menu_about"
+        android:icon="@drawable/ic_info"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_privacy_policy"
         android:title="@string/menu_privacy_policy"
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:icon="@drawable/ic_privacy"
         app:showAsAction="never" />
 
 </menu>

@@ -104,7 +104,9 @@ class CauseDetailFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         // Navigate back to home
-                        findNavController().popBackStack(R.id.nav_home, false)
+                        requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
+                            R.id.bottomNavigation
+                        )?.selectedItemId = R.id.nav_home
                     }
                 }
             }
