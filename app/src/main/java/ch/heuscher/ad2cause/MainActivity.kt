@@ -121,21 +121,21 @@ class MainActivity : AppCompatActivity() {
                 val causes = listOf(
                     Cause(
                         name = "AI Rescue Ring",
-                        description = "Your intelligent assistant, always ready to help – An AI-powered Android app providing instant assistance through a floating rescue ring. The AI \"sees\" what you see and instantly analyzes your current screen to provide relevant answers. Features AI-powered voice or text chat powered by Google's Gemini 2.5 Flash, smart keyboard avoidance, and customizable appearance. Privacy-first: your API key stays on your device, requests go directly to Google.",
+                        description = "🛟 Your intelligent assistant, always ready to help – An AI-powered Android app providing instant assistance through a floating rescue ring.\n\n👀 Context-Aware Help: The AI \"sees\" what you see—instantly analyzes your current screen to provide relevant answers.\n🤖 AI-Powered Chat: Voice or text chat powered by Google's Gemini 2.5 Flash.\n⌨️ Smart Positioning: The ring automatically detects your keyboard and floats out of the way so it never blocks your typing.\n🎨 Customizable: Choose your ring's color, transparency, and size to match your style.\n🔒 Privacy-First: Your API key stays on your device; requests go directly to Google.",
                         imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Assistive Tap",
-                        description = "Ihr Tipp-Helfer zur Navigation – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebendem Punkt. Stell dir vor, deine Oma hätte Probleme, die Handy-Tasten unten zu erreichen. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal wo sie gerade ist.",
+                        description = "📱 Ihr Tipp-Helfer zur Navigation – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebendem Punkt.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten unten zu erreichen. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal wo sie gerade ist.",
                         imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
                         name = "Safe Home Button",
-                        description = "Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button. Stell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.",
+                        description = "📱 Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.",
                         imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0

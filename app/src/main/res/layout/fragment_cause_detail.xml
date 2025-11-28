@@ -72,7 +72,7 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingTop="20dp"
-            android:paddingBottom="100dp">
+            android:paddingBottom="16dp">
 
             <!-- Cause Name (for non-collapsing display) -->
             <TextView

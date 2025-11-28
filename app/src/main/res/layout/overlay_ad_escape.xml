@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="8dp"
+    android:padding="12dp"
     android:background="@drawable/bg_escape_container">
 
     <ImageButton
         android:id="@+id/escapeButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:background="@drawable/bg_escape_button"
         android:src="@drawable/ic_close"
         android:contentDescription="@string/cancel_ad"
@@ -22,11 +22,11 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel_ad_label"
         android:textColor="#FFFFFF"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:shadowColor="#000000"
-        android:shadowRadius="2"
+        android:shadowRadius="3"
         android:shadowDx="1"
         android:shadowDy="1" />
 
@@ -35,7 +35,9 @@
         android:layout_height="wrap_content"
         android:text="@string/no_credit_warning"
         android:textColor="#FFCDD2"
-        android:textSize="8sp"
-        android:gravity="center" />
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="2dp" />
 
 </LinearLayout>

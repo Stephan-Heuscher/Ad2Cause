@@ -496,14 +496,16 @@ class HomeFragment : Fragment() {
             
             // Check if we should continue multi-ad mode
             if (isMultiAdMode && adsWatched < adsToWatch) {
-                // In multi-ad mode, immediately continue to next ad
-                pendingAdShow = true
-                continueMultiAdMode()
+                // In multi-ad mode, wait 1 second then continue to next ad
+                handler.postDelayed({
+                    pendingAdShow = true
+                    continueMultiAdMode()
+                }, 1000)
             } else {
                 // End multi-ad mode if active
                 isMultiAdMode = false
                 
-                // Preload next ad after 1 second (reduced from 2 seconds for faster experience)
+                // Preload next ad after 1 second for faster experience
                 val cause = causeViewModel.activeCause.value
                 if (cause != null) {
                     handler.postDelayed({
