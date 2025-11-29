@@ -22,7 +22,6 @@ import coil.load
 import ch.heuscher.ad2cause.R
 import ch.heuscher.ad2cause.MainActivity
 import ch.heuscher.ad2cause.ads.AdManager
-import ch.heuscher.ad2cause.ads.AdEscapeOverlayService
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
 import ch.heuscher.ad2cause.viewmodel.AdViewModel
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
@@ -77,110 +76,9 @@ class HomeFragment : Fragment() {
         setupUI()
         observeViewModel()
         setupAdCallbacks()
-        setupEscapeOverlay()
-        
-        // Check for overlay permission
-        if (!canDrawOverlay()) {
-            requestOverlayPermission()
-        }
         
         // Pre-load an ad
         preloadAd()
-    }
-    
-    /**
-     * Setup the escape overlay callback
-     */
-    private fun setupEscapeOverlay() {
-        Log.d(TAG, "setupEscapeOverlay: Setting up escape overlay callback")
-        AdEscapeOverlayService.onEscapePressed = {
-            Log.d(TAG, "setupEscapeOverlay: Escape button pressed! Cancelling ad session")
-            
-            // Run on main thread to be safe
-            handler.post {
-                if (!isAdded) return@post
-                
-                // User pressed escape - cancel multi-ad mode and reset state
-                isMultiAdMode = false
-                pendingAdShow = false
-                adsToWatch = 0
-                adsWatched = 0
-                
-                // Bring MainActivity to front to effectively "close" the ad
-                // CLEAR_TOP ensures the AdActivity (which is on top) is finished
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                startActivity(intent)
-                
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.ad_cancelled),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-    
-    /**
-     * Show the escape overlay during ad playback
-     */
-    private fun showEscapeOverlay() {
-        Log.d(TAG, "showEscapeOverlay: Attempting to show escape overlay")
-        if (canDrawOverlay()) {
-            Log.d(TAG, "showEscapeOverlay: Overlay permission granted, starting service")
-            val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
-                action = AdEscapeOverlayService.ACTION_SHOW
-            }
-            requireContext().startService(intent)
-        } else {
-            Log.w(TAG, "showEscapeOverlay: Overlay permission NOT granted!")
-        }
-    }
-    
-    /**
-     * Hide the escape overlay
-     */
-    private fun hideEscapeOverlay() {
-        Log.d(TAG, "hideEscapeOverlay: Hiding escape overlay")
-        val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
-            action = AdEscapeOverlayService.ACTION_HIDE
-        }
-        try {
-            requireContext().startService(intent)
-        } catch (e: Exception) {
-            Log.e(TAG, "hideEscapeOverlay: Error hiding overlay", e)
-        }
-    }
-    
-    /**
-     * Check if overlay permission is granted
-     */
-    private fun canDrawOverlay(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(requireContext())
-        } else {
-            true
-        }
-    }
-    
-    /**
-     * Request overlay permission if not granted
-     */
-    private fun requestOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(requireContext())) {
-            AlertDialog.Builder(requireContext())
-                .setTitle("Permission Required")
-                .setMessage(getString(R.string.overlay_permission_required))
-                .setPositiveButton("Grant") { _, _ ->
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:${requireContext().packageName}")
-                    )
-                    startActivity(intent)
-                }
-                .setNegativeButton("Cancel", null)
-                .show()
-        }
     }
     
     /**
@@ -427,7 +325,6 @@ class HomeFragment : Fragment() {
             // Ad is already loaded, show it
             showLoading(false)
             pendingAdShow = false
-            showEscapeOverlay()  // Show escape button during ad
             adManager.showRewardedAd(requireActivity())
         } else {
             // Load ad of specified type with cause information
@@ -529,7 +426,6 @@ class HomeFragment : Fragment() {
             if (pendingAdShow && adManager.isAdReady()) {
                 Log.d(TAG, "onAdLoaded: Auto-showing ad because pendingAdShow=true")
                 pendingAdShow = false
-                showEscapeOverlay()  // Show escape button during ad
                 adManager.showRewardedAd(requireActivity())
             }
         }
@@ -555,14 +451,6 @@ class HomeFragment : Fragment() {
                         val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
                     }
-                    
-                    // Auto-close the ad by bringing MainActivity to top (clearing AdActivity)
-                    if (isAdded) {
-                        Log.d(TAG, "onRewardEarned: Auto-closing ad view...")
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                        startActivity(intent)
-                    }
                 }, 500)
             } else {
                 Log.w(TAG, "onRewardEarned: No active cause found!")
@@ -578,7 +466,6 @@ class HomeFragment : Fragment() {
             showLoading(false)
             updateButtonStates()
             isMultiAdMode = false
-            hideEscapeOverlay()  // Hide escape button on failure
             Toast.makeText(
                 requireContext(),
                 getString(R.string.ad_not_ready),
@@ -589,8 +476,6 @@ class HomeFragment : Fragment() {
         adManager.onAdClosed = {
             Log.d(TAG, "onAdClosed: Ad was closed/dismissed")
             Log.i(TAG, "onAdClosed (INFO): ad closed - continuing flow")
-            // Hide escape overlay
-            hideEscapeOverlay()
             
             // Reset pending flag - user has seen an ad or closed it
             pendingAdShow = false
@@ -676,7 +561,5 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
-        hideEscapeOverlay()
-        AdEscapeOverlayService.onEscapePressed = null
     }
 }
