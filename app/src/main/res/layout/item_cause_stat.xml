@@ -15,20 +15,18 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- Rank Indicator -->
+        <!-- Cause Icon (replaces numeric rank) -->
         <FrameLayout
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/bg_stat_item">
 
-            <TextView
-                android:id="@+id/causeStatRank"
+            <ImageView
+                android:id="@+id/causeStatIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="1"
-                style="@style/TextStyle.LabelLarge"
-                android:textColor="@color/primary" />
+                android:scaleType="centerCrop"
+                android:contentDescription="Cause icon" />
 
         </FrameLayout>
 

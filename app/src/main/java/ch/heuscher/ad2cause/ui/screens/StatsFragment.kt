@@ -148,7 +148,17 @@ class StatsFragment : Fragment() {
 
             fun bind(cause: Cause, rank: Int, totalEarnings: Double) {
                 binding.causeStatName.text = cause.name
-                binding.causeStatRank.text = rank.toString()
+                // Load cause icon in list instead of numeric rank
+                if (cause.imageUrl.isNotEmpty()) {
+                    binding.causeStatIcon.load(cause.imageUrl) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_heart_filled)
+                        error(R.drawable.ic_heart_filled)
+                        transformations(CircleCropTransformation())
+                    }
+                } else {
+                    binding.causeStatIcon.setImageResource(R.drawable.ic_heart_filled)
+                }
                 binding.causeStatEarnings.text = String.format("%.0f pts", cause.totalEarned)
                 
                 // Calculate and display percentage
