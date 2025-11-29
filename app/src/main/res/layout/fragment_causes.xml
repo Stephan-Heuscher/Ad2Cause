@@ -19,15 +19,7 @@
             android:paddingHorizontal="8dp"
             android:background="@color/surface">
 
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_back"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/back"
-                android:padding="8dp"
-                app:tint="@color/text_primary" />
+            <!-- Back button removed: top bar now shows only the title in this layout -->
 
             <TextView
                 android:layout_width="0dp"

@@ -50,24 +50,13 @@ class CausesFragment : Fragment() {
 
         causeViewModel = ViewModelProvider(requireActivity())[CauseViewModel::class.java]
 
-        setupBackButton()
         setupRecyclerView()
         setupSearch()
         setupFab()
         observeData()
     }
 
-    /**
-     * Setup back button to navigate to home
-     */
-    private fun setupBackButton() {
-        binding.backButton.setOnClickListener {
-            // Navigate back to home tab
-            requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(
-                R.id.bottomNavigation
-            )?.selectedItemId = R.id.nav_home
-        }
-    }
+    // Back button removed from layout — no setup required
 
     /**
      * Setup the RecyclerView for displaying causes.
