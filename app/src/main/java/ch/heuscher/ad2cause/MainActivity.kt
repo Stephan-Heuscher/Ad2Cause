@@ -15,11 +15,16 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import ch.heuscher.ad2cause.databinding.ActivityMainBinding
 // Causes are now managed in-memory via MainActivity (no DB inserts)
+import android.util.Log
 import ch.heuscher.ad2cause.data.models.Cause
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -138,9 +143,11 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
+            Log.i(TAG, "initializeSampleData: setting ${causes.size} in-memory causes")
             // Provide these causes to the ViewModel (in-memory only)
             causeViewModel.setCauses(causes)
 
+            Log.i(TAG, "initializeSampleData: set causes into CauseViewModel, defaulting safe-home if present")
             // Set Safe Home Button as the default active cause if none defined
             val safeHomeButton = causes.find { it.name == getString(R.string.cause_safe_home_button_name) }
             safeHomeButton?.let { causeViewModel.setActiveCause(it) }
