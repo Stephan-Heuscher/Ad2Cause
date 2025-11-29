@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,10 @@ import kotlinx.coroutines.launch
  * Displays the active cause, total earnings, and buttons to watch ads.
  */
 class HomeFragment : Fragment() {
+
+    companion object {
+        private const val TAG = "HomeFragment"
+    }
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var causeViewModel: CauseViewModel
@@ -80,7 +85,9 @@ class HomeFragment : Fragment() {
      * Setup the escape overlay callback
      */
     private fun setupEscapeOverlay() {
+        Log.d(TAG, "setupEscapeOverlay: Setting up escape overlay callback")
         AdEscapeOverlayService.onEscapePressed = {
+            Log.d(TAG, "setupEscapeOverlay: Escape button pressed! Cancelling ad session")
             // User pressed escape - cancel multi-ad mode and reset state
             isMultiAdMode = false
             pendingAdShow = false
@@ -102,11 +109,15 @@ class HomeFragment : Fragment() {
      * Show the escape overlay during ad playback
      */
     private fun showEscapeOverlay() {
+        Log.d(TAG, "showEscapeOverlay: Attempting to show escape overlay")
         if (canDrawOverlay()) {
+            Log.d(TAG, "showEscapeOverlay: Overlay permission granted, starting service")
             val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
                 action = AdEscapeOverlayService.ACTION_SHOW
             }
             requireContext().startService(intent)
+        } else {
+            Log.w(TAG, "showEscapeOverlay: Overlay permission NOT granted!")
         }
     }
     
@@ -114,13 +125,14 @@ class HomeFragment : Fragment() {
      * Hide the escape overlay
      */
     private fun hideEscapeOverlay() {
+        Log.d(TAG, "hideEscapeOverlay: Hiding escape overlay")
         val intent = Intent(requireContext(), AdEscapeOverlayService::class.java).apply {
             action = AdEscapeOverlayService.ACTION_HIDE
         }
         try {
             requireContext().startService(intent)
         } catch (e: Exception) {
-            // Ignore if service not running
+            Log.e(TAG, "hideEscapeOverlay: Error hiding overlay", e)
         }
     }
     
@@ -437,14 +449,19 @@ class HomeFragment : Fragment() {
      * Setup AdMob manager callbacks.
      */
     private fun setupAdCallbacks() {
+        Log.d(TAG, "setupAdCallbacks: Setting up ad callbacks")
+        
         adManager.onAdLoaded = {
+            Log.d(TAG, "onAdLoaded: Ad loaded successfully, adsAvailable=true")
             // Ads are available
             adsAvailable = true
             showLoading(false)
             updateButtonStates()
             
             // Only auto-show if user explicitly requested it (button was clicked)
+            Log.d(TAG, "onAdLoaded: pendingAdShow=$pendingAdShow, isAdReady=${adManager.isAdReady()}")
             if (pendingAdShow && adManager.isAdReady()) {
+                Log.d(TAG, "onAdLoaded: Auto-showing ad because pendingAdShow=true")
                 pendingAdShow = false
                 showEscapeOverlay()  // Show escape button during ad
                 adManager.showRewardedAd(requireActivity())
@@ -452,14 +469,17 @@ class HomeFragment : Fragment() {
         }
 
         adManager.onRewardEarned = { rewardAmount ->
+            Log.d(TAG, "onRewardEarned: User earned $rewardAmount points")
             val cause = causeViewModel.activeCause.value
             if (cause != null) {
+                Log.d(TAG, "onRewardEarned: Updating earnings for cause: ${cause.name}")
                 // Update local earnings in database
                 causeViewModel.updateActiveCauseEarnings(rewardAmount)
                 
                 // Track for multi-ad mode
                 if (isMultiAdMode) {
                     adsWatched++
+                    Log.d(TAG, "onRewardEarned: Multi-ad mode - adsWatched=$adsWatched, adsToWatch=$adsToWatch")
                 }
 
                 // Show reward message after a short delay (ad dismissal)
@@ -469,10 +489,13 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
                     }
                 }, 500)
+            } else {
+                Log.w(TAG, "onRewardEarned: No active cause found!")
             }
         }
 
         adManager.onAdFailedToLoad = { adError ->
+            Log.e(TAG, "onAdFailedToLoad: Ad failed to load - ${adError.message} (code: ${adError.code})")
             // Mark ads as unavailable
             adsAvailable = false
             pendingAdShow = false
@@ -488,20 +511,26 @@ class HomeFragment : Fragment() {
         }
         
         adManager.onAdClosed = {
+            Log.d(TAG, "onAdClosed: Ad was closed/dismissed")
             // Hide escape overlay
             hideEscapeOverlay()
             
             // Reset pending flag - user has seen an ad or closed it
             pendingAdShow = false
             
+            Log.d(TAG, "onAdClosed: isMultiAdMode=$isMultiAdMode, adsWatched=$adsWatched, adsToWatch=$adsToWatch")
+            
             // Check if we should continue multi-ad mode
             if (isMultiAdMode && adsWatched < adsToWatch) {
+                Log.d(TAG, "onAdClosed: Multi-ad mode active, waiting 1 second then continuing...")
                 // In multi-ad mode, wait 1 second then continue to next ad
                 handler.postDelayed({
+                    Log.d(TAG, "onAdClosed: 1 second passed, continuing multi-ad mode")
                     pendingAdShow = true
                     continueMultiAdMode()
                 }, 1000)
             } else {
+                Log.d(TAG, "onAdClosed: Single ad mode or multi-ad complete, preloading next ad after 1 second")
                 // End multi-ad mode if active
                 isMultiAdMode = false
                 
@@ -509,6 +538,7 @@ class HomeFragment : Fragment() {
                 val cause = causeViewModel.activeCause.value
                 if (cause != null) {
                     handler.postDelayed({
+                        Log.d(TAG, "onAdClosed: Preloading next ad for cause: ${cause.name}")
                         if (!adManager.isAdReady() && !adManager.isAdLoading()) {
                             adManager.loadRewardedAd(
                                 AdManager.AdType.NON_INTERACTIVE,

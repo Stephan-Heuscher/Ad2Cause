@@ -117,25 +117,25 @@ class MainActivity : AppCompatActivity() {
             // Check if database is empty
             val existingCauses = repository.getAllCausesSync()
             if (existingCauses.isEmpty()) {
-                // Insert the 3 predefined causes with updated descriptions from GitHub
+                // Insert the 3 predefined causes with descriptions from string resources
                 val causes = listOf(
                     Cause(
-                        name = "AI Rescue Ring",
-                        description = "🛟 Your intelligent assistant, always ready to help – An AI-powered Android app providing instant assistance through a floating rescue ring.\n\n👀 Context-Aware Help: The AI \"sees\" what you see—instantly analyzes your current screen to provide relevant answers.\n🤖 AI-Powered Chat: Voice or text chat powered by Google's Gemini 2.5 Flash.\n⌨️ Smart Positioning: The ring automatically detects your keyboard and floats out of the way so it never blocks your typing.\n🎨 Customizable: Choose your ring's color, transparency, and size to match your style.\n🔒 Privacy-First: Your API key stays on your device; requests go directly to Google.",
+                        name = getString(R.string.cause_ai_rescue_ring_name),
+                        description = getString(R.string.cause_ai_rescue_ring_desc),
                         imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
-                        name = "Assistive Tap",
-                        description = "📱 Ihr Tipp-Helfer zur Navigation – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebendem Punkt.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten unten zu erreichen. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal wo sie gerade ist.",
+                        name = getString(R.string.cause_assistive_tap_name),
+                        description = getString(R.string.cause_assistive_tap_desc),
                         imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
                     ),
                     Cause(
-                        name = "Safe Home Button",
-                        description = "📱 Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.",
+                        name = getString(R.string.cause_safe_home_button_name),
+                        description = getString(R.string.cause_safe_home_button_desc),
                         imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                         isUserAdded = false,
                         totalEarned = 0.0
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
                 // Set Safe Home Button as the default active cause
                 val allCauses = repository.getAllCausesSync()
-                val safeHomeButton = allCauses.find { it.name == "Safe Home Button" }
+                val safeHomeButton = allCauses.find { it.name == getString(R.string.cause_safe_home_button_name) }
                 safeHomeButton?.let { causeViewModel.setActiveCause(it) }
             }
         }

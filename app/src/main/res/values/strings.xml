@@ -149,4 +149,14 @@
     <string name="no_credit_warning">No credit to cause</string>
     <string name="ad_cancelled">Ad session cancelled - no points earned</string>
     <string name="overlay_permission_required">Overlay permission is needed to show the escape button during ads</string>
+    
+    <!-- Cause Descriptions (for i18n) -->
+    <string name="cause_ai_rescue_ring_name">AI Rescue Ring</string>
+    <string name="cause_ai_rescue_ring_desc">🛟 Your intelligent assistant, always ready to help – An AI-powered Android app providing instant assistance through a floating rescue ring.\n\n👀 Context-Aware Help: The AI \"sees\" what you see—instantly analyzes your current screen to provide relevant answers.\n🤖 AI-Powered Chat: Voice or text chat powered by Google\'s Gemini 2.5 Flash.\n⌨️ Smart Positioning: The ring automatically detects your keyboard and floats out of the way so it never blocks your typing.\n🎨 Customizable: Choose your ring\'s color, transparency, and size to match your style.\n🔒 Privacy-First: Your API key stays on your device; requests go directly to Google.</string>
+    
+    <string name="cause_assistive_tap_name">Assistive Tap</string>
+    <string name="cause_assistive_tap_desc">📱 Ihr Tipp-Helfer zur Navigation – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebendem Punkt.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten unten zu erreichen. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal wo sie gerade ist.</string>
+    
+    <string name="cause_safe_home_button_name">Safe Home Button</string>
+    <string name="cause_safe_home_button_desc">📱 Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.</string>
 </resources>

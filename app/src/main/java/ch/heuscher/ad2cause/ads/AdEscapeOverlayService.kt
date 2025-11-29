@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class AdEscapeOverlayService : Service() {
     private var overlayView: View? = null
 
     companion object {
+        private const val TAG = "AdEscapeOverlayService"
         const val ACTION_SHOW = "ch.heuscher.ad2cause.ACTION_SHOW_ESCAPE"
         const val ACTION_HIDE = "ch.heuscher.ad2cause.ACTION_HIDE_ESCAPE"
         
@@ -33,10 +35,12 @@ class AdEscapeOverlayService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d(TAG, "onCreate: Service created")
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(TAG, "onStartCommand: action=${intent?.action}")
         when (intent?.action) {
             ACTION_SHOW -> showOverlay()
             ACTION_HIDE -> hideOverlay()
@@ -45,7 +49,11 @@ class AdEscapeOverlayService : Service() {
     }
 
     private fun showOverlay() {
-        if (overlayView != null) return
+        Log.d(TAG, "showOverlay: Attempting to show overlay, current overlayView=$overlayView")
+        if (overlayView != null) {
+            Log.d(TAG, "showOverlay: Overlay already visible, skipping")
+            return
+        }
 
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         overlayView = inflater.inflate(R.layout.overlay_ad_escape, null)
@@ -67,24 +75,28 @@ class AdEscapeOverlayService : Service() {
         }
 
         overlayView?.findViewById<ImageButton>(R.id.escapeButton)?.setOnClickListener {
+            Log.d(TAG, "showOverlay: Escape button clicked!")
             onEscapePressed?.invoke()
             hideOverlay()
         }
 
         try {
             windowManager?.addView(overlayView, params)
+            Log.d(TAG, "showOverlay: Overlay added successfully")
         } catch (e: Exception) {
-            // Permission denied or other issue
-            e.printStackTrace()
+            Log.e(TAG, "showOverlay: Failed to add overlay", e)
+            overlayView = null
         }
     }
 
     private fun hideOverlay() {
+        Log.d(TAG, "hideOverlay: Attempting to hide overlay")
         overlayView?.let {
             try {
                 windowManager?.removeView(it)
+                Log.d(TAG, "hideOverlay: Overlay removed successfully")
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e(TAG, "hideOverlay: Failed to remove overlay", e)
             }
             overlayView = null
         }
@@ -92,6 +104,7 @@ class AdEscapeOverlayService : Service() {
     }
 
     override fun onDestroy() {
+        Log.d(TAG, "onDestroy: Service destroyed")
         hideOverlay()
         super.onDestroy()
     }
