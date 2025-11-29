@@ -8,6 +8,8 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewarded.ServerSideVerificationOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 /**
  * Manager class for handling Google AdMob rewarded ads.
@@ -58,6 +60,7 @@ class AdManager(private val context: Context) {
     private var currentCauseId: String? = null  // Track which cause the ad is for
     private var currentCauseName: String? = null
     private var currentTransactionId: String? = null // Unique ID for server-side verification
+    private var verificationListener: ListenerRegistration? = null
 
     // Callback interfaces for ad lifecycle events
     var onAdLoaded: (() -> Unit)? = null
@@ -190,6 +193,45 @@ class AdManager(private val context: Context) {
                 Log.d(TAG, "User earned reward: ${rewardAmount} points")
                 Log.i(TAG, "onRewardEarned (INFO): reward=${rewardAmount} for cause=$currentCauseName (id=$currentCauseId)")
                 onRewardEarned?.invoke(rewardAmount)
+
+                // Start listening for SSV
+                currentTransactionId?.let { txId ->
+                    listenForVerification(txId)
+                }
+            }
+        }
+    }
+
+    /**
+     * Listen for server-side verification of the ad reward.
+     */
+    private fun listenForVerification(transactionId: String) {
+        // Remove any existing listener
+        verificationListener?.remove()
+
+        val db = FirebaseFirestore.getInstance()
+        val docRef = db.collection("ad_rewards").document(transactionId)
+
+        Log.d(TAG, "Listening for verification on document: ad_rewards/$transactionId")
+
+        verificationListener = docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                val status = snapshot.getString("status")
+                Log.d(TAG, "Verification status: $status")
+
+                if (status == "VERIFIED") {
+                    Log.d(TAG, "Ad verified successfully!")
+                    android.widget.Toast.makeText(context, "Ad verified! Reward confirmed.", android.widget.Toast.LENGTH_SHORT).show()
+
+                    // Stop listening
+                    verificationListener?.remove()
+                    verificationListener = null
+                }
             }
         }
     }
