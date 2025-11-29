@@ -1,102 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/nav_bar_background"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:orientation="vertical">        <!-- Modern App Bar with subtle elevation -->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        app:elevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
             android:background="@color/surface"
-            app:elevation="0dp">
+            android:gravity="center_vertical"
+            android:paddingStart="16dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@color/surface"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:textColor="@color/text_primary"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/app_slogan"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:title=""
-                    app:menu="@menu/main_menu" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_slogan"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
-            <!-- Subtle divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:title=""
+                app:menu="@menu/main_menu" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </LinearLayout>
 
-        <!-- Navigation Container -->
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
-
-        <!-- Modern Bottom Navigation with elevation shadow -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/outline" />
+            android:background="@color/divider" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/nav_bar_background"
-            android:paddingTop="4dp"
-            app:itemActiveIndicatorStyle="@null"
-            app:itemIconSize="24dp"
-            app:itemIconTint="@color/bottom_nav_color_selector"
-            app:itemTextColor="@color/bottom_nav_color_selector"
-            app:itemTextAppearanceActive="@style/TextStyle.LabelMedium"
-            app:itemTextAppearanceInactive="@style/TextStyle.LabelMedium"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </LinearLayout>
+    <!-- Main Content -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- Bottom Divider -->
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/outline"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nav_bar_background"
+        android:paddingTop="4dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
+        app:itemTextAppearanceActive="@style/TextStyle.LabelMedium"
+        app:itemTextAppearanceInactive="@style/TextStyle.LabelMedium"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
