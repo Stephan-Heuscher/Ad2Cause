@@ -14,9 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import ch.heuscher.ad2cause.databinding.ActivityMainBinding
-import ch.heuscher.ad2cause.data.database.Ad2CauseDatabase
+// Causes are now managed in-memory via MainActivity (no DB inserts)
 import ch.heuscher.ad2cause.data.models.Cause
-import ch.heuscher.ad2cause.data.repository.CauseRepository
 import ch.heuscher.ad2cause.viewmodel.CauseViewModel
 import kotlinx.coroutines.launch
 
@@ -34,8 +33,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize ViewModels
         causeViewModel = ViewModelProvider(this)[CauseViewModel::class.java]
 
-        // Initialize database
-        val database = Ad2CauseDatabase.getDatabase(this)
+        // No database initialization for causes - they are provided in-memory below
 
         // Setup toolbar - hide the default title since we have a custom header
         setSupportActionBar(binding.toolbar)
@@ -50,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         // Setup bottom navigation with nav controller
         binding.bottomNavigation.setupWithNavController(navController)
 
-        // Initialize sample data on first launch
-        initializeSampleData(database)
+        // Initialize sample data in-memory on first launch
+        initializeSampleData()
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
@@ -110,17 +108,12 @@ class MainActivity : AppCompatActivity() {
      * Initialize the database with the 3 predefined causes on first launch.
      * Sets Safe Home Button as the default active cause.
      */
-    private fun initializeSampleData(database: Ad2CauseDatabase) {
+    private fun initializeSampleData() {
         lifecycleScope.launch {
-            val repository = CauseRepository(database.causeDao())
-
-            // Check if database is empty
-            val existingCauses = repository.getAllCausesSync()
-
-            // Insert the 3 predefined causes with descriptions from string resources
-            if (existingCauses.isEmpty()) {
-                val causes = listOf(
+            // Insert the 3 predefined causes (in-memory only)
+            val causes = listOf(
                 Cause(
+                    id = 1,
                     name = getString(R.string.cause_ai_rescue_ring_name),
                     description = getString(R.string.cause_ai_rescue_ring_desc),
                     imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
@@ -128,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                     totalEarned = 0.0
                 ),
                 Cause(
+                    id = 2,
                     name = getString(R.string.cause_assistive_tap_name),
                     description = getString(R.string.cause_assistive_tap_desc),
                     imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
@@ -135,23 +129,21 @@ class MainActivity : AppCompatActivity() {
                     totalEarned = 0.0
                 ),
                 Cause(
+                    id = 3,
                     name = getString(R.string.cause_safe_home_button_name),
                     description = getString(R.string.cause_safe_home_button_desc),
                     imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
                     isUserAdded = false,
                     totalEarned = 0.0
                 )
-                )
+            )
 
-                causes.forEach { cause ->
-                    repository.insertCause(cause)
-                }
+            // Provide these causes to the ViewModel (in-memory only)
+            causeViewModel.setCauses(causes)
 
-                // Set Safe Home Button as the default active cause
-                val allCauses = repository.getAllCausesSync()
-                val safeHomeButton = allCauses.find { it.name == getString(R.string.cause_safe_home_button_name) }
-                safeHomeButton?.let { causeViewModel.setActiveCause(it) }
-            }
+            // Set Safe Home Button as the default active cause if none defined
+            val safeHomeButton = causes.find { it.name == getString(R.string.cause_safe_home_button_name) }
+            safeHomeButton?.let { causeViewModel.setActiveCause(it) }
         }
     }
 }

@@ -6,9 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import ch.heuscher.ad2cause.data.database.Ad2CauseDatabase
 import ch.heuscher.ad2cause.data.models.Cause
-import ch.heuscher.ad2cause.data.repository.CauseRepository
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,11 +20,11 @@ import kotlinx.coroutines.launch
  */
 class CauseViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: CauseRepository
     private val sharedPreferences = application.getSharedPreferences("ad2cause_prefs", Context.MODE_PRIVATE)
 
-    // All causes
-    val allCauses: Flow<List<Cause>>
+    // All causes (in-memory)
+    private val _allCauses = kotlinx.coroutines.flow.MutableStateFlow<List<Cause>>(emptyList())
+    val allCauses: kotlinx.coroutines.flow.StateFlow<List<Cause>> = _allCauses
     
     // Currently selected (active) cause
     private val _activeCause = MutableStateFlow<Cause?>(null)
@@ -40,36 +39,28 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
     val uiEvent: LiveData<UiEvent> = _uiEvent
 
     init {
-        val database = Ad2CauseDatabase.getDatabase(application)
-        repository = CauseRepository(database.causeDao())
-        allCauses = repository.getAllCauses()
-
-        // Load the active cause from SharedPreferences
+        // No DB repository used: causes are provided from MainActivity at runtime.
+        // Load the active cause from SharedPreferences (will be matched to in-memory causes once they're set)
         loadActiveCause()
-
-        // Initialize database with sample data if empty
-        initializeSampleData()
     }
 
     /**
      * Initialize the database with sample causes on first launch.
      */
     private fun initializeSampleData() {
-        viewModelScope.launch {
-            // This will be handled in MainActivity
-        }
+        // no-op: initial causes are supplied by MainActivity via setCauses()
     }
 
     /**
      * Load the active cause from SharedPreferences.
      */
     private fun loadActiveCause() {
-        viewModelScope.launch {
-            val activeCauseId = sharedPreferences.getInt("active_cause_id", -1)
-            if (activeCauseId != -1) {
-                val cause = repository.getCauseById(activeCauseId)
-                _activeCause.value = cause
-            }
+        // Find existing active cause id from prefs and try to match to in-memory causes
+        val activeCauseId = sharedPreferences.getInt("active_cause_id", -1)
+        if (activeCauseId != -1) {
+            // If causes were already set, try to find it
+            val cause = _allCauses.value.find { it.id == activeCauseId }
+            _activeCause.value = cause
         }
     }
 
@@ -78,6 +69,7 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun setActiveCause(cause: Cause) {
         _activeCause.value = cause
+        // store active cause id in preferences (no DB persistence)
         sharedPreferences.edit().putInt("active_cause_id", cause.id).apply()
         _uiEvent.value = UiEvent.CauseSelected(cause.name)
     }
@@ -85,27 +77,16 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Get a cause by ID.
      */
-    fun getCauseById(id: Int): Flow<Cause?> {
-        return kotlinx.coroutines.flow.flow {
-            emit(repository.getCauseById(id))
-        }
+    fun getCauseById(id: Int): kotlinx.coroutines.flow.Flow<Cause?> {
+        return _allCauses.map { list -> list.find { it.id == id } }
     }
 
     /**
      * Insert a new cause (typically user-added).
      */
     fun addNewCause(name: String, description: String) {
-        viewModelScope.launch {
-            val newCause = Cause(
-                name = name,
-                description = description,
-                imageUrl = "https://via.placeholder.com/200?text=${name.take(3)}", // Placeholder image
-                isUserAdded = true,
-                totalEarned = 0.0
-            )
-            repository.insertCause(newCause)
-            _uiEvent.value = UiEvent.CauseAdded(name)
-        }
+        // Adding causes is disabled when causes are managed in-memory by MainActivity
+        _uiEvent.value = UiEvent.OperationNotAllowed("Adding new causes is disabled")
     }
 
     /**
@@ -113,22 +94,22 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun updateActiveCauseEarnings(amount: Double) {
         val cause = _activeCause.value ?: return
-        viewModelScope.launch {
-            repository.updateCauseEarnings(cause.id, amount)
-            // Reload the active cause to reflect updated earnings
-            loadActiveCause()
-        }
+        // Update in-memory cause earnings
+        val updated = cause.copy(totalEarned = cause.totalEarned + amount)
+        _activeCause.value = updated
+        // update list
+        _allCauses.value = _allCauses.value.map { if (it.id == updated.id) updated else it }
     }
 
     /**
      * Search for causes by name.
      */
-    fun searchCauses(query: String): Flow<List<Cause>> {
+    fun searchCauses(query: String): kotlinx.coroutines.flow.Flow<List<Cause>> {
         _searchQuery.value = query
-        return if (query.isEmpty()) {
-            repository.getAllCauses()
-        } else {
-            repository.searchCausesByName(query)
+        val snapshot = _allCauses.value
+        return kotlinx.coroutines.flow.flow {
+            if (query.isEmpty()) emit(snapshot)
+            else emit(snapshot.filter { it.name.contains(query, ignoreCase = true) })
         }
     }
 
@@ -143,10 +124,8 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
      * Delete a cause from the database.
      */
     fun deleteCause(cause: Cause) {
-        viewModelScope.launch {
-            repository.deleteCause(cause)
-            _uiEvent.value = UiEvent.CauseDeleted(cause.name)
-        }
+        // Deleting causes is disabled when causes are managed in-memory by MainActivity
+        _uiEvent.value = UiEvent.OperationNotAllowed("Deleting causes is disabled")
     }
 
     /**
@@ -156,5 +135,23 @@ class CauseViewModel(application: Application) : AndroidViewModel(application) {
         data class CauseSelected(val causeName: String) : UiEvent()
         data class CauseAdded(val causeName: String) : UiEvent()
         data class CauseDeleted(val causeName: String) : UiEvent()
+        data class OperationNotAllowed(val message: String) : UiEvent()
+    }
+
+    /**
+     * Set causes in-memory (should be called from MainActivity at app start).
+     */
+    fun setCauses(causes: List<Cause>) {
+        _allCauses.value = causes
+
+        // If an active cause id was previously saved, try to match it now
+        val activeId = sharedPreferences.getInt("active_cause_id", -1)
+        if (activeId != -1) {
+            _activeCause.value = _allCauses.value.find { it.id == activeId }
+        } else if (_allCauses.value.isNotEmpty() && _activeCause.value == null) {
+            // default: first cause
+            _activeCause.value = _allCauses.value.first()
+            sharedPreferences.edit().putInt("active_cause_id", _activeCause.value!!.id).apply()
+        }
     }
 }
