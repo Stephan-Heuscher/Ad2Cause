@@ -114,7 +114,6 @@
             android:layout_weight="1"
             android:paddingHorizontal="12dp"
             android:paddingTop="8dp"
-            android:paddingBottom="16dp"
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay" />
 

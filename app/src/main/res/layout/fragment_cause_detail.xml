@@ -71,8 +71,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="20dp">
 
             <!-- Cause Name (for non-collapsing display) -->
             <TextView

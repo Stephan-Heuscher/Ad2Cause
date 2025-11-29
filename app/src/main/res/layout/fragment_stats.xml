@@ -16,8 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp">
+            android:paddingTop="16dp">
 
             <!-- ============ HERO STATS CARD ============ -->
             <com.google.android.material.card.MaterialCardView
