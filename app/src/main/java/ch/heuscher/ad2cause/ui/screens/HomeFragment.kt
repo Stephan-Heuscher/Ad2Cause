@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import ch.heuscher.ad2cause.R
+import ch.heuscher.ad2cause.MainActivity
 import ch.heuscher.ad2cause.ads.AdManager
 import ch.heuscher.ad2cause.ads.AdEscapeOverlayService
 import ch.heuscher.ad2cause.databinding.FragmentHomeBinding
@@ -77,6 +78,11 @@ class HomeFragment : Fragment() {
         setupAdCallbacks()
         setupEscapeOverlay()
         
+        // Check for overlay permission
+        if (!canDrawOverlay()) {
+            requestOverlayPermission()
+        }
+        
         // Pre-load an ad
         preloadAd()
     }
@@ -88,14 +94,22 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "setupEscapeOverlay: Setting up escape overlay callback")
         AdEscapeOverlayService.onEscapePressed = {
             Log.d(TAG, "setupEscapeOverlay: Escape button pressed! Cancelling ad session")
-            // User pressed escape - cancel multi-ad mode and reset state
-            isMultiAdMode = false
-            pendingAdShow = false
-            adsToWatch = 0
-            adsWatched = 0
             
-            // Try to go back to home
-            requireActivity().runOnUiThread {
+            // Run on main thread to be safe
+            handler.post {
+                if (!isAdded) return@post
+                
+                // User pressed escape - cancel multi-ad mode and reset state
+                isMultiAdMode = false
+                pendingAdShow = false
+                adsToWatch = 0
+                adsWatched = 0
+                
+                // Bring MainActivity to front to effectively "close" the ad
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.ad_cancelled),
@@ -453,6 +467,7 @@ class HomeFragment : Fragment() {
         
         adManager.onAdLoaded = {
             Log.d(TAG, "onAdLoaded: Ad loaded successfully, adsAvailable=true")
+            Log.i(TAG, "onAdLoaded (INFO): ad is ready - user-visible")
             // Ads are available
             adsAvailable = true
             showLoading(false)
@@ -470,6 +485,7 @@ class HomeFragment : Fragment() {
 
         adManager.onRewardEarned = { rewardAmount ->
             Log.d(TAG, "onRewardEarned: User earned $rewardAmount points")
+            Log.i(TAG, "onRewardEarned (INFO): $rewardAmount awarded to active cause")
             val cause = causeViewModel.activeCause.value
             if (cause != null) {
                 Log.d(TAG, "onRewardEarned: Updating earnings for cause: ${cause.name}")
@@ -496,6 +512,7 @@ class HomeFragment : Fragment() {
 
         adManager.onAdFailedToLoad = { adError ->
             Log.e(TAG, "onAdFailedToLoad: Ad failed to load - ${adError.message} (code: ${adError.code})")
+            Log.i(TAG, "onAdFailedToLoad (INFO): ad failed to load - code=${adError.code}")
             // Mark ads as unavailable
             adsAvailable = false
             pendingAdShow = false
@@ -512,6 +529,7 @@ class HomeFragment : Fragment() {
         
         adManager.onAdClosed = {
             Log.d(TAG, "onAdClosed: Ad was closed/dismissed")
+            Log.i(TAG, "onAdClosed (INFO): ad closed - continuing flow")
             // Hide escape overlay
             hideEscapeOverlay()
             
@@ -522,13 +540,10 @@ class HomeFragment : Fragment() {
             
             // Check if we should continue multi-ad mode
             if (isMultiAdMode && adsWatched < adsToWatch) {
-                Log.d(TAG, "onAdClosed: Multi-ad mode active, waiting 1 second then continuing...")
-                // In multi-ad mode, wait 1 second then continue to next ad
-                handler.postDelayed({
-                    Log.d(TAG, "onAdClosed: 1 second passed, continuing multi-ad mode")
-                    pendingAdShow = true
-                    continueMultiAdMode()
-                }, 1000)
+                Log.d(TAG, "onAdClosed: Multi-ad mode active, continuing immediately...")
+                // In multi-ad mode, continue immediately
+                pendingAdShow = true
+                continueMultiAdMode()
             } else {
                 Log.d(TAG, "onAdClosed: Single ad mode or multi-ad complete, preloading next ad after 1 second")
                 // End multi-ad mode if active

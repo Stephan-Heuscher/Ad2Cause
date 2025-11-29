@@ -104,6 +104,7 @@ class AdManager(private val context: Context) {
         val adRequest = AdRequest.Builder().build()
 
         Log.d(TAG, "Loading ${type.name} rewarded ad with Unit ID: $adUnitId for cause: $causeName (ID: $causeId)")
+        Log.i(TAG, "loadRewardedAd (INFO): Starting to load ${type.name} ad for cause=${causeName}")
 
         RewardedAd.load(
             context,
@@ -113,6 +114,7 @@ class AdManager(private val context: Context) {
                 override fun onAdLoaded(ad: RewardedAd) {
                     super.onAdLoaded(ad)
                     Log.d(TAG, "Rewarded ad (${type.name}) loaded successfully")
+                    Log.i(TAG, "onAdLoaded (INFO): ${type.name} loaded for cause=$causeName")
                     rewardedAd = ad
 
                     // Set server-side verification options to track the cause
@@ -131,6 +133,7 @@ class AdManager(private val context: Context) {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     super.onAdFailedToLoad(adError)
                     Log.e(TAG, "Failed to load rewarded ad: ${adError.message}")
+                    Log.i(TAG, "onAdFailedToLoad (INFO): failed loading ad for cause=$causeName error=${adError.message}")
                     rewardedAd = null
                     isLoading = false
                     onAdFailedToLoad?.invoke(adError)
@@ -152,6 +155,7 @@ class AdManager(private val context: Context) {
         rewardedAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 Log.d(TAG, "Ad dismissed")
+                Log.i(TAG, "onAdDismissedFullScreenContent (INFO): user closed ad")
                 rewardedAd = null
                 onAdClosed?.invoke()
                 // Note: Caller (HomeFragment) will handle reloading if needed
@@ -166,6 +170,7 @@ class AdManager(private val context: Context) {
 
             override fun onAdShowedFullScreenContent() {
                 Log.d(TAG, "Ad showed full screen content")
+                Log.i(TAG, "onAdShowedFullScreenContent (INFO): ad is visible on screen")
             }
         }
 
@@ -176,6 +181,7 @@ class AdManager(private val context: Context) {
                 // 1 AdMob point = 1 point in the app
                 val rewardAmount = reward.amount.toDouble()
                 Log.d(TAG, "User earned reward: ${rewardAmount} points")
+                Log.i(TAG, "onRewardEarned (INFO): reward=${rewardAmount} for cause=$currentCauseName (id=$currentCauseId)")
                 onRewardEarned?.invoke(rewardAmount)
             }
         }

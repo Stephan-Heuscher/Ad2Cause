@@ -41,6 +41,7 @@ class AdEscapeOverlayService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand: action=${intent?.action}")
+        Log.i(TAG, "onStartCommand (INFO): action=${intent?.action}")
         when (intent?.action) {
             ACTION_SHOW -> showOverlay()
             ACTION_HIDE -> hideOverlay()
@@ -50,6 +51,7 @@ class AdEscapeOverlayService : Service() {
 
     private fun showOverlay() {
         Log.d(TAG, "showOverlay: Attempting to show overlay, current overlayView=$overlayView")
+        Log.i(TAG, "showOverlay (INFO): attempting to add overlay view")
         if (overlayView != null) {
             Log.d(TAG, "showOverlay: Overlay already visible, skipping")
             return
@@ -83,6 +85,7 @@ class AdEscapeOverlayService : Service() {
         try {
             windowManager?.addView(overlayView, params)
             Log.d(TAG, "showOverlay: Overlay added successfully")
+            Log.i(TAG, "showOverlay (INFO): overlay added")
         } catch (e: Exception) {
             Log.e(TAG, "showOverlay: Failed to add overlay", e)
             overlayView = null
@@ -91,10 +94,12 @@ class AdEscapeOverlayService : Service() {
 
     private fun hideOverlay() {
         Log.d(TAG, "hideOverlay: Attempting to hide overlay")
+        Log.i(TAG, "hideOverlay (INFO): attempting to remove overlay view")
         overlayView?.let {
             try {
                 windowManager?.removeView(it)
                 Log.d(TAG, "hideOverlay: Overlay removed successfully")
+                Log.i(TAG, "hideOverlay (INFO): overlay removed")
             } catch (e: Exception) {
                 Log.e(TAG, "hideOverlay: Failed to remove overlay", e)
             }
