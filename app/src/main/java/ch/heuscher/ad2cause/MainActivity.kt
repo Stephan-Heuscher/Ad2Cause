@@ -116,30 +116,31 @@ class MainActivity : AppCompatActivity() {
 
             // Check if database is empty
             val existingCauses = repository.getAllCausesSync()
+
+            // Insert the 3 predefined causes with descriptions from string resources
             if (existingCauses.isEmpty()) {
-                // Insert the 3 predefined causes with descriptions from string resources
                 val causes = listOf(
-                    Cause(
-                        name = getString(R.string.cause_ai_rescue_ring_name),
-                        description = getString(R.string.cause_ai_rescue_ring_desc),
-                        imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
-                        isUserAdded = false,
-                        totalEarned = 0.0
-                    ),
-                    Cause(
-                        name = getString(R.string.cause_assistive_tap_name),
-                        description = getString(R.string.cause_assistive_tap_desc),
-                        imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
-                        isUserAdded = false,
-                        totalEarned = 0.0
-                    ),
-                    Cause(
-                        name = getString(R.string.cause_safe_home_button_name),
-                        description = getString(R.string.cause_safe_home_button_desc),
-                        imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
-                        isUserAdded = false,
-                        totalEarned = 0.0
-                    )
+                Cause(
+                    name = getString(R.string.cause_ai_rescue_ring_name),
+                    description = getString(R.string.cause_ai_rescue_ring_desc),
+                    imageUrl = "file:///android_asset/Rescue_Ring_Icon.png",
+                    isUserAdded = false,
+                    totalEarned = 0.0
+                ),
+                Cause(
+                    name = getString(R.string.cause_assistive_tap_name),
+                    description = getString(R.string.cause_assistive_tap_desc),
+                    imageUrl = "file:///android_asset/Assistive_Tap_Icon.png",
+                    isUserAdded = false,
+                    totalEarned = 0.0
+                ),
+                Cause(
+                    name = getString(R.string.cause_safe_home_button_name),
+                    description = getString(R.string.cause_safe_home_button_desc),
+                    imageUrl = "file:///android_asset/Safe_Home_Button_Icon.png",
+                    isUserAdded = false,
+                    totalEarned = 0.0
+                )
                 )
 
                 causes.forEach { cause ->
