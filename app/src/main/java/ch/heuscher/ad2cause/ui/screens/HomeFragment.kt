@@ -325,7 +325,7 @@ class HomeFragment : Fragment() {
             // Ad is already loaded, show it
             showLoading(false)
             pendingAdShow = false
-            adManager.showRewardedAd(requireActivity())
+            adManager.showRewardedAd(requireActivity(), cause.id.toString(), cause.name)
         } else {
             // Load ad of specified type with cause information
             if (!adManager.isAdLoading()) {
@@ -424,15 +424,36 @@ class HomeFragment : Fragment() {
             // Only auto-show if user explicitly requested it (button was clicked)
             Log.d(TAG, "onAdLoaded: pendingAdShow=$pendingAdShow, isAdReady=${adManager.isAdReady()}")
             if (pendingAdShow && adManager.isAdReady()) {
-                Log.d(TAG, "onAdLoaded: Auto-showing ad because pendingAdShow=true")
-                pendingAdShow = false
-                adManager.showRewardedAd(requireActivity())
+                val cause = causeViewModel.activeCause.value
+                if (cause != null) {
+                    Log.d(TAG, "onAdLoaded: Auto-showing ad because pendingAdShow=true")
+                    pendingAdShow = false
+                    adManager.showRewardedAd(requireActivity(), cause.id.toString(), cause.name)
+                }
             }
+        }
+
+        adManager.onVerificationStarted = {
+            Log.d(TAG, "onVerificationStarted: Showing verifying state")
+            // Show loading state with a toast or update UI
+            showLoading(true)
+            Toast.makeText(requireContext(), "Verifying reward...", Toast.LENGTH_SHORT).show()
+        }
+
+        adManager.onVerificationFailed = { errorMsg ->
+            Log.e(TAG, "onVerificationFailed: $errorMsg")
+            showLoading(false)
+            Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_LONG).show()
+            isMultiAdMode = false // Stop multi-ad on failure
         }
 
         adManager.onRewardEarned = { rewardAmount ->
             Log.d(TAG, "onRewardEarned: User earned $rewardAmount points")
             Log.i(TAG, "onRewardEarned (INFO): $rewardAmount awarded to active cause")
+            
+            // Hide verifying state
+            showLoading(false)
+            
             val cause = causeViewModel.activeCause.value
             if (cause != null) {
                 Log.d(TAG, "onRewardEarned: Updating earnings for cause: ${cause.name}")
@@ -445,13 +466,9 @@ class HomeFragment : Fragment() {
                     Log.d(TAG, "onRewardEarned: Multi-ad mode - adsWatched=$adsWatched, adsToWatch=$adsToWatch")
                 }
 
-                // Show reward message after a short delay (ad dismissal)
-                handler.postDelayed({
-                    if (!isMultiAdMode) {
-                        val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-                    }
-                }, 500)
+                // Show reward message
+                val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             } else {
                 Log.w(TAG, "onRewardEarned: No active cause found!")
             }

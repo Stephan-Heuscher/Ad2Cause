@@ -67,6 +67,8 @@ class AdManager(private val context: Context) {
     var onAdFailedToLoad: ((LoadAdError) -> Unit)? = null
     var onAdClosed: (() -> Unit)? = null
     var onRewardEarned: ((Double) -> Unit)? = null
+    var onVerificationStarted: (() -> Unit)? = null
+    var onVerificationFailed: ((String) -> Unit)? = null
 
     /**
      * Initialize Mobile Ads SDK.
@@ -155,12 +157,35 @@ class AdManager(private val context: Context) {
     /**
      * Display the loaded rewarded ad.
      * Make sure to call loadRewardedAd() first and wait for the ad to load.
+     * 
+     * @param activity The activity context
+     * @param causeId The ID of the cause to credit
+     * @param causeName The name of the cause
      */
-    fun showRewardedAd(activity: android.app.Activity) {
+    fun showRewardedAd(activity: android.app.Activity, causeId: String, causeName: String) {
         if (rewardedAd == null) {
             Log.w(TAG, "Rewarded ad is not loaded. Call loadRewardedAd() first.")
             return
         }
+
+        // 1. Generate a unique transaction_id (UUID)
+        val transactionId = java.util.UUID.randomUUID().toString()
+        currentTransactionId = transactionId
+
+        // 2. Create a JSON string for custom_data
+        val customDataJson = org.json.JSONObject().apply {
+            put("cause_id", causeId)
+            put("cause_name", causeName)
+            put("transaction_id", transactionId)
+        }
+
+        // 3. Configure the RewardedAd with ServerSideVerificationOptions
+        val ssvOptions = ServerSideVerificationOptions.Builder()
+            .setCustomData(customDataJson.toString())
+            .build()
+        
+        rewardedAd?.setServerSideVerificationOptions(ssvOptions)
+        Log.d(TAG, "SSV configured with transaction_id: $transactionId for cause: $causeName")
 
         rewardedAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
@@ -184,36 +209,49 @@ class AdManager(private val context: Context) {
             }
         }
 
-        // Set reward callback - called when user successfully completes the ad
+        // 4. Show the ad
         rewardedAd?.let { ad ->
             ad.show(activity) { reward ->
                 // Use the reward amount from AdMob (configured in AdMob console)
-                // 1 AdMob point = 1 point in the app
                 val rewardAmount = reward.amount.toDouble()
-                Log.d(TAG, "User earned reward: ${rewardAmount} points")
-                Log.i(TAG, "onRewardEarned (INFO): reward=${rewardAmount} for cause=$currentCauseName (id=$currentCauseId)")
-                onRewardEarned?.invoke(rewardAmount)
+                Log.d(TAG, "User earned reward callback received: ${rewardAmount}")
+                
+                // Verify & Reward:
+                // Do not grant the reward immediately.
+                // Show a "Verifying..." loading state.
+                onVerificationStarted?.invoke()
 
-                // Start listening for SSV
-                currentTransactionId?.let { txId ->
-                    listenForVerification(txId)
-                }
+                // Start verification
+                verifyReward(transactionId, rewardAmount)
             }
         }
     }
 
     /**
-     * Listen for server-side verification of the ad reward.
+     * Verify the reward using Firestore listener with timeout.
      */
-    private fun listenForVerification(transactionId: String) {
+    private fun verifyReward(transactionId: String, rewardAmount: Double) {
         // Remove any existing listener
         verificationListener?.remove()
 
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("ad_rewards").document(transactionId)
 
-        Log.d(TAG, "Listening for verification on document: ad_rewards/$transactionId")
+        Log.d(TAG, "Starting verification for transaction: $transactionId")
 
+        // Add a timeout (e.g., 10 seconds)
+        val handler = android.os.Handler(android.os.Looper.getMainLooper())
+        val timeoutRunnable = Runnable {
+            Log.w(TAG, "Verification timed out for $transactionId")
+            if (verificationListener != null) {
+                verificationListener?.remove()
+                verificationListener = null
+                onVerificationFailed?.invoke("Verification timed out. Please try again.")
+            }
+        }
+        handler.postDelayed(timeoutRunnable, 10000) // 10 seconds
+
+        // Start a Firestore Snapshot Listener
         verificationListener = docRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
@@ -222,18 +260,32 @@ class AdManager(private val context: Context) {
 
             if (snapshot != null && snapshot.exists()) {
                 val status = snapshot.getString("status")
-                Log.d(TAG, "Verification status: $status")
+                Log.d(TAG, "Verification status update: $status")
 
+                // Wait for the document to exist AND the status field to be "VERIFIED"
                 if (status == "VERIFIED") {
                     Log.d(TAG, "Ad verified successfully!")
-                    android.widget.Toast.makeText(context, "Ad verified! Reward confirmed.", android.widget.Toast.LENGTH_SHORT).show()
-
+                    
+                    // Cancel timeout
+                    handler.removeCallbacks(timeoutRunnable)
+                    
                     // Stop listening
                     verificationListener?.remove()
                     verificationListener = null
+                    
+                    // Grant the reward to the user
+                    onRewardEarned?.invoke(rewardAmount)
                 }
             }
         }
+    }
+
+    /**
+     * Listen for server-side verification of the ad reward.
+     * @deprecated Use verifyReward internal logic instead
+     */
+    private fun listenForVerification(transactionId: String) {
+        // Kept for backward compatibility if needed, but logic moved to verifyReward
     }
 
     /**
