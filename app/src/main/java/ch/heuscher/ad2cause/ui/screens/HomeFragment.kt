@@ -106,8 +106,9 @@ class HomeFragment : Fragment() {
                 adsWatched = 0
                 
                 // Bring MainActivity to front to effectively "close" the ad
+                // CLEAR_TOP ensures the AdActivity (which is on top) is finished
                 val intent = Intent(requireContext(), MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(intent)
                 
                 Toast.makeText(
@@ -503,6 +504,14 @@ class HomeFragment : Fragment() {
                     if (!isMultiAdMode) {
                         val message = getString(R.string.ad_watch_reward, rewardAmount, cause.name)
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                    }
+                    
+                    // Auto-close the ad by bringing MainActivity to top (clearing AdActivity)
+                    if (isAdded) {
+                        Log.d(TAG, "onRewardEarned: Auto-closing ad view...")
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        startActivity(intent)
                     }
                 }, 500)
             } else {
