@@ -159,4 +159,10 @@
     
     <string name="cause_safe_home_button_name">Safe Home Button</string>
     <string name="cause_safe_home_button_desc">📱 Your navigation helper – Eine barrierefreie Android-App für intuitive Navigation mit einem schwebenden Button.\n\nStell dir vor, deine Oma hätte Probleme, die Handy-Tasten am unteren Bildschirmrand zu erreichen oder zu finden. Mit diesem kleinen Punkt auf dem Bildschirm kommt sie mit dem Daumen immer wieder nach Hause – egal, wo sie gerade ist.</string>
+
+    <!-- Pre-Ad Dialog -->
+    <string name="pre_ad_title">How to Support</string>
+    <string name="pre_ad_message">Watch the video until the end. Then click the \'X\' button to claim your donation.</string>
+    <string name="dont_show_again">Don\'t show this again</string>
+    <string name="watch_ad_now">Watch Ad</string>
 </resources>

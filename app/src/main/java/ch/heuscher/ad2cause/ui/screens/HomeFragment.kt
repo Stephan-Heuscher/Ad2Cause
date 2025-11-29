@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         private const val TAG = "HomeFragment"
+        private const val PREF_DISABLE_PRE_AD_INFO = "pref_disable_pre_ad_info"
     }
 
     private lateinit var binding: FragmentHomeBinding
@@ -357,6 +358,55 @@ class HomeFragment : Fragment() {
      * Watch ad of specified type
      */
     private fun watchAd(adType: AdManager.AdType) {
+        // Check preference
+        val sharedPref = requireActivity().getPreferences(android.content.Context.MODE_PRIVATE)
+        val disablePreAdInfo = sharedPref.getBoolean(PREF_DISABLE_PRE_AD_INFO, false)
+
+        // Show dialog if not disabled and not in the middle of a multi-ad loop
+        // (If it's the first ad of multi-ad, we show it. If adsWatched > 0, we skip it)
+        if (!disablePreAdInfo && (!isMultiAdMode || adsWatched == 0)) {
+            showPreAdDialog(adType)
+        } else {
+            proceedToWatchAd(adType)
+        }
+    }
+
+    private fun showPreAdDialog(adType: AdManager.AdType) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_pre_ad_info, null)
+        val dontShowAgainCheckbox = dialogView.findViewById<com.google.android.material.checkbox.MaterialCheckBox>(R.id.dontShowAgainCheckbox)
+        
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialogView.findViewById<View>(R.id.watchAdButton).setOnClickListener {
+            if (dontShowAgainCheckbox.isChecked) {
+                val sharedPref = requireActivity().getPreferences(android.content.Context.MODE_PRIVATE)
+                with(sharedPref.edit()) {
+                    putBoolean(PREF_DISABLE_PRE_AD_INFO, true)
+                    apply()
+                }
+            }
+            dialog.dismiss()
+            proceedToWatchAd(adType)
+        }
+
+        dialogView.findViewById<View>(R.id.cancelButton).setOnClickListener {
+            dialog.dismiss()
+            // Reset pending state if we were in a pending state
+            pendingAdShow = false
+            showLoading(false)
+            isMultiAdMode = false // Cancel multi-ad if active
+        }
+
+        dialog.show()
+    }
+
+    /**
+     * Actual logic to start the ad process
+     */
+    private fun proceedToWatchAd(adType: AdManager.AdType) {
         val cause = causeViewModel.activeCause.value
         if (cause == null) {
             Toast.makeText(
