@@ -119,11 +119,15 @@ class AdManager(private val context: Context) {
 
                     // Set server-side verification options to track the cause
                     if (causeId != null || causeName != null) {
+                        val customDataJson = org.json.JSONObject().apply {
+                            put("cause_id", causeId ?: "unknown")
+                            put("cause_name", causeName ?: "unknown")
+                        }
                         val ssv = ServerSideVerificationOptions.Builder()
-                            .setCustomData("cause_id:${causeId ?: "unknown"},cause_name:${causeName ?: "unknown"}")
+                            .setCustomData(customDataJson.toString())
                             .build()
                         ad.setServerSideVerificationOptions(ssv)
-                        Log.d(TAG, "Set SSV with cause data: $causeName")
+                        Log.d(TAG, "Set SSV with cause data: $customDataJson")
                     }
 
                     isLoading = false
