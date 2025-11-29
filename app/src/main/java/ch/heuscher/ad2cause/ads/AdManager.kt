@@ -57,6 +57,7 @@ class AdManager(private val context: Context) {
     private var adType: AdType = AdType.NON_INTERACTIVE  // Default to non-interactive
     private var currentCauseId: String? = null  // Track which cause the ad is for
     private var currentCauseName: String? = null
+    private var currentTransactionId: String? = null // Unique ID for server-side verification
 
     // Callback interfaces for ad lifecycle events
     var onAdLoaded: (() -> Unit)? = null
@@ -95,6 +96,7 @@ class AdManager(private val context: Context) {
         adType = type
         currentCauseId = causeId
         currentCauseName = causeName
+        currentTransactionId = java.util.UUID.randomUUID().toString()
 
         val adUnitId = when (type) {
             AdType.INTERACTIVE -> REWARDED_AD_UNIT_ID_INTERACTIVE
@@ -122,6 +124,7 @@ class AdManager(private val context: Context) {
                         val customDataJson = org.json.JSONObject().apply {
                             put("cause_id", causeId ?: "unknown")
                             put("cause_name", causeName ?: "unknown")
+                            put("transaction_id", currentTransactionId)
                         }
                         val ssv = ServerSideVerificationOptions.Builder()
                             .setCustomData(customDataJson.toString())
@@ -224,4 +227,9 @@ class AdManager(private val context: Context) {
      * Get the current cause name being tracked for this ad.
      */
     fun getCurrentCauseName(): String? = currentCauseName
+
+    /**
+     * Get the current transaction ID for server-side verification.
+     */
+    fun getCurrentTransactionId(): String? = currentTransactionId
 }
