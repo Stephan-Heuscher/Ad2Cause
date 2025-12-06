@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preferences xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="pref_dark_mode"
+        android:title="Dark mode"
+        android:summary="Toggle dark mode"
+        android:defaultValue="false" />
+
+    <Preference
+        android:key="pref_show_onboarding"
+        android:title="Show walkthrough"
+        android:summary="Show the introductory walkthrough again" />
+
+</preferences>

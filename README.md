@@ -231,6 +231,12 @@ causeDao.insertCause(newCause)
 - [ ] Social sharing features
 - [ ] Offline mode support
 
+**Recently implemented:**
+
+- ✅ Dark mode and onboarding walkthrough are now available. Users can toggle dark mode and re-open the walkthrough from Settings.
+
+For guidance on creating effective Play Store screenshots and promotional assets see: `PLAYSTORE_SCREENSHOTS.md`.
+
 ## Testing
 
 The app includes:

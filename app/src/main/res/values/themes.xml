@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material 3 Theme for Ad2Cause - Modern & Warm -->
-    <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <!-- Use DayNight parent so we can toggle between light and dark themes -->
+    <style name="Theme.Ad2Cause" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary Colors -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>

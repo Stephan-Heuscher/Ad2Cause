@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme: tuned for low light and improved contrast -->
+    <color name="primary">#E55A4A</color>
+    <color name="primary_dark">#D24E41</color>
+    <color name="primary_light">#FF8A7A</color>
+    <color name="primary_container">#2A0A07</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="secondary">#4DB6A6</color>
+    <color name="secondary_dark">#1B7A74</color>
+    <color name="secondary_container">#103331</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <color name="tertiary">#FFB74D</color>
+
+    <color name="error">#F44336</color>
+    <color name="error_container">#2B0000</color>
+
+    <color name="background">#0F1720</color>
+    <color name="background_warm">#0B1114</color>
+    <color name="surface">#121212</color>
+    <color name="surface_variant">#1E1E22</color>
+    <color name="surface_elevated">#141414</color>
+    <color name="nav_bar_background">#0B0B0D</color>
+
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#C5CBD2</color>
+    <color name="text_tertiary">#9AA3AD</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_on_dark">#FFFFFF</color>
+
+    <color name="outline">#2B2F33</color>
+    <color name="outline_variant">#242628</color>
+    <color name="divider">#222528</color>
+
+    <color name="gradient_start">#E55A4A</color>
+    <color name="gradient_middle">#FF8A7A</color>
+    <color name="gradient_end">#FFB088</color>
+
+    <color name="card_shadow">#1A000000</color>
+    <color name="ripple_light">#33FFFFFF</color>
+    <color name="ripple_primary">#30E55A4A</color>
+
+    <color name="nav_selected">#FF6B5B</color>
+    <color name="nav_unselected">#8A8F96</color>
+    <color name="nav_bar_text_selected">#FFB74D</color>
+    <color name="nav_bar_text_unselected">#9AA3AD</color>
+
+    <color name="active_indicator">#4CAF50</color>
+    <color name="pending_indicator">#FFB74D</color>
+    <color name="inactive_indicator">#9CA3AF</color>
+</resources>

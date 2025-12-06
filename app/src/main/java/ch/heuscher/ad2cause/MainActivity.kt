@@ -32,6 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Apply theme preference early so UI inflates with correct mode
+        val prefs = getSharedPreferences("ad2cause_prefs", MODE_PRIVATE)
+        val darkModeEnabled = prefs.getBoolean("pref_dark_mode", false)
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
+            if (darkModeEnabled) androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+            else androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+        )
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -55,6 +62,13 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize sample data in-memory on first launch
         initializeSampleData()
+
+        // Show onboarding the first time the user launches the app
+        val seen = prefs.getBoolean("pref_onboarding_seen", false)
+        if (!seen) {
+            // navigate to onboarding fragment
+            navController.navigate(R.id.onboarding_fragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
@@ -74,6 +88,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_about -> {
                 showAboutDialog()
+                true
+            }
+            R.id.action_settings -> {
+                navController.navigate(R.id.settings_fragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

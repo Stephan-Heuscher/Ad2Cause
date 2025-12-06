@@ -178,14 +178,17 @@ class AdManager(private val context: Context) {
             put("cause_name", causeName)
             put("transaction_id", transactionId)
         }
+        
+        val customDataString = customDataJson.toString()
+        Log.d(TAG, "DEBUG: Generated Custom Data for SSV: $customDataString")
 
         // 3. Configure the RewardedAd with ServerSideVerificationOptions
         val ssvOptions = ServerSideVerificationOptions.Builder()
-            .setCustomData(customDataJson.toString())
+            .setCustomData(customDataString)
             .build()
         
         rewardedAd?.setServerSideVerificationOptions(ssvOptions)
-        Log.d(TAG, "SSV configured with transaction_id: $transactionId for cause: $causeName")
+        Log.d(TAG, "DEBUG: SSV Options set on RewardedAd instance. Transaction ID: $transactionId")
 
         rewardedAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
@@ -210,6 +213,7 @@ class AdManager(private val context: Context) {
         }
 
         // 4. Show the ad
+        Log.d(TAG, "DEBUG: Showing Rewarded Ad now...")
         rewardedAd?.let { ad ->
             ad.show(activity) { reward ->
                 // Use the reward amount from AdMob (configured in AdMob console)

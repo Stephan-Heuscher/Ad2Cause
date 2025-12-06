@@ -52,4 +52,18 @@
         android:label="@string/privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
 
+    <!-- Settings Fragment -->
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <!-- Onboarding Fragment -->
+    <fragment
+        android:id="@+id/onboarding_fragment"
+        android:name="ch.heuscher.ad2cause.ui.screens.OnboardingFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_onboarding" />
+
 </navigation>
