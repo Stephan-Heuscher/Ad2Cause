@@ -1,0 +1,3 @@
+- Update target SDK to Android 16 (API level 36) for improved security and performance.
+- Introduced dynamic walkthrough for first-time users.
+- General bug fixes and performance improvements.

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "5208240869",
+    "project_id": "ad2cause-stv",
+    "storage_bucket": "ad2cause-stv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5208240869:android:cc0f68f94c19d4bca3da0c",
+        "android_client_info": {
+          "package_name": "ch.heuscher.ad2cause"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDs2nZWfdj17M2kIZSxNYloQWyjX6vLW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

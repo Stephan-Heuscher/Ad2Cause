@@ -5,24 +5,61 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+import java.io.FileInputStream
+import java.util.Properties
+
+def versionPropsFile = file("${project.rootDir}/version.properties")
+def versionProps = new Properties()
+if (versionPropsFile.canRead()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+}
+
+def getVersionCode = { ->
+    return (versionProps['VERSION_CODE'] ?: "5").toInteger()
+}
+
+def getVersionName = { ->
+    def major = versionProps['VERSION_MAJOR'] ?: "1"
+    def minor = versionProps['VERSION_MINOR'] ?: "0"
+    def patch = versionProps['VERSION_PATCH'] ?: "4"
+    return "${major}.${minor}.${patch}"
+}
+
 android {
     namespace 'ch.heuscher.ad2cause'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "ch.heuscher.ad2cause"
         minSdk 26
-        targetSdk 35
-        versionCode 5
-        versionName "1.0.4"
+        targetSdk 36
+        versionCode getVersionCode()
+        versionName getVersionName()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            if (System.getenv("KEYSTORE_PASSWORD") != null) {
+                storeFile file("release.keystore")
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS") ?: "key0"
+                keyPassword System.getenv("KEYSTORE_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (System.getenv("KEYSTORE_PASSWORD") != null) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            minifyEnabled false
         }
     }
     compileOptions {
