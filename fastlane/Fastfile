@@ -214,7 +214,21 @@ platform :android do
     deployed_track = 'internal'
     puts "✅ Successfully deployed to INTERNAL!"
 
-    # 4. Optional: Upgrade to PRODUCTION
+    # 4. Deploy to OPEN TESTING (beta)
+    begin
+      puts "🚀 Deploying to OPEN TESTING (beta) track..."
+      upload_to_play_store(
+        track: 'beta',
+        package_name: 'ch.heuscher.ad2cause',
+        aab: aab_path
+      )
+      deployed_track = 'beta'
+      puts "✅ Successfully deployed to OPEN TESTING (beta)!"
+    rescue => e
+      puts "⚠️  Open testing (beta) deployment skipped/failed: #{e.message}"
+    end
+
+    # 5. Optional: Upgrade to PRODUCTION
     begin
       puts "🚀 Attempting promotion to PRODUCTION track..."
       upload_to_play_store(
@@ -226,9 +240,7 @@ platform :android do
       puts "✅ Successfully promoted to PRODUCTION!"
     rescue => e
       puts "⚠️  Production deployment skipped/failed: #{e.message}"
-      puts "ℹ️  The INTERNAL release (v#{build_number}) is still available and valid."
-      puts "    If a review was pending, we successfully avoided breaking the Internal build,"
-      puts "    but the attempt to write to Production might have been rejected by API."
+      puts "ℹ️  The release (v#{build_number}) is still available and valid on testing tracks."
     end
 
     # 5. Auto-Increment Version
