@@ -214,7 +214,21 @@ platform :android do
     deployed_track = 'internal'
     puts "✅ Successfully deployed to INTERNAL!"
 
-    # 4. Deploy to OPEN TESTING (beta)
+    # 4. Deploy to CLOSED TESTING (alpha)
+    begin
+      puts "🚀 Deploying to CLOSED TESTING (alpha) track..."
+      upload_to_play_store(
+        track: 'alpha',
+        package_name: 'ch.heuscher.ad2cause',
+        aab: aab_path
+      )
+      deployed_track = 'alpha'
+      puts "✅ Successfully deployed to CLOSED TESTING (alpha)!"
+    rescue => e
+      puts "⚠️  Closed testing (alpha) deployment skipped/failed: #{e.message}"
+    end
+
+    # 5. Deploy to OPEN TESTING (beta)
     begin
       puts "🚀 Deploying to OPEN TESTING (beta) track..."
       upload_to_play_store(
@@ -228,7 +242,7 @@ platform :android do
       puts "⚠️  Open testing (beta) deployment skipped/failed: #{e.message}"
     end
 
-    # 5. Optional: Upgrade to PRODUCTION
+    # 6. Optional: Upgrade to PRODUCTION
     begin
       puts "🚀 Attempting promotion to PRODUCTION track..."
       upload_to_play_store(
